@@ -131,6 +131,31 @@ def print_human_readable(data: dict):
             if len(vm["objects"]) > 5:
                 print(f"    ... and {len(vm['objects']) - 5} more objects.")
 
+    # QR & Barcodes
+    qrs = facts.get("qr_codes", [])
+    barcodes = facts.get("barcodes", [])
+    if qrs or barcodes:
+        print("\n[+] QR & Barcode Detections:")
+        if qrs:
+            print(f"  QR Codes:   {len(qrs)}")
+            for q in qrs:
+                if q.get("decoded"):
+                    data_val = q.get("data")
+                    data_str = f"'{data_val[:40]}...'" if len(data_val) > 40 else f"'{data_val}'"
+                    print(f"    - Decoded successfully: {data_str}")
+                else:
+                    print(f"    - Decoded: False (Status: {q.get('status', 'Failed')})")
+                    if q.get("reason"):
+                        print(f"      Reason: {q.get('reason')}")
+                if q.get("bbox"):
+                    print(f"      Location: {q.get('bbox')}")
+        if barcodes:
+            print(f"  Barcodes:   {len(barcodes)}")
+            for b in barcodes:
+                data_val = b.get("data", "")
+                data_str = f"'{data_val[:40]}...'" if len(data_val) > 40 else f"'{data_val}'"
+                print(f"    - Type: {b.get('type')}, Data: {data_str}")
+
     # Stego observations & archives
     stego_obs = facts.get("overlay_details")
     if stego_obs:

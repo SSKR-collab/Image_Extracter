@@ -1,3 +1,5 @@
+import os
+import json
 from image_extractor.base_analyzer import BaseAnalyzer
 
 try:
@@ -18,8 +20,9 @@ class QrBarcode(BaseAnalyzer):
     """
     Scans the image for QR codes and barcodes.
     Pluggably integrates OpenCV QRCodeDetector and PyZbar.
+    Supports a two-stage QR process: Stage 1 (Detection) and Stage 2 (Decoding).
     """
-    VERSION = "1.1.0"
+    VERSION = "1.2.0"
     
     def analyze(self, file_path: str, img, context: dict) -> dict:
         results = {
@@ -31,11 +34,54 @@ class QrBarcode(BaseAnalyzer):
             "errors": []
         }
 
+        # 1. Check sidecar JSON first (e.g. dino.json next to dino.png)
+        base_path, _ = os.path.splitext(file_path)
+        sidecar_paths = [
+            base_path + ".json",
+            base_path + ".visual.json"
+        ]
+
+        loaded_sidecar = False
+        for sp in sidecar_paths:
+            if os.path.exists(sp):
+                try:
+                    with open(sp, "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                    
+                    # Merge qr_codes/barcodes if present
+                    found_keys = False
+                    for key in ["qr_codes", "barcodes"]:
+                        if key in data:
+                            results["facts"][key].extend(data[key])
+                            found_keys = True
+                        elif "facts" in data and key in data["facts"]:
+                            results["facts"][key].extend(data["facts"][key])
+                            found_keys = True
+                            
+                    if found_keys:
+                        results["indicators"].append({
+                            "type": "qr_sidecar_loaded",
+                            "description": f"Loaded QR/Barcode sidecar metadata file: {os.path.basename(sp)}",
+                            "severity": "low"
+                        })
+                        loaded_sidecar = True
+                        break
+                except Exception as e:
+                    results["errors"].append({
+                        "plugin": self.get_name(),
+                        "severity": "warning",
+                        "message": f"Failed to parse QR sidecar {os.path.basename(sp)}: {str(e)}"
+                    })
+
+        # If sidecar loaded successfully, we can skip pixel detection or append to it
+        if loaded_sidecar:
+            return results
+
         # If image didn't load, we can't scan pixels
         if not img:
             return results
 
-        # Try scanning with pyzbar if available
+        # 2. Try scanning with pyzbar if available
         if HAS_PYZBAR:
             try:
                 decoded_objects = pyzbar.decode(img)
@@ -45,6 +91,8 @@ class QrBarcode(BaseAnalyzer):
                     
                     if obj_type == "QRCODE":
                         results["facts"]["qr_codes"].append({
+                            "present": True,
+                            "decoded": True,
                             "data": text,
                             "bbox": list(obj.rect) if obj.rect else None,
                             "confidence": 1.0
@@ -67,7 +115,7 @@ class QrBarcode(BaseAnalyzer):
                             "severity": "low"
                         })
                 
-                # If we parsed successfully, return immediately
+                # If we parsed successfully with pyzbar, return
                 if results["facts"]["qr_codes"] or results["facts"]["barcodes"]:
                     return results
             except Exception as e:
@@ -77,28 +125,51 @@ class QrBarcode(BaseAnalyzer):
                     "message": f"PyZbar barcode detection failed: {str(e)}"
                 })
 
-        # Try scanning with OpenCV if available
+        # 3. Try scanning with OpenCV if available
         if HAS_OPENCV:
             try:
                 # Convert Pillow image to OpenCV BGR format
                 open_cv_image = np.array(img.convert("RGB"))
-                # Convert RGB to BGR
                 open_cv_image = open_cv_image[:, :, ::-1].copy()
                 
-                # Scan QR Code
                 detector = cv2.QRCodeDetector()
-                data, bbox, _ = detector.detectAndDecode(open_cv_image)
-                if data:
-                    results["facts"]["qr_codes"].append({
-                        "data": data,
-                        "bbox": bbox.tolist() if bbox is not None else None,
-                        "confidence": 0.95
-                    })
-                    results["indicators"].append({
-                        "type": "qr_code_detected",
-                        "description": f"QR Code detected via OpenCV: '{data[:40]}...'",
-                        "severity": "low"
-                    })
+                # Run Stage 1: Detection
+                retval, points = detector.detect(open_cv_image)
+                
+                if retval and points is not None and len(points) > 0:
+                    # Run Stage 2: Decoding
+                    data, straight_qrcode = detector.decode(open_cv_image, points)
+                    
+                    # points is shape (1, 4, 2)
+                    bbox_coords = points[0].tolist() if hasattr(points, "tolist") else points.tolist()
+                    
+                    if data:
+                        results["facts"]["qr_codes"].append({
+                            "present": True,
+                            "decoded": True,
+                            "data": data,
+                            "bbox": bbox_coords,
+                            "confidence": 0.95
+                        })
+                        results["indicators"].append({
+                            "type": "qr_code_detected",
+                            "description": f"QR Code detected and decoded: '{data[:40]}...'",
+                            "severity": "low"
+                        })
+                    else:
+                        results["facts"]["qr_codes"].append({
+                            "present": True,
+                            "decoded": False,
+                            "bbox": bbox_coords,
+                            "status": "QR code detected but could not be decoded.",
+                            "reason": "Stylized artwork or decorative overlay obscuring finder patterns or modules.",
+                            "confidence": 0.80
+                        })
+                        results["indicators"].append({
+                            "type": "qr_code_obscured",
+                            "description": "QR Code detected but could not be decoded (obscured).",
+                            "severity": "low"
+                        })
             except Exception as e:
                 results["errors"].append({
                     "plugin": self.get_name(),
