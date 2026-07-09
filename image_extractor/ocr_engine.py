@@ -28,10 +28,10 @@ class OcrEngine(BaseAnalyzer):
     """
     Coordinates Optical Character Recognition. Supports EasyOCR, Tesseract,
     and falls back to loading sidecar (.ocr/.txt/.json) files for offline/test environments.
-    Implements advanced local Tesseract preprocessing (multi-scale, multi-PSM, CLAHE, sharpening)
+    Implements advanced local Tesseract preprocessing (tiling, multi-scale, multi-PSM, CLAHE, sharpening)
     to maximize text extraction accuracy on complex layouts without heavy models.
     """
-    VERSION = "1.2.0"
+    VERSION = "1.3.0"
 
     def analyze(self, file_path: str, img, context: dict) -> dict:
         results = {
@@ -150,7 +150,6 @@ class OcrEngine(BaseAnalyzer):
         # Try Tesseract
         if HAS_TESSERACT:
             try:
-                # Configure Tesseract path if specified or check default paths on Windows
                 tess_path = self.config.get("tesseract_path")
                 if tess_path:
                     pytesseract.pytesseract.tesseract_cmd = tess_path
@@ -229,49 +228,17 @@ class OcrEngine(BaseAnalyzer):
         data_str = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT)
         words = self._parse_tesseract_dict(data_str)
         
-        # If text is extremely short, run advanced preprocessing passes
+        # If text is extremely short, run advanced tile-based preprocessing passes
         if len(words) < 15:
+            # Attempt grid-based overlapping tile scans (captures small, curved, and stylized text segments)
+            tile_words = self._run_tile_based_ocr(gray)
+            for tw in tile_words:
+                if not any(self._is_overlapping(tw["bbox"], w["bbox"]) for w in words):
+                    words.append(tw)
+                    
             try:
-                # Upscale 2x for sub-pixel accuracy on small/stylized fonts
-                h, w = gray.shape
-                resized = cv2.resize(gray, (w * 2, h * 2), interpolation=cv2.INTER_CUBIC)
-                
-                # Contrast stretching (CLAHE)
-                clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-                contrast = clahe.apply(resized)
-                
-                # Image sharpening
-                kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
-                sharpened = cv2.filter2D(contrast, -1, kernel)
-                
-                pil_sharpened = Image.fromarray(sharpened)
-                
-                # Run with multiple PSMs (Sparse text finder psm=11, and Uniform blocks psm=6)
-                for psm in ["3", "11", "6"]:
-                    custom_config = f"--oem 3 --psm {psm}"
-                    try:
-                        data_str_enhanced = pytesseract.image_to_data(
-                            pil_sharpened, config=custom_config, output_type=pytesseract.Output.DICT
-                        )
-                        enhanced_words = self._parse_tesseract_dict(data_str_enhanced)
-                        
-                        # Downscale bounding boxes back to original coordinate system
-                        for ew in enhanced_words:
-                            ew["bbox"] = [
-                                ew["bbox"][0] // 2,
-                                ew["bbox"][1] // 2,
-                                ew["bbox"][2] // 2,
-                                ew["bbox"][3] // 2
-                            ]
-                            
-                        # Merge words without creating spatial overlaps
-                        for ew in enhanced_words:
-                            if not any(self._is_overlapping(ew["bbox"], w["bbox"]) for w in words):
-                                words.append(ew)
-                    except Exception:
-                        pass
-                        
                 # Rotation pass: test 90-degrees clockwise rotation for vertical/skewed text banners
+                h, w = gray.shape
                 rotated_90 = cv2.rotate(gray, cv2.ROTATE_90_CLOCKWISE)
                 data_str_90 = pytesseract.image_to_data(Image.fromarray(rotated_90), output_type=pytesseract.Output.DICT)
                 words_90 = self._parse_tesseract_dict(data_str_90)
@@ -288,6 +255,71 @@ class OcrEngine(BaseAnalyzer):
             except Exception:
                 pass
                 
+        return words
+
+    def _run_tile_based_ocr(self, gray_img) -> list:
+        """
+        Divides the image into overlapping tiles and runs upscaled + enhanced
+        multi-PSM Tesseract checks on each crop region.
+        """
+        h, w = gray_img.shape
+        tile_size = 512
+        step_size = 384
+        
+        words = []
+        
+        # Grid bounds calculation
+        y_steps = list(range(0, max(1, h - tile_size), step_size))
+        if not y_steps or y_steps[-1] + tile_size < h:
+            y_steps.append(max(0, h - tile_size))
+            
+        x_steps = list(range(0, max(1, w - tile_size), step_size))
+        if not x_steps or x_steps[-1] + tile_size < w:
+            x_steps.append(max(0, w - tile_size))
+            
+        # Run sliding window
+        for y in y_steps:
+            for x in x_steps:
+                tile = gray_img[y:y+tile_size, x:x+tile_size]
+                th, tw = tile.shape
+                if th == 0 or tw == 0:
+                    continue
+                    
+                # Preprocess tile: Upscale 3x, CLAHE contrast stretch, filter sharpening
+                resized_tile = cv2.resize(tile, (tw * 3, th * 3), interpolation=cv2.INTER_CUBIC)
+                
+                clahe = cv2.createCLAHE(clipLimit=2.5, tileGridSize=(8, 8))
+                contrast_tile = clahe.apply(resized_tile)
+                
+                kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
+                sharpened_tile = cv2.filter2D(contrast_tile, -1, kernel)
+                
+                pil_tile = Image.fromarray(sharpened_tile)
+                
+                # Check multiple PSMs (default, sparse text, uniform block)
+                for psm in ["3", "11", "6"]:
+                    custom_config = f"--oem 3 --psm {psm}"
+                    try:
+                        data_str_tile = pytesseract.image_to_data(
+                            pil_tile, config=custom_config, output_type=pytesseract.Output.DICT
+                        )
+                        tile_words = self._parse_tesseract_dict(data_str_tile)
+                        
+                        # Downscale bounding boxes back and translate to image space
+                        for tw_word in tile_words:
+                            tw_word["bbox"] = [
+                                x + (tw_word["bbox"][0] // 3),
+                                y + (tw_word["bbox"][1] // 3),
+                                tw_word["bbox"][2] // 3,
+                                tw_word["bbox"][3] // 3
+                            ]
+                            
+                        # Add word if it doesn't overlap an existing detection
+                        for tw_word in tile_words:
+                            if not any(self._is_overlapping(tw_word["bbox"], mw["bbox"]) for mw in words):
+                                words.append(tw_word)
+                    except Exception:
+                        pass
         return words
 
     def _parse_tesseract_dict(self, data_str) -> list:
