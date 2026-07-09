@@ -100,6 +100,37 @@ def print_human_readable(data: dict):
             print(f"  aHash:      {ph.get('ahash')}")
             print(f"  dHash:      {ph.get('dhash')}")
 
+    # Visual Content & Quality Analysis
+    vm = facts.get("visual_metadata", {})
+    iq = facts.get("image_quality", {})
+    if vm or iq:
+        print("\n[+] Visual Content & Quality:")
+        if vm.get("caption"):
+            print(f"  Description: {vm.get('caption')}")
+        if vm.get("dominant_colors"):
+            colors_str = ", ".join([f"{c['color']} ({c['percentage']}%)" for c in vm.get("dominant_colors")])
+            print(f"  Colors:      {colors_str}")
+        if iq.get("exposure_assessment"):
+            print(f"  Exposure:    {iq.get('exposure_assessment')}")
+            print(f"  Sharpness:   {iq.get('sharpness_score')} / 255")
+            print(f"  Noise:       {iq.get('noise_estimate')}")
+        if vm.get("scenic_attributes"):
+            scenic = ", ".join([f"{k}: {v}" for k, v in vm["scenic_attributes"].items()])
+            if scenic:
+                print(f"  Scene:       {scenic}")
+        if vm.get("aesthetics"):
+            aesthetics = ", ".join([f"{k}: {v}" for k, v in vm["aesthetics"].items()])
+            if aesthetics:
+                print(f"  Aesthetic:   {aesthetics}")
+        if vm.get("objects"):
+            print("  Detected Objects:")
+            for obj in vm["objects"][:5]:
+                bbox_str = f" bbox: {obj['bbox']}" if obj.get("bbox") else ""
+                conf_str = f" (conf: {obj['confidence']})" if obj.get("confidence") is not None else ""
+                print(f"    - {obj['label']}{conf_str}{bbox_str}")
+            if len(vm["objects"]) > 5:
+                print(f"    ... and {len(vm['objects']) - 5} more objects.")
+
     # Stego observations & archives
     stego_obs = facts.get("overlay_details")
     if stego_obs:

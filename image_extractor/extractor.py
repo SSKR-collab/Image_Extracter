@@ -11,6 +11,7 @@ from image_extractor.doc_parser import DocParser
 from image_extractor.entity_nlp import EntityNlp
 from image_extractor.qr_barcode import QrBarcode
 from image_extractor.security_scanner import SecurityScanner
+from image_extractor.visual_analyzer import VisualAnalyzer
 
 
 class ImageInfoExtractor:
@@ -24,6 +25,7 @@ class ImageInfoExtractor:
     DEFAULT_PLUGINS = [
         FileAnalyzer,
         StegoAnalyzer,
+        VisualAnalyzer,
         OcrEngine,
         EntityNlp,
         DocParser,

@@ -1,5 +1,6 @@
 import os
 import io
+import json
 import zipfile
 import tempfile
 import unittest
@@ -19,6 +20,21 @@ class TestImageInfoExtractorSuite(unittest.TestCase):
         cls.png_path = os.path.join(cls.test_dir, "test.png")
         img_png = Image.new("RGB", (100, 100), color="blue")
         img_png.save(cls.png_path)
+        
+        # Write sidecar JSON for test.png
+        cls.png_json_path = os.path.join(cls.test_dir, "test.json")
+        cls.png_json_content = {
+            "caption": "A simple blue graphic image.",
+            "scenic_attributes": {
+                "habitat": "artificial studio",
+                "theme": "solid color"
+            },
+            "objects": [
+                {"label": "blue rectangle", "bbox": [0, 0, 100, 100], "confidence": 0.99}
+            ]
+        }
+        with open(cls.png_json_path, "w", encoding="utf-8") as f:
+            json.dump(cls.png_json_content, f)
 
         # 2. PNG with a hidden ZIP Archive Overlay
         cls.overlay_path = os.path.join(cls.test_dir, "test_overlay.png")
@@ -229,6 +245,31 @@ class TestImageInfoExtractorSuite(unittest.TestCase):
         self.assertTrue(any(e["plugin"] == "file_analyzer" and e["severity"] == "error" for e in results["errors"]))
         # Facts should be empty since file analyzer was skipped
         self.assertNotIn("file_info", results["facts"])
+
+    def test_visual_analysis(self):
+        extractor = ImageInfoExtractor(self.png_path)
+        results = extractor.extract_all()
+        
+        # Verify visual sidecar indicator
+        self.assertTrue(any(ind["type"] == "visual_sidecar_loaded" for ind in results["indicators"]))
+        
+        # Verify loaded details
+        vm = results["facts"]["visual_metadata"]
+        self.assertEqual(vm["caption"], "A simple blue graphic image.")
+        self.assertEqual(vm["scenic_attributes"]["habitat"], "artificial studio")
+        self.assertEqual(len(vm["objects"]), 1)
+        self.assertEqual(vm["objects"][0]["label"], "blue rectangle")
+        
+        # Verify native color extraction (should be 100% Blue!)
+        colors = vm["dominant_colors"]
+        self.assertGreater(len(colors), 0)
+        self.assertEqual(colors[0]["color"], "Blue")
+        self.assertEqual(colors[0]["percentage"], 100.0)
+        
+        # Verify quality metrics
+        q = results["facts"]["image_quality"]
+        self.assertEqual(q["exposure_assessment"], "Underexposed (Dark)")
+        self.assertLess(q["sharpness_score"], 2.0) # solid flat color has minimal edge response
 
 
 if __name__ == "__main__":

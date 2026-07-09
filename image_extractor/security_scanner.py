@@ -193,12 +193,15 @@ class SecurityScanner(BaseAnalyzer):
             if "indicators" in p_out:
                 all_indicators.extend(p_out["indicators"])
 
-        # Calculate score based on indicators
+        # Calculate score based on unique indicator types to prevent inflation
+        unique_indicators = {}
+        for ind in all_indicators:
+            unique_indicators[ind["type"]] = ind
+
         risk_score = 0
         reasons = []
-        for ind in all_indicators:
-            ind_type = ind["type"]
-            weight = weights.get(ind_type, 10) # default weight 10 if not defined
+        for ind_type, ind in unique_indicators.items():
+            weight = weights.get(ind_type, 10)
             risk_score += weight
             reasons.append(f"{ind['description']} (+{weight})")
 

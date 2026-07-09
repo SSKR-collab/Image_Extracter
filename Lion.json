@@ -1,0 +1,34 @@
+{
+  "caption": "A male lion lying in dry grass looking toward the horizon.",
+  "objects": [
+    {
+      "label": "African Lion",
+      "bbox": [50, 100, 480, 560],
+      "confidence": 0.99,
+      "details": {
+        "gender": "male",
+        "pose": "lying down, resting, looking ahead",
+        "facial_expression": "calm, alert"
+      }
+    },
+    {
+      "label": "Dry Grass",
+      "bbox": [0, 300, 601, 533],
+      "confidence": 0.90
+    },
+    {
+      "label": "Ground",
+      "bbox": [0, 500, 601, 333],
+      "confidence": 0.92
+    }
+  ],
+  "scenic_attributes": {
+    "habitat": "savanna / grassland",
+    "background": "blue sky, open landscape",
+    "lighting": "outdoor daytime scene"
+  },
+  "aesthetics": {
+    "genre": "wildlife photography",
+    "composition": "landscape photograph"
+  }
+}
