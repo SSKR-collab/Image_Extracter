@@ -110,9 +110,13 @@ def print_human_readable(data: dict):
         if vm.get("dominant_colors"):
             colors_str = ", ".join([f"{c['color']} ({c['percentage']}%)" for c in vm.get("dominant_colors")])
             print(f"  Colors:      {colors_str}")
+        palette = vm.get("color_palette", {})
+        if palette:
+            accent_str = f", Accents: {', '.join(palette.get('accent_colors', []))}" if palette.get("accent_colors") else ""
+            print(f"  Palette:     BG: {palette.get('primary_background')}, FG: {palette.get('secondary_foreground')}{accent_str}")
         if iq.get("exposure_assessment"):
             print(f"  Exposure:    {iq.get('exposure_assessment')}")
-            print(f"  Sharpness:   {iq.get('sharpness_score')} / 255")
+            print(f"  Sharpness:   {iq.get('sharpness_score')} / 255 (Blur: {iq.get('blur_classification', 'Sharp')})")
             print(f"  Noise:       {iq.get('noise_estimate')}")
         if vm.get("scenic_attributes"):
             scenic = ", ".join([f"{k}: {v}" for k, v in vm["scenic_attributes"].items()])

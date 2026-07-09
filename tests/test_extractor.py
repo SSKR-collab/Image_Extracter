@@ -270,6 +270,10 @@ class TestImageInfoExtractorSuite(unittest.TestCase):
         q = results["facts"]["image_quality"]
         self.assertEqual(q["exposure_assessment"], "Underexposed (Dark)")
         self.assertLess(q["sharpness_score"], 2.0) # solid flat color has minimal edge response
+        self.assertEqual(q["blur_classification"], "Defocus / Blurry")
+        
+        # Verify color palette mapping
+        self.assertEqual(vm["color_palette"]["primary_background"], "Blue")
 
 
 if __name__ == "__main__":
