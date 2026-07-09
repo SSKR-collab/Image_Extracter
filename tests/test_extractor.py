@@ -145,7 +145,8 @@ class TestImageInfoExtractorSuite(unittest.TestCase):
         
         self.assertIn("document_classification", assessments)
         # Should detect printed page due to book keywords in content
-        self.assertIn("Book Page", assessments["document_classification"]["classification"])
+        self.assertEqual(assessments["document_classification"]["document_type"], "Scanned Printed Book Page")
+        self.assertEqual(assessments["document_classification"]["content_type"], "Narrative Text / Prose")
 
         # NLP Named Entities
         nlp = results["nlp_insights"]

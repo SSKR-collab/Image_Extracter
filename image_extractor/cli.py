@@ -126,16 +126,41 @@ def print_human_readable(data: dict):
         print(f"  Words:      {stats.get('word_count')}")
         print(f"  Lines:      {stats.get('line_count')}")
         print(f"  Paragraphs: {stats.get('paragraph_count')}")
+        print(f"  Sentences:  {stats.get('sentence_count', 0)}")
         
+        # Margins & continuation
+        ps = facts.get("page_structure", {})
+        bounds = ps.get("content_boundaries", {})
+        if bounds and bounds.get("left") is not None:
+            print(f"  Boundaries: L:{bounds['left']} T:{bounds['top']} R:{bounds['right']} B:{bounds['bottom']}")
+        if ps.get("page_continuation_hyphenated"):
+            print(f"  Continuation: Page continuation hyphenation suspected at end.")
+
+        # Typography
+        typo = facts.get("typography", {})
+        if typo:
+            if typo.get("indented_paragraphs_count", 0) > 0:
+                print(f"  Typography: {typo['indented_paragraphs_count']} indented paragraphs")
+            if typo.get("uppercase_lines"):
+                print(f"  Typography: Uppercase lines detected: {', '.join(typo['uppercase_lines'])}")
+
         lang = data.get("assessments", {}).get("language_detection", {})
         print(f"  Language:   {lang.get('language')} (confidence: {lang.get('confidence')})")
         
         doc_cls = data.get("assessments", {}).get("document_classification", {})
-        print(f"  Type:       {doc_cls.get('classification')} (confidence: {doc_cls.get('confidence')})")
+        if doc_cls:
+            print(f"  Doc Type:   {doc_cls.get('document_type')} (confidence: {doc_cls.get('document_confidence')})")
+            print(f"  Content:    {doc_cls.get('content_type')} (confidence: {doc_cls.get('content_confidence')})")
 
     # NLP Insights
     nlp = data.get("nlp_insights", {})
     if nlp:
+        proverbs = nlp.get("proverbs", [])
+        if proverbs:
+            print("\n[+] Extracted Proverbs / Idioms:")
+            for p in proverbs:
+                print(f"  - \"{p.get('text')}\" (confidence: {p.get('confidence')})")
+
         entities = nlp.get("entities", [])
         if entities:
             print("\n[+] NLP Named Entities:")

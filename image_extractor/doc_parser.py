@@ -1,12 +1,14 @@
+import re
 from image_extractor.base_analyzer import BaseAnalyzer
 
 
 class DocParser(BaseAnalyzer):
     """
     Groups OCR words into lines and paragraphs using spatial bounding boxes.
-    Performs language detection and document type classification.
+    Performs sentence segmentation, typography heuristic audits,
+    page structure margins calculations, and document/content classifications.
     """
-    VERSION = "1.1.0"
+    VERSION = "1.2.0"
 
     # Common English stop words to assist language heuristic
     ENGLISH_STOP_WORDS = {"the", "of", "and", "to", "a", "in", "is", "it", "you", "that", 
@@ -16,10 +18,14 @@ class DocParser(BaseAnalyzer):
         results = {
             "facts": {
                 "paragraphs": [],
+                "sentences": [],
+                "typography": {},
+                "page_structure": {},
                 "statistics": {
                     "word_count": 0,
                     "line_count": 0,
-                    "paragraph_count": 0
+                    "paragraph_count": 0,
+                    "sentence_count": 0
                 }
             },
             "indicators": [],
@@ -35,8 +41,10 @@ class DocParser(BaseAnalyzer):
         if not raw_text:
             # No text, document parsing is not applicable
             results["assessments"]["document_classification"] = {
-                "classification": "Non-Text Image (e.g., Photograph/Graphic)",
-                "confidence": 0.90
+                "document_type": "Non-Text Image (e.g., Photograph/Graphic)",
+                "document_confidence": 0.90,
+                "content_type": "Visual Only",
+                "content_confidence": 0.90
             }
             return results
 
@@ -50,30 +58,38 @@ class DocParser(BaseAnalyzer):
 
         results["facts"]["paragraphs"] = paragraphs_reconstructed
 
+        # 2. Sentence Segmentation
+        sentences = self._segment_sentences(raw_text)
+        results["facts"]["sentences"] = sentences
+
+        # 3. Typography & Page Structure Heuristics
+        results["facts"]["typography"] = self._extract_typography(words, paragraphs_reconstructed)
+        results["facts"]["page_structure"] = self._extract_page_structure(words, raw_text)
+
         # Calculate counts
         word_count = len(raw_text.split())
         line_count = sum(len(p["lines"]) for p in paragraphs_reconstructed)
         paragraph_count = len(paragraphs_reconstructed)
+        sentence_count = len(sentences)
 
         results["facts"]["statistics"] = {
             "word_count": word_count,
             "line_count": line_count,
-            "paragraph_count": paragraph_count
+            "paragraph_count": paragraph_count,
+            "sentence_count": sentence_count
         }
 
-        # 2. Language Detection Heuristic
+        # 4. Language Detection Heuristic
         lang_res, lang_conf = self._detect_language(raw_text)
         results["assessments"]["language_detection"] = {
             "language": lang_res,
             "confidence": round(lang_conf, 3)
         }
 
-        # 3. Document Type Classification
-        doc_type, doc_conf = self._classify_document(raw_text, line_count, word_count, context)
-        results["assessments"]["document_classification"] = {
-            "classification": doc_type,
-            "confidence": round(doc_conf, 3)
-        }
+        # 5. Document Type & Content Classification
+        results["assessments"]["document_classification"] = self._classify_document(
+            raw_text, line_count, word_count, context
+        )
 
         return results
 
@@ -90,21 +106,18 @@ class DocParser(BaseAnalyzer):
         valid_words.sort(key=lambda w: (w["bbox"][1], w["bbox"][0]))
 
         # Group words into lines
-        # Two words are in the same line if their vertical overlap is high
         lines = []
         for word in valid_words:
             w_x, w_y, w_w, w_h = word["bbox"]
             w_y_center = w_y + w_h / 2.0
             
-            # Try to place word in an existing line
             placed = False
             for line in lines:
-                # Calculate average height and average y_center of current line
                 line_y_centers = [w["bbox"][1] + w["bbox"][3]/2.0 for w in line]
                 line_avg_h = sum(w["bbox"][3] for w in line) / len(line)
                 line_avg_y_center = sum(line_y_centers) / len(line)
                 
-                # Threshold: vertical difference less than 40% of average line height
+                # Threshold: vertical difference less than 50% of average line height
                 if abs(w_y_center - line_avg_y_center) < (line_avg_h * 0.5):
                     line.append(word)
                     placed = True
@@ -121,8 +134,6 @@ class DocParser(BaseAnalyzer):
         lines.sort(key=lambda line: sum(w["bbox"][1] for w in line) / len(line))
 
         # Group lines into paragraphs
-        # Standard spacing between consecutive lines is roughly 1.0 to 1.5 times line height.
-        # A gap of >1.8x line height or an indented first word indicates a paragraph break.
         paragraphs = []
         current_paragraph_lines = []
         
@@ -130,7 +141,6 @@ class DocParser(BaseAnalyzer):
         last_line_height = 20
         
         for line in lines:
-            # Average y_top, y_bottom, and height of this line
             line_y_top = sum(w["bbox"][1] for w in line) / len(line)
             line_height = sum(w["bbox"][3] for w in line) / len(line)
             line_y_bottom = line_y_top + line_height
@@ -140,7 +150,6 @@ class DocParser(BaseAnalyzer):
                 current_paragraph_lines.append(line_text)
             else:
                 vertical_gap = line_y_top - last_line_y_bottom
-                # Check for paragraph breaks
                 is_break = False
                 
                 # 1. Large vertical gap
@@ -149,10 +158,6 @@ class DocParser(BaseAnalyzer):
                 
                 # 2. Horizontal indent of first word in line
                 first_word_x = line[0]["bbox"][0]
-                # Compare to starting x of previous line
-                prev_line_words = valid_words # fallback
-                # Simple heuristic: if first_word_x is significantly indented compared to usual left margin
-                # We can check if it's indented by > 30px
                 if len(line) > 1 and first_word_x > 80:
                     is_break = True
 
@@ -193,6 +198,79 @@ class DocParser(BaseAnalyzer):
             })
         return paragraphs
 
+    def _segment_sentences(self, text: str) -> list:
+        """
+        Split text into sentences using standard punctuation heuristics.
+        """
+        # Split text into sentences, avoiding splitting on abbreviations
+        sentence_end = re.compile(
+            r'(?<!\bMr)(?<!\bMrs)(?<!\bMs)(?<!\bDr)(?<!\bJan)(?<!\bFeb)(?<!\bMar)(?<!\bApr)(?<!\bAug)(?<!\bSept)(?<!\bOct)(?<!\bNov)(?<!\bDec)(?<=[.?!])\s+(?=[A-Z"“])'
+        )
+        sentences = sentence_end.split(text)
+        return [s.strip() for s in sentences if s.strip()]
+
+    def _extract_typography(self, words: list, paragraphs: list) -> dict:
+        """
+        Extracts typographical hints (indentation counts, uppercase lines, etc.)
+        """
+        typo = {
+            "indented_paragraphs_count": 0,
+            "uppercase_lines": []
+        }
+        
+        # 1. Check Indentations of paragraph starting words
+        for p in paragraphs:
+            lines = p.get("lines", [])
+            if lines:
+                p_text_words = p["text"].split()
+                if p_text_words:
+                    first_w = p_text_words[0].strip(".,?!\"'();:")
+                    # Find coordinates for this word
+                    matching_words = [w for w in words if w.get("text", "").strip(".,?!\"'();:") == first_w and w.get("bbox")]
+                    if matching_words:
+                        x_coord = matching_words[0]["bbox"][0]
+                        # Indented if offset is large (typical margin is < 40px)
+                        if x_coord > 60:
+                            typo["indented_paragraphs_count"] += 1
+                            
+        # 2. Check for Uppercase lines
+        for p in paragraphs:
+            for line in p.get("lines", []):
+                letters = "".join(c for c in line if c.isalpha())
+                if letters and letters.isupper() and len(letters) > 3:
+                    typo["uppercase_lines"].append(line)
+                    
+        return typo
+
+    def _extract_page_structure(self, words: list, raw_text: str) -> dict:
+        """
+        Calculates content margins and scans for page continuation hyphenations.
+        """
+        structure = {
+            "content_boundaries": {
+                "top": None,
+                "bottom": None,
+                "left": None,
+                "right": None
+            },
+            "page_continuation_hyphenated": False
+        }
+        
+        # Compute margins from word boxes
+        valid_boxes = [w["bbox"] for w in words if w.get("bbox") and len(w["bbox"]) == 4]
+        if valid_boxes:
+            structure["content_boundaries"]["left"] = min(b[0] for b in valid_boxes)
+            structure["content_boundaries"]["top"] = min(b[1] for b in valid_boxes)
+            structure["content_boundaries"]["right"] = max(b[0] + b[2] for b in valid_boxes)
+            structure["content_boundaries"]["bottom"] = max(b[1] + b[3] for b in valid_boxes)
+            
+        # Check if the page ends with a hyphenated word (like 'Sab-')
+        clean_text = raw_text.strip()
+        if clean_text and clean_text[-1] in ("-", "–", "—"):
+            structure["page_continuation_hyphenated"] = True
+            
+        return structure
+
     def _detect_language(self, text: str) -> tuple:
         """
         Heuristic language detection based on common English words.
@@ -204,43 +282,64 @@ class DocParser(BaseAnalyzer):
         english_word_count = sum(1 for w in words if w in self.ENGLISH_STOP_WORDS)
         english_ratio = english_word_count / len(words)
         
-        # If stop word ratio is high (typically > 8% for any natural English text)
         if english_ratio > 0.08:
-            # High confidence if ratio is high
             conf = min(0.5 + english_ratio * 3, 0.99)
             return "English (en)", conf
             
         return "Unknown", 0.3
 
-    def _classify_document(self, text: str, line_count: int, word_count: int, context: dict) -> tuple:
+    def _classify_document(self, text: str, line_count: int, word_count: int, context: dict) -> dict:
         """
-        Heuristic classification of document type.
+        Refined classification combining text context and NLP proverb scores.
         """
         text_lower = text.lower()
         
-        # Check keywords
+        # Check proverbs from EntityNlp context
+        proverb_count = context.get("entity_nlp", {}).get("facts", {}).get("entities_summary", {}).get("proverb_count", 0)
+        
+        # Heuristics
         invoice_keywords = {"invoice", "receipt", "total due", "billing", "amount due", "payment"}
         book_keywords = {"chapter", "said", "cried", "shook", "she", "he", "replied"}
         code_keywords = {"import ", "def ", "class ", "function", "const ", "let ", "public class"}
 
-        has_exif = context.get("file_analyzer", {}).get("facts", {}).get("file_info", {}).get("md5_hash") is not None
-        
-        # Check density of keywords
         inv_matches = sum(1 for kw in invoice_keywords if kw in text_lower)
         book_matches = sum(1 for kw in book_keywords if kw in text_lower)
         code_matches = sum(1 for kw in code_keywords if kw in text_lower)
 
-        if code_matches >= 3 or ("def " in text_lower and ":" in text_lower):
-            return "Source Code File / Text Dump", 0.85
-            
-        if inv_matches >= 3 or ("total" in text_lower and "invoice" in text_lower):
-            return "Business Invoice / Receipt Document", 0.90
-            
-        if book_matches >= 3 and line_count > 5:
-            return "Scanned Printed Book Page", 0.85
-            
-        # Default fallback
-        if line_count > 3:
-            return "Standard Printed Document Page", 0.70
-            
-        return "General Graphic / Image", 0.50
+        doc_type = "Standard Printed Document Page"
+        content_type = "General Text Content"
+        doc_conf = 0.70
+        content_conf = 0.50
+
+        if proverb_count >= 3:
+            doc_type = "Book Page"
+            content_type = "Collection of English Proverbs/Idioms"
+            doc_conf = 0.95
+            content_conf = 0.95
+        elif code_matches >= 3 or ("def " in text_lower and ":" in text_lower):
+            doc_type = "Text Dump"
+            content_type = "Source Code"
+            doc_conf = 0.85
+            content_conf = 0.90
+        elif inv_matches >= 3 or ("total" in text_lower and "invoice" in text_lower):
+            doc_type = "Business Document"
+            content_type = "Invoice / Receipt"
+            doc_conf = 0.90
+            content_conf = 0.95
+        elif book_matches >= 3 and line_count >= 5:
+            doc_type = "Scanned Printed Book Page"
+            content_type = "Narrative Text / Prose"
+            doc_conf = 0.85
+            content_conf = 0.80
+        elif line_count <= 3:
+            doc_type = "General Graphic / Image"
+            content_type = "Short Caption / Non-document"
+            doc_conf = 0.60
+            content_conf = 0.50
+
+        return {
+            "document_type": doc_type,
+            "document_confidence": round(doc_conf, 2),
+            "content_type": content_type,
+            "content_confidence": round(content_conf, 2)
+        }

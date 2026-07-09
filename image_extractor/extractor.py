@@ -25,8 +25,8 @@ class ImageInfoExtractor:
         FileAnalyzer,
         StegoAnalyzer,
         OcrEngine,
-        DocParser,
         EntityNlp,
+        DocParser,
         QrBarcode,
         SecurityScanner # SecurityScanner runs last to aggregate previous indicators
     ]

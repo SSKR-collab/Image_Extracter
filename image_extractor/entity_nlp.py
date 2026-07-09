@@ -14,6 +14,55 @@ class EntityNlp(BaseAnalyzer):
     KNOWN_PEOPLE = {"bob", "phyllis", "john", "russell", "edward", "ed", "mary", "sarah", "tom", "alice"}
     KNOWN_PLACES = {"southend", "london", "paris", "tokyo", "new york", "boston"}
 
+    # Known proverbs/idioms for semantic categorization
+    KNOWN_PROVERBS = {
+        "the customer is always right",
+        "east, west, home's best",
+        "life’s not all beer and skittles",
+        "the devil looks after his own",
+        "manners maketh man",
+        "many a mickle makes a muckle",
+        "a man who is his own lawyer has a fool for his client",
+        "you can’t make a silk purse from a sow’s ear",
+        "as thick as thieves",
+        "clothes make the man",
+        "all that glisters is not gold",
+        "the pen is mightier than sword",
+        "is fair and wise and good and gay",
+        "make love not war",
+        "devil take the hindmost",
+        "the female of the species is more deadly than the male",
+        "a place for everything and everything in its place",
+        "hell hath no fury like a woman scorned",
+        "when in rome, do as the romans do",
+        "to err is human; to forgive divine",
+        "enough is as good as a feast",
+        "people who live in glass houses shouldn’t throw stones",
+        "nature abhors a vacuum",
+        "moderation in all things",
+        "everything comes to him who waits",
+        "tomorrow is another day",
+        "better to light a candle than to curse the darkness",
+        "two is company, but three’s a crowd",
+        "it’s the squeaky wheel that gets the grease",
+        "don’t teach your grandma to suck eggs",
+        "he who lives by the sword shall die by the sword",
+        "don’t meet troubles half-way",
+        "oil and water don’t mix",
+        "all work and no play makes jack a dull boy",
+        "the best things in life are free",
+        "finders keepers, losers weepers",
+        "there's no place like home",
+        "speak softly and carry a big stick",
+        "music has charms to soothe the savage breast",
+        "ne’er cast a clout till may be out",
+        "there’s no such thing as a free lunch",
+        "nothing venture, nothing gain",
+        "he who can does, he who cannot, teaches",
+        "a stitch in time saves nine",
+        "the child is the father of the man"
+    }
+
     # Sentiment dictionaries
     SENTIMENT_WORDS = {
         "joy": {"happy", "glad", "joy", "smiled", "laughed", "delighted", "lovely", "sweet", "smile", "laugh", "cheerful"},
@@ -46,6 +95,7 @@ class EntityNlp(BaseAnalyzer):
                 "entities": [],
                 "dialogue": [],
                 "relationships": [],
+                "proverbs": [],
                 "sentiment": {
                     "emotion": "neutral",
                     "confidence": 0.5
@@ -73,7 +123,11 @@ class EntityNlp(BaseAnalyzer):
         relationships = self._extract_relationships(raw_text)
         results["nlp_insights"]["relationships"] = relationships
 
-        # 4. Sentiment / Intent Analysis
+        # 4. Proverb / Idiom Extraction
+        proverbs = self._extract_proverbs(raw_text)
+        results["nlp_insights"]["proverbs"] = proverbs
+
+        # 5. Sentiment / Intent Analysis
         sentiment = self._analyze_sentiment(raw_text)
         results["nlp_insights"]["sentiment"] = sentiment
 
@@ -81,7 +135,8 @@ class EntityNlp(BaseAnalyzer):
         results["facts"]["entities_summary"] = {
             "person_count": sum(1 for e in entities if e["type"] == "person"),
             "place_count": sum(1 for e in entities if e["type"] == "place"),
-            "quote_count": len(dialogue)
+            "quote_count": len(dialogue),
+            "proverb_count": len(proverbs)
         }
 
         return results
@@ -263,3 +318,20 @@ class EntityNlp(BaseAnalyzer):
             "emotion": "neutral",
             "confidence": 0.70
         }
+
+    def _extract_proverbs(self, text: str) -> list:
+        """
+        Scans text for known proverbs/idioms using a robust cleaning check.
+        """
+        clean_text = text.lower().replace("’", "'").replace("‘", "'").replace("“", '"').replace("”", '"')
+        clean_text = re.sub(r'\s+', ' ', clean_text)
+
+        matches = []
+        for prov in self.KNOWN_PROVERBS:
+            clean_prov = prov.lower().replace("’", "'").replace("‘", "'").replace("“", '"').replace("”", '"')
+            if clean_prov in clean_text:
+                matches.append({
+                    "text": prov,
+                    "confidence": 0.95
+                })
+        return matches

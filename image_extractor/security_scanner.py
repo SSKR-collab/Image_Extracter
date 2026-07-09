@@ -18,14 +18,16 @@ class SecurityScanner(BaseAnalyzer):
 
     # Default risk weights, tuneable via analyzer config
     DEFAULT_RISK_WEIGHTS = {
-        "embedded_executable": 50,
+        "embedded_signature": 50,
         "valid_zip_payload": 35,
-        "private_key_detected": 45,
-        "aws_key_detected": 40,
-        "jwt_token_detected": 25,
-        "generic_secret_detected": 20,
+        "secret_private_key": 45,
+        "secret_aws_access_key": 40,
+        "secret_jwt_token": 25,
+        "secret_google_api_key": 30,
+        "secret_generic_api_key": 20,
         "suspicious_command": 35,
         "suspicious_url": 15,
+        "suspicious_ip": 15,
         "custom_png_chunk": 5,
         "high_file_entropy": 10,
         "high_entropy_overlay": 30,
