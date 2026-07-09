@@ -143,12 +143,22 @@ def print_human_readable(data: dict):
                     data_val = q.get("data")
                     data_str = f"'{data_val[:40]}...'" if len(data_val) > 40 else f"'{data_val}'"
                     print(f"    - Decoded successfully: {data_str}")
+                    pl = q.get("payload_info", {})
+                    if pl:
+                        print(f"      Type: {pl.get('type')}")
+                        if pl.get("details", {}).get("suspicious_link"):
+                            print("      [WARNING] Suspicious link detected in URL payload!")
                 else:
                     print(f"    - Decoded: False (Status: {q.get('status', 'Failed')})")
                     if q.get("reason"):
                         print(f"      Reason: {q.get('reason')}")
+                if q.get("local_quality"):
+                    lq = q["local_quality"]
+                    print(f"      Local Quality: Contrast: {lq.get('contrast')}, Brightness: {lq.get('brightness')}, Sharpness: {lq.get('sharpness')}")
                 if q.get("bbox"):
                     print(f"      Location: {q.get('bbox')}")
+                if q.get("error_correction_attempted"):
+                    print("      Advanced pre-processing enhancement was attempted.")
         if barcodes:
             print(f"  Barcodes:   {len(barcodes)}")
             for b in barcodes:
