@@ -1,0 +1,191 @@
+import sys
+import json
+import argparse
+from image_extractor.extractor import ImageInfoExtractor
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Enterprise-Grade Image & Document Security and Extraction Suite."
+    )
+    parser.add_argument("image_path", help="Path to the image file to analyze.")
+    parser.add_argument(
+        "--json", 
+        action="store_true", 
+        help="Output results in JSON format."
+    )
+    parser.add_argument(
+        "--pretty", 
+        action="store_true", 
+        help="If --json is set, output formatted JSON."
+    )
+    parser.add_argument(
+        "--output", 
+        help="Path to save the JSON output (implies --json)."
+    )
+
+    args = parser.parse_args()
+
+    try:
+        extractor = ImageInfoExtractor(args.image_path)
+        data = extractor.extract_all()
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    # Save to file if output is specified
+    if args.output:
+        try:
+            with open(args.output, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=4, ensure_ascii=False)
+            print(f"Extraction results written to {args.output}")
+            sys.exit(0)
+        except Exception as e:
+            print(f"Error writing to output file: {e}", file=sys.stderr)
+            sys.exit(1)
+
+    # Output to stdout
+    if args.json or args.pretty:
+        indent = 4 if args.pretty or args.json else None
+        print(json.dumps(data, indent=indent, ensure_ascii=False))
+    else:
+        print_human_readable(data)
+
+
+def print_human_readable(data: dict):
+    """
+    Renders a detailed terminal report highlighting facts, indicators,
+    nlp summaries, security risks, and plugin timing metrics.
+    """
+    print("=" * 70)
+    print(" ENTERPRISE IMAGE & DOCUMENT ANALYSIS REPORT ")
+    print("=" * 70)
+
+    # Metadata & Capabilities
+    meta = data.get("metadata", {})
+    active = meta.get("analyzer_capabilities", {}).get("active_plugins", [])
+    missing = meta.get("analyzer_capabilities", {}).get("missing_dependencies", [])
+    
+    print(f"Schema Version: {data.get('schema_version')}")
+    print(f"Scan Time:      {meta.get('timestamp')}")
+    print(f"Active Plugins: {', '.join(active)}")
+    if missing:
+        print(f"Missing (Opt):  {', '.join(missing)}")
+    print("-" * 70)
+
+    # Errors & Warnings
+    errors = data.get("errors", [])
+    if errors:
+        print("\n[!] WARNINGS & DIAGNOSTICS:")
+        for err in errors:
+            print(f"  [{err.get('plugin')}] {err.get('severity').upper()}: {err.get('message')}")
+        print("-" * 70)
+
+    # File & Image Facts
+    facts = data.get("facts", {})
+    fi = facts.get("file_info", {})
+    if fi:
+        print("\n[+] File Details:")
+        print(f"  Name:     {fi.get('file_name')}")
+        print(f"  Size:     {fi.get('size_formatted')} ({fi.get('size_bytes')} bytes)")
+        print(f"  SHA-256:  {fi.get('sha256_hash')}")
+        
+    ii = facts.get("image_info", {})
+    if ii:
+        print("\n[+] Image Properties:")
+        print(f"  Format:     {ii.get('format')} ({ii.get('width')}x{ii.get('height')})")
+        print(f"  Color Mode: {ii.get('mode')} (Frames: {ii.get('frames')})")
+        ph = ii.get("perceptual_hashes", {})
+        if ph:
+            print(f"  aHash:      {ph.get('ahash')}")
+            print(f"  dHash:      {ph.get('dhash')}")
+
+    # Stego observations & archives
+    stego_obs = facts.get("overlay_details")
+    if stego_obs:
+        print("\n[!] Forensic Overlay Detected:")
+        print(f"  Offset:     {stego_obs.get('offset')}")
+        print(f"  Size:       {stego_obs.get('overlay_size_bytes')} bytes")
+        print(f"  Entropy:    {stego_obs.get('overlay_entropy')}")
+        
+    arch = facts.get("archive_details")
+    if arch:
+        print(f"  [+] Extracted ZIP Archive Details ({arch.get('file_count')} files):")
+        for f in arch.get("files", [])[:10]: # show first 10
+            is_dir = "DIR" if f.get("is_dir") else "FILE"
+            print(f"    - {f.get('filename')} ({is_dir}, {f.get('file_size')} bytes)")
+        if arch.get("file_count") > 10:
+            print(f"    ... and {arch.get('file_count') - 10} more files.")
+
+    # Text & Document Layout Facts
+    raw_text = facts.get("raw_text", "")
+    stats = facts.get("statistics", {})
+    
+    if raw_text:
+        print("\n[+] Document Layout & OCR Stats:")
+        print(f"  Words:      {stats.get('word_count')}")
+        print(f"  Lines:      {stats.get('line_count')}")
+        print(f"  Paragraphs: {stats.get('paragraph_count')}")
+        
+        lang = data.get("assessments", {}).get("language_detection", {})
+        print(f"  Language:   {lang.get('language')} (confidence: {lang.get('confidence')})")
+        
+        doc_cls = data.get("assessments", {}).get("document_classification", {})
+        print(f"  Type:       {doc_cls.get('classification')} (confidence: {doc_cls.get('confidence')})")
+
+    # NLP Insights
+    nlp = data.get("nlp_insights", {})
+    if nlp:
+        entities = nlp.get("entities", [])
+        if entities:
+            print("\n[+] NLP Named Entities:")
+            for ent in entities:
+                print(f"  - {ent.get('text')} ({ent.get('type')}, conf: {ent.get('confidence')})")
+                
+        dialogue = nlp.get("dialogue", [])
+        if dialogue:
+            print("\n[+] Extracted Spoken Dialogue:")
+            for d in dialogue[:5]: # show first 5
+                print(f"  - \"{d.get('text')[:60]}...\" (Speaker: {d.get('speaker')})")
+            if len(dialogue) > 5:
+                print(f"  ... and {len(dialogue) - 5} more quotes.")
+
+        relations = nlp.get("relationships", [])
+        if relations:
+            print("\n[+] Semantic Relationships:")
+            for r in relations:
+                note = f" ({r.get('note')})" if r.get("note") else ""
+                print(f"  - {r.get('person1')} is {r.get('relation')} of {r.get('person2')}{note}")
+
+        sentiment = nlp.get("sentiment", {})
+        if sentiment and sentiment.get("emotion") != "neutral":
+            print(f"\n[+] Emotional Sentiment: {sentiment.get('emotion').upper()} (confidence: {sentiment.get('confidence')})")
+
+    # Security Audits
+    assessments = data.get("assessments", {})
+    sec_risk = assessments.get("security_risk", {})
+    if sec_risk:
+        print("\n" + "!" * 70)
+        print(f" SECURITY AUDIT ASSESSMENT (Risk Level: {sec_risk.get('level').upper()})")
+        print("!" * 70)
+        print(f"  Threat Score:  {sec_risk.get('score')} / 100")
+        print(f"  Confidence:    {sec_risk.get('confidence')}")
+        print("  Detections:")
+        for reason in sec_risk.get("reason_summary", []):
+            print(f"    - {reason}")
+
+    # Metrics
+    metrics = data.get("metrics", {})
+    print("\n" + "-" * 70)
+    print(" PERFORMANCE TIMING METRICS")
+    print("-" * 70)
+    print(f"  Total Scan Time:  {metrics.get('total_execution_ms')} ms")
+    print(f"  Bytes Processed:  {metrics.get('bytes_processed')} bytes")
+    print("  Plugin Duration breakdown:")
+    for p_name, duration in metrics.get("plugin_timings_ms", {}).items():
+        print(f"    {p_name:20}: {duration:8.2f} ms")
+    print("=" * 70)
+
+
+if __name__ == "__main__":
+    main()

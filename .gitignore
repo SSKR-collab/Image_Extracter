@@ -1,0 +1,11 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Test results and temporary assets
+test_page_results.json
