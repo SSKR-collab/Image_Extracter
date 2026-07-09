@@ -1,100 +1,204 @@
 {
-  "raw_text": "TIGER HYDRATE\nPREMIUM QUALITY\nFIND THE QR CODE TO AVAIL\n$5 DISCOUNT\nOpen link\nQR TIGER",
-  "qr_codes": [
-    {
-      "present": true,
-      "decoded": true,
-      "data": "https://qrtiger.com/demo/scan-phone",
-      "bbox": [[450, 220], [600, 220], [600, 370], [450, 370]],
-      "status": "Decoded successfully",
-      "location_summary": "Phone screen (held in hand)",
-      "confidence": 0.99
+    "schema_version": "1.0.0",
+    "metadata": {
+        "timestamp": "2026-07-09T18:16:04.287748+00:00",
+        "analyzer_capabilities": {
+            "active_plugins": [
+                "file_analyzer",
+                "stego_analyzer",
+                "visual_analyzer",
+                "ocr_engine",
+                "entity_nlp",
+                "doc_parser",
+                "qr_barcode",
+                "security_scanner"
+            ],
+            "missing_dependencies": []
+        }
     },
-    {
-      "present": true,
-      "decoded": false,
-      "bbox": [[120, 150], [220, 150], [220, 250], [120, 250]],
-      "status": "Failed (low contrast / glare)",
-      "reason": "Uneven lighting and glossy package surface creates glare on the left pouch module matrix.",
-      "location_summary": "Left beverage pouch",
-      "confidence": 0.85
+    "facts": {
+        "file_info": {
+            "file_name": "qr_hard.webp",
+            "file_path": "C:\\Users\\GANESH KUMAR\\Downloads\\Comparison\\Image_Extracter\\qr_hard.webp",
+            "size_bytes": 466912,
+            "size_formatted": "455.97 KB",
+            "created_time": "2026-07-09T18:15:12.841208+00:00",
+            "modified_time": "2026-07-09T18:15:12.843045+00:00",
+            "md5_hash": "a7421f3393b821f79edac0c17a8e9668",
+            "sha256_hash": "90308f0eb2d5aa943c09f9d4ca6591781689ef45411e0135f7a39525490af676"
+        },
+        "image_info": {
+            "format": "WEBP",
+            "width": 1600,
+            "height": 800,
+            "aspect_ratio": 2.0,
+            "aspect_ratio_string": "2:1",
+            "mode": "RGB",
+            "is_animated": false,
+            "frames": 1,
+            "perceptual_hashes": {
+                "ahash": "e8f0d0c083a72c33",
+                "dhash": "b6295af4d891a638"
+            }
+        },
+        "embedded_files": [],
+        "archive_details": null,
+        "file_entropy": 7.9995,
+        "pixel_lsb_entropy": 0.8464,
+        "visual_metadata": {
+            "caption": null,
+            "objects": [],
+            "scenic_attributes": {},
+            "aesthetics": {},
+            "dominant_colors": [
+                {
+                    "color": "White",
+                    "percentage": 31.6
+                },
+                {
+                    "color": "Gray",
+                    "percentage": 28.9
+                },
+                {
+                    "color": "Blue",
+                    "percentage": 12.5
+                }
+            ]
+        },
+        "image_quality": {
+            "sharpness_score": 16.29,
+            "exposure_assessment": "Well-exposed (Balanced)",
+            "noise_estimate": 8.09
+        },
+        "raw_text": "QREZTIG=ER ——",
+        "words": [
+            {
+                "text": "QREZTIG=ER",
+                "bbox": [
+                    1366,
+                    724,
+                    139,
+                    29
+                ],
+                "confidence": 0.06
+            },
+            {
+                "text": "——",
+                "bbox": [
+                    1462,
+                    771,
+                    138,
+                    29
+                ],
+                "confidence": 0.2
+            }
+        ],
+        "entities_summary": {
+            "person_count": 0,
+            "place_count": 0,
+            "quote_count": 0,
+            "proverb_count": 0
+        },
+        "paragraphs": [
+            {
+                "lines": [
+                    "QREZTIG=ER",
+                    "——"
+                ],
+                "text": "QREZTIG=ER ——"
+            }
+        ],
+        "sentences": [
+            "QREZTIG=ER ——"
+        ],
+        "typography": {
+            "indented_paragraphs_count": 1,
+            "uppercase_lines": [
+                "QREZTIG=ER"
+            ]
+        },
+        "page_structure": {
+            "content_boundaries": {
+                "top": 724,
+                "bottom": 800,
+                "left": 1366,
+                "right": 1600
+            },
+            "page_continuation_hyphenated": true
+        },
+        "statistics": {
+            "word_count": 2,
+            "line_count": 2,
+            "paragraph_count": 1,
+            "sentence_count": 1
+        },
+        "qr_codes": [],
+        "barcodes": [],
+        "secrets": [],
+        "suspicious_commands": [],
+        "urls": [],
+        "ips": [],
+        "yara_matches": []
     },
-    {
-      "present": true,
-      "decoded": false,
-      "bbox": [[700, 140], [800, 140], [800, 240], [700, 240]],
-      "status": "Failed (perspective skew)",
-      "reason": "Rotated placement and perspective angle of the middle beverage pouch obscures calibration modules.",
-      "location_summary": "Middle beverage pouch",
-      "confidence": 0.85
+    "indicators": [
+        {
+            "type": "high_file_entropy",
+            "description": "Overall file entropy (7.9995) is extremely close to 8.0, indicating encryption or high compression.",
+            "severity": "medium"
+        }
+    ],
+    "assessments": {
+        "steganography_detected": {
+            "result": false,
+            "confidence": 0.9,
+            "reason": "No anomalies found in EOF metadata, PNG chunks, or overall byte structure."
+        },
+        "visual_analysis_summary": {
+            "description": "Basic image attributes and quality stats computed. Detailed labels require a sidecar metadata file.",
+            "confidence": 0.9
+        },
+        "language_detection": {
+            "language": "Unknown",
+            "confidence": 0.3
+        },
+        "document_classification": {
+            "document_type": "General Graphic / Image",
+            "document_confidence": 0.6,
+            "content_type": "Short Caption / Non-document",
+            "content_confidence": 0.5
+        },
+        "security_risk": {
+            "score": 10,
+            "level": "Low",
+            "confidence": 0.9,
+            "reason_summary": [
+                "Overall file entropy (7.9995) is extremely close to 8.0, indicating encryption or high compression. (+10)"
+            ]
+        }
     },
-    {
-      "present": true,
-      "decoded": false,
-      "bbox": [[1280, 160], [1380, 160], [1380, 260], [1280, 260]],
-      "status": "Failed (low resolution)",
-      "reason": "Deep background distance on the right beverage pouch leads to pixelation of modules.",
-      "location_summary": "Right beverage pouch",
-      "confidence": 0.80
-    }
-  ],
-  "objects": [
-    {
-      "label": "Smartphone",
-      "bbox": [400, 180, 250, 450],
-      "confidence": 0.98
+    "nlp_insights": {
+        "entities": [],
+        "dialogue": [],
+        "relationships": [],
+        "proverbs": [],
+        "sentiment": {
+            "emotion": "neutral",
+            "confidence": 0.7
+        }
     },
-    {
-      "label": "Hand",
-      "bbox": [380, 350, 180, 250],
-      "confidence": 0.95
+    "metrics": {
+        "total_execution_ms": 1550.56,
+        "bytes_processed": 466912,
+        "plugin_timings_ms": {
+            "file_analyzer": 74.04,
+            "stego_analyzer": 184.26,
+            "visual_analyzer": 117.88,
+            "ocr_engine": 804.78,
+            "entity_nlp": 4.27,
+            "doc_parser": 0.58,
+            "qr_barcode": 78.68,
+            "security_scanner": 194.18
+        }
     },
-    {
-      "label": "Beverage Pouch",
-      "bbox": [80, 80, 280, 500],
-      "confidence": 0.96
-    },
-    {
-      "label": "Beverage Pouch",
-      "bbox": [650, 70, 280, 510],
-      "confidence": 0.96
-    },
-    {
-      "label": "Beverage Pouch",
-      "bbox": [1230, 90, 280, 490],
-      "confidence": 0.94
-    },
-    {
-      "label": "Tiger Illustration",
-      "bbox": [150, 280, 150, 150],
-      "confidence": 0.90
-    },
-    {
-      "label": "Building",
-      "bbox": [0, 0, 1600, 800],
-      "confidence": 0.95
-    },
-    {
-      "label": "Windows",
-      "bbox": [900, 50, 300, 400],
-      "confidence": 0.92
-    }
-  ],
-  "caption": "A person scans QR codes on beverage advertisements displayed on a building.",
-  "scenic_attributes": {
-    "habitat": "savanna / grassland background poster on urban building",
-    "background": "building windows, open landscape advertisement",
-    "theme": "outdoor advertisement, marketing poster, commercial banner, product promotion",
-    "brand_recognition": "QR TIGER, TIGER HYDRATE",
-    "product_recognition": "beverage pouch, drink package"
-  },
-  "aesthetics": {
-    "genre": "commercial photography, landscape photograph, wildlife photography, outdoor daytime scene",
-    "dominant_colors": [
-      {"color": "Blue", "percentage": 30.0},
-      {"color": "Gray", "percentage": 25.0},
-      {"color": "White", "percentage": 20.0},
-      {"color": "Orange", "percentage": 15.0}
-    ]
-  }
+    "errors": []
 }
