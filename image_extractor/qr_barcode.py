@@ -135,61 +135,102 @@ class QrBarcode(BaseAnalyzer):
                 open_cv_image = open_cv_image[:, :, ::-1].copy()
                 
                 detector = cv2.QRCodeDetector()
-                # Stage 1: Detection
-                retval, points = detector.detect(open_cv_image)
+                has_multi = hasattr(detector, "detectMulti") and hasattr(detector, "decodeMulti")
                 
-                if retval and points is not None and len(points) > 0:
-                    # Assess image quality around the detected QR bounding box
-                    local_quality = self._evaluate_qr_image_quality(open_cv_image, points)
-                    
-                    # Stage 2: Decoding
-                    data, straight_qrcode = detector.decode(open_cv_image, points)
-                    
-                    bbox_coords = points[0].tolist() if hasattr(points, "tolist") else points.tolist()
-                    
-                    # Try adaptive pre-processing enhancements if decode fails
-                    enhanced_data = ""
-                    enhanced_attempted = False
-                    if not data:
-                        enhanced_attempted = True
-                        enhanced_data = self._enhance_and_decode(open_cv_image, points, detector)
-                        if enhanced_data:
-                            data = enhanced_data
-
-                    if data:
-                        classification = self._classify_qr_payload(data)
-                        results["facts"]["qr_codes"].append({
-                            "present": True,
-                            "decoded": True,
-                            "data": data,
-                            "payload_info": classification,
-                            "bbox": bbox_coords,
-                            "local_quality": local_quality,
-                            "error_correction_attempted": enhanced_attempted,
-                            "confidence": 0.95
-                        })
-                        results["indicators"].append({
-                            "type": "qr_code_detected",
-                            "description": f"QR Code ({classification['type']}) decoded successfully: '{data[:40]}...'",
-                            "severity": "low"
-                        })
-                    else:
-                        # Report failure with local quality metrics
-                        results["facts"]["qr_codes"].append({
-                            "present": True,
-                            "decoded": False,
-                            "bbox": bbox_coords,
-                            "local_quality": local_quality,
-                            "error_correction_attempted": enhanced_attempted,
-                            "status": "QR code detected but could not be decoded.",
-                            "reason": "Stylized artwork or poor image quality (e.g. low contrast / noise) obscuring modules.",
-                            "confidence": 0.80
-                        })
-                        results["indicators"].append({
-                            "type": "qr_code_obscured",
-                            "description": "QR Code detected but could not be decoded (obscured).",
-                            "severity": "low"
-                        })
+                if has_multi:
+                    # Attempt multi-QR detection
+                    retval, points = detector.detectMulti(open_cv_image)
+                    if retval and points is not None and len(points) > 0:
+                        success, decoded_info, _ = detector.decodeMulti(open_cv_image, points)
+                        for i, pts in enumerate(points):
+                            bbox_coords = pts.tolist() if hasattr(pts, "tolist") else pts
+                            local_quality = self._evaluate_qr_image_quality(open_cv_image, np.expand_dims(pts, axis=0))
+                            
+                            data = decoded_info[i] if (success and i < len(decoded_info)) else ""
+                            enhanced_attempted = False
+                            if not data:
+                                enhanced_attempted = True
+                                data = self._enhance_and_decode(open_cv_image, np.expand_dims(pts, axis=0), detector)
+                                
+                            if data:
+                                classification = self._classify_qr_payload(data)
+                                results["facts"]["qr_codes"].append({
+                                    "present": True,
+                                    "decoded": True,
+                                    "data": data,
+                                    "payload_info": classification,
+                                    "bbox": bbox_coords,
+                                    "local_quality": local_quality,
+                                    "error_correction_attempted": enhanced_attempted,
+                                    "confidence": 0.95
+                                })
+                                results["indicators"].append({
+                                    "type": "qr_code_detected",
+                                    "description": f"QR Code ({classification['type']}) decoded successfully: '{data[:40]}...'",
+                                    "severity": "low"
+                                })
+                            else:
+                                results["facts"]["qr_codes"].append({
+                                    "present": True,
+                                    "decoded": False,
+                                    "bbox": bbox_coords,
+                                    "local_quality": local_quality,
+                                    "error_correction_attempted": enhanced_attempted,
+                                    "status": "QR code detected but could not be decoded.",
+                                    "reason": "Stylized artwork or poor image quality (e.g. low contrast / noise) obscuring modules.",
+                                    "confidence": 0.80
+                                })
+                                results["indicators"].append({
+                                    "type": "qr_code_obscured",
+                                    "description": "QR Code detected but could not be decoded (obscured).",
+                                    "severity": "low"
+                                })
+                else:
+                    # Fallback to single QR detection
+                    retval, points = detector.detect(open_cv_image)
+                    if retval and points is not None and len(points) > 0:
+                        local_quality = self._evaluate_qr_image_quality(open_cv_image, points)
+                        data, straight_qrcode = detector.decode(open_cv_image, points)
+                        bbox_coords = points[0].tolist() if hasattr(points, "tolist") else points.tolist()
+                        
+                        enhanced_attempted = False
+                        if not data:
+                            enhanced_attempted = True
+                            data = self._enhance_and_decode(open_cv_image, points, detector)
+                            
+                        if data:
+                            classification = self._classify_qr_payload(data)
+                            results["facts"]["qr_codes"].append({
+                                "present": True,
+                                "decoded": True,
+                                "data": data,
+                                "payload_info": classification,
+                                "bbox": bbox_coords,
+                                "local_quality": local_quality,
+                                "error_correction_attempted": enhanced_attempted,
+                                "confidence": 0.95
+                            })
+                            results["indicators"].append({
+                                "type": "qr_code_detected",
+                                "description": f"QR Code ({classification['type']}) decoded successfully: '{data[:40]}...'",
+                                "severity": "low"
+                            })
+                        else:
+                            results["facts"]["qr_codes"].append({
+                                "present": True,
+                                "decoded": False,
+                                "bbox": bbox_coords,
+                                "local_quality": local_quality,
+                                "error_correction_attempted": enhanced_attempted,
+                                "status": "QR code detected but could not be decoded.",
+                                "reason": "Stylized artwork or poor image quality (e.g. low contrast / noise) obscuring modules.",
+                                "confidence": 0.80
+                            })
+                            results["indicators"].append({
+                                "type": "qr_code_obscured",
+                                "description": "QR Code detected but could not be decoded (obscured).",
+                                "severity": "low"
+                            })
             except Exception as e:
                 results["errors"].append({
                     "plugin": self.get_name(),

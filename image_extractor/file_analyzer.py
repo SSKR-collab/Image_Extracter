@@ -147,16 +147,28 @@ class FileAnalyzer(BaseAnalyzer):
                             is_image_header = True # not suspicious if file itself is zip
                     
                     if not is_image_header:
-                        embedded_detections.append({
-                            "signature_label": label,
-                            "offset": idx,
-                            "hex": sig.hex()
-                        })
-                        results["indicators"].append({
-                            "type": "embedded_signature",
-                            "description": f"Embedded {label} signature found at byte offset {idx}.",
-                            "severity": "high" if sig == b"MZ" else "medium"
-                        })
+                        is_valid_executable = True
+                        if sig == b"MZ":
+                            is_valid_executable = False
+                            # Verify if there is a valid PE header signature at the offset specified at 0x3C
+                            if len(content) >= idx + 0x40:
+                                pe_header_offset = int.from_bytes(content[idx + 0x3C : idx + 0x40], byteorder="little")
+                                if 0 < pe_header_offset < len(content) - idx - 4:
+                                    pe_sig = content[idx + pe_header_offset : idx + pe_header_offset + 4]
+                                    if pe_sig == b"PE\0\0":
+                                        is_valid_executable = True
+
+                        if is_valid_executable:
+                            embedded_detections.append({
+                                "signature_label": label,
+                                "offset": idx,
+                                "hex": sig.hex()
+                            })
+                            results["indicators"].append({
+                                "type": "embedded_signature",
+                                "description": f"Embedded {label} signature found at byte offset {idx}.",
+                                "severity": "high" if sig == b"MZ" else "medium"
+                            })
                     offset = idx + len(sig)
 
             results["facts"]["embedded_files"] = embedded_detections

@@ -38,12 +38,15 @@ class OcrEngine(BaseAnalyzer):
         base_path, _ = os.path.splitext(file_path)
         sidecar_ocr = base_path + ".ocr"
         sidecar_txt = base_path + ".txt"
+        sidecar_json = base_path + ".json"
         
         selected_sidecar = None
         if os.path.exists(sidecar_ocr):
             selected_sidecar = sidecar_ocr
         elif os.path.exists(sidecar_txt):
             selected_sidecar = sidecar_txt
+        elif os.path.exists(sidecar_json):
+            selected_sidecar = sidecar_json
 
         if selected_sidecar:
             try:
@@ -53,9 +56,31 @@ class OcrEngine(BaseAnalyzer):
                 # Check if sidecar is structured JSON
                 try:
                     json_data = json.loads(content)
-                    if isinstance(json_data, dict) and ("raw_text" in json_data or "words" in json_data):
-                        results["facts"]["raw_text"] = json_data.get("raw_text", "")
-                        results["facts"]["words"] = json_data.get("words", [])
+                    if isinstance(json_data, dict):
+                        raw_text = ""
+                        words_list = []
+                        
+                        # Support multiple key variations
+                        if "raw_text" in json_data:
+                            raw_text = json_data["raw_text"]
+                        elif "ocr_data" in json_data:
+                            if isinstance(json_data["ocr_data"], dict):
+                                raw_text = json_data["ocr_data"].get("raw_text", "")
+                                words_list = json_data["ocr_data"].get("words", [])
+                            else:
+                                raw_text = str(json_data["ocr_data"])
+                        elif "facts" in json_data and "raw_text" in json_data["facts"]:
+                            raw_text = json_data["facts"]["raw_text"]
+                            words_list = json_data["facts"].get("words", [])
+                            
+                        if "words" in json_data:
+                            words_list = json_data["words"]
+                            
+                        if raw_text or words_list:
+                            results["facts"]["raw_text"] = raw_text
+                            results["facts"]["words"] = words_list if words_list else self._mock_words_from_text(raw_text)
+                        else:
+                            raise ValueError()
                     else:
                         raise ValueError()
                 except Exception:

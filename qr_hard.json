@@ -1,0 +1,100 @@
+{
+  "raw_text": "TIGER HYDRATE\nPREMIUM QUALITY\nFIND THE QR CODE TO AVAIL\n$5 DISCOUNT\nOpen link\nQR TIGER",
+  "qr_codes": [
+    {
+      "present": true,
+      "decoded": true,
+      "data": "https://qrtiger.com/demo/scan-phone",
+      "bbox": [[450, 220], [600, 220], [600, 370], [450, 370]],
+      "status": "Decoded successfully",
+      "location_summary": "Phone screen (held in hand)",
+      "confidence": 0.99
+    },
+    {
+      "present": true,
+      "decoded": false,
+      "bbox": [[120, 150], [220, 150], [220, 250], [120, 250]],
+      "status": "Failed (low contrast / glare)",
+      "reason": "Uneven lighting and glossy package surface creates glare on the left pouch module matrix.",
+      "location_summary": "Left beverage pouch",
+      "confidence": 0.85
+    },
+    {
+      "present": true,
+      "decoded": false,
+      "bbox": [[700, 140], [800, 140], [800, 240], [700, 240]],
+      "status": "Failed (perspective skew)",
+      "reason": "Rotated placement and perspective angle of the middle beverage pouch obscures calibration modules.",
+      "location_summary": "Middle beverage pouch",
+      "confidence": 0.85
+    },
+    {
+      "present": true,
+      "decoded": false,
+      "bbox": [[1280, 160], [1380, 160], [1380, 260], [1280, 260]],
+      "status": "Failed (low resolution)",
+      "reason": "Deep background distance on the right beverage pouch leads to pixelation of modules.",
+      "location_summary": "Right beverage pouch",
+      "confidence": 0.80
+    }
+  ],
+  "objects": [
+    {
+      "label": "Smartphone",
+      "bbox": [400, 180, 250, 450],
+      "confidence": 0.98
+    },
+    {
+      "label": "Hand",
+      "bbox": [380, 350, 180, 250],
+      "confidence": 0.95
+    },
+    {
+      "label": "Beverage Pouch",
+      "bbox": [80, 80, 280, 500],
+      "confidence": 0.96
+    },
+    {
+      "label": "Beverage Pouch",
+      "bbox": [650, 70, 280, 510],
+      "confidence": 0.96
+    },
+    {
+      "label": "Beverage Pouch",
+      "bbox": [1230, 90, 280, 490],
+      "confidence": 0.94
+    },
+    {
+      "label": "Tiger Illustration",
+      "bbox": [150, 280, 150, 150],
+      "confidence": 0.90
+    },
+    {
+      "label": "Building",
+      "bbox": [0, 0, 1600, 800],
+      "confidence": 0.95
+    },
+    {
+      "label": "Windows",
+      "bbox": [900, 50, 300, 400],
+      "confidence": 0.92
+    }
+  ],
+  "caption": "A person scans QR codes on beverage advertisements displayed on a building.",
+  "scenic_attributes": {
+    "habitat": "savanna / grassland background poster on urban building",
+    "background": "building windows, open landscape advertisement",
+    "theme": "outdoor advertisement, marketing poster, commercial banner, product promotion",
+    "brand_recognition": "QR TIGER, TIGER HYDRATE",
+    "product_recognition": "beverage pouch, drink package"
+  },
+  "aesthetics": {
+    "genre": "commercial photography, landscape photograph, wildlife photography, outdoor daytime scene",
+    "dominant_colors": [
+      {"color": "Blue", "percentage": 30.0},
+      {"color": "Gray", "percentage": 25.0},
+      {"color": "White", "percentage": 20.0},
+      {"color": "Orange", "percentage": 15.0}
+    ]
+  }
+}
