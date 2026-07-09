@@ -1,0 +1,271 @@
+{
+    "schema_version": "1.0.0",
+    "metadata": {
+        "timestamp": "2026-07-09T18:06:40.612301+00:00",
+        "analyzer_capabilities": {
+            "active_plugins": [
+                "file_analyzer",
+                "stego_analyzer",
+                "visual_analyzer",
+                "ocr_engine",
+                "entity_nlp",
+                "doc_parser",
+                "qr_barcode",
+                "security_scanner"
+            ],
+            "missing_dependencies": []
+        }
+    },
+    "facts": {
+        "file_info": {
+            "file_name": "qr_hard.webp",
+            "file_path": "C:\\Users\\GANESH KUMAR\\Downloads\\Comparison\\Image_Extracter\\qr_hard.webp",
+            "size_bytes": 466912,
+            "size_formatted": "455.97 KB",
+            "created_time": "2026-07-09T18:05:27.422132+00:00",
+            "modified_time": "2026-07-09T18:05:35.774489+00:00",
+            "md5_hash": "a7421f3393b821f79edac0c17a8e9668",
+            "sha256_hash": "90308f0eb2d5aa943c09f9d4ca6591781689ef45411e0135f7a39525490af676"
+        },
+        "image_info": {
+            "format": "WEBP",
+            "width": 1600,
+            "height": 800,
+            "aspect_ratio": 2.0,
+            "aspect_ratio_string": "2:1",
+            "mode": "RGB",
+            "is_animated": false,
+            "frames": 1,
+            "perceptual_hashes": {
+                "ahash": "e8f0d0c083a72c33",
+                "dhash": "b6295af4d891a638"
+            }
+        },
+        "embedded_files": [
+            {
+                "signature_label": "Windows PE Executable / DLL",
+                "offset": 167356,
+                "hex": "4d5a"
+            },
+            {
+                "signature_label": "Windows PE Executable / DLL",
+                "offset": 259617,
+                "hex": "4d5a"
+            },
+            {
+                "signature_label": "Windows PE Executable / DLL",
+                "offset": 260678,
+                "hex": "4d5a"
+            },
+            {
+                "signature_label": "Windows PE Executable / DLL",
+                "offset": 339669,
+                "hex": "4d5a"
+            },
+            {
+                "signature_label": "Windows PE Executable / DLL",
+                "offset": 387356,
+                "hex": "4d5a"
+            },
+            {
+                "signature_label": "Windows PE Executable / DLL",
+                "offset": 453482,
+                "hex": "4d5a"
+            }
+        ],
+        "archive_details": null,
+        "file_entropy": 7.9995,
+        "pixel_lsb_entropy": 0.8464,
+        "visual_metadata": {
+            "caption": null,
+            "objects": [],
+            "scenic_attributes": {},
+            "aesthetics": {},
+            "dominant_colors": [
+                {
+                    "color": "White",
+                    "percentage": 31.6
+                },
+                {
+                    "color": "Gray",
+                    "percentage": 28.9
+                },
+                {
+                    "color": "Blue",
+                    "percentage": 12.5
+                }
+            ]
+        },
+        "image_quality": {
+            "sharpness_score": 16.29,
+            "exposure_assessment": "Well-exposed (Balanced)",
+            "noise_estimate": 8.09
+        },
+        "raw_text": "QREZTIG=ER ——",
+        "words": [
+            {
+                "text": "QREZTIG=ER",
+                "bbox": [
+                    1366,
+                    724,
+                    139,
+                    29
+                ],
+                "confidence": 0.06
+            },
+            {
+                "text": "——",
+                "bbox": [
+                    1462,
+                    771,
+                    138,
+                    29
+                ],
+                "confidence": 0.2
+            }
+        ],
+        "entities_summary": {
+            "person_count": 0,
+            "place_count": 0,
+            "quote_count": 0,
+            "proverb_count": 0
+        },
+        "paragraphs": [
+            {
+                "lines": [
+                    "QREZTIG=ER",
+                    "——"
+                ],
+                "text": "QREZTIG=ER ——"
+            }
+        ],
+        "sentences": [
+            "QREZTIG=ER ——"
+        ],
+        "typography": {
+            "indented_paragraphs_count": 1,
+            "uppercase_lines": [
+                "QREZTIG=ER"
+            ]
+        },
+        "page_structure": {
+            "content_boundaries": {
+                "top": 724,
+                "bottom": 800,
+                "left": 1366,
+                "right": 1600
+            },
+            "page_continuation_hyphenated": true
+        },
+        "statistics": {
+            "word_count": 2,
+            "line_count": 2,
+            "paragraph_count": 1,
+            "sentence_count": 1
+        },
+        "qr_codes": [],
+        "barcodes": [],
+        "secrets": [],
+        "suspicious_commands": [],
+        "urls": [],
+        "ips": [],
+        "yara_matches": []
+    },
+    "indicators": [
+        {
+            "type": "embedded_signature",
+            "description": "Embedded Windows PE Executable / DLL signature found at byte offset 167356.",
+            "severity": "high"
+        },
+        {
+            "type": "embedded_signature",
+            "description": "Embedded Windows PE Executable / DLL signature found at byte offset 259617.",
+            "severity": "high"
+        },
+        {
+            "type": "embedded_signature",
+            "description": "Embedded Windows PE Executable / DLL signature found at byte offset 260678.",
+            "severity": "high"
+        },
+        {
+            "type": "embedded_signature",
+            "description": "Embedded Windows PE Executable / DLL signature found at byte offset 339669.",
+            "severity": "high"
+        },
+        {
+            "type": "embedded_signature",
+            "description": "Embedded Windows PE Executable / DLL signature found at byte offset 387356.",
+            "severity": "high"
+        },
+        {
+            "type": "embedded_signature",
+            "description": "Embedded Windows PE Executable / DLL signature found at byte offset 453482.",
+            "severity": "high"
+        },
+        {
+            "type": "high_file_entropy",
+            "description": "Overall file entropy (7.9995) is extremely close to 8.0, indicating encryption or high compression.",
+            "severity": "medium"
+        }
+    ],
+    "assessments": {
+        "embedded_executable": {
+            "risk_level": "High",
+            "confidence": 0.95,
+            "reason": "Windows Executable signature (MZ) discovered inside the image byte stream."
+        },
+        "steganography_detected": {
+            "result": false,
+            "confidence": 0.9,
+            "reason": "No anomalies found in EOF metadata, PNG chunks, or overall byte structure."
+        },
+        "visual_analysis_summary": {
+            "description": "Basic image attributes and quality stats computed. Detailed labels require a sidecar metadata file.",
+            "confidence": 0.9
+        },
+        "language_detection": {
+            "language": "Unknown",
+            "confidence": 0.3
+        },
+        "document_classification": {
+            "document_type": "General Graphic / Image",
+            "document_confidence": 0.6,
+            "content_type": "Short Caption / Non-document",
+            "content_confidence": 0.5
+        },
+        "security_risk": {
+            "score": 60,
+            "level": "High",
+            "confidence": 0.9,
+            "reason_summary": [
+                "Embedded Windows PE Executable / DLL signature found at byte offset 453482. (+50)",
+                "Overall file entropy (7.9995) is extremely close to 8.0, indicating encryption or high compression. (+10)"
+            ]
+        }
+    },
+    "nlp_insights": {
+        "entities": [],
+        "dialogue": [],
+        "relationships": [],
+        "proverbs": [],
+        "sentiment": {
+            "emotion": "neutral",
+            "confidence": 0.7
+        }
+    },
+    "metrics": {
+        "total_execution_ms": 3078.06,
+        "bytes_processed": 466912,
+        "plugin_timings_ms": {
+            "file_analyzer": 89.37,
+            "stego_analyzer": 121.24,
+            "visual_analyzer": 108.94,
+            "ocr_engine": 2169.95,
+            "entity_nlp": 7.15,
+            "doc_parser": 0.71,
+            "qr_barcode": 126.31,
+            "security_scanner": 217.08
+        }
+    },
+    "errors": []
+}
