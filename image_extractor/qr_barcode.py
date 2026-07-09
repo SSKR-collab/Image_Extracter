@@ -21,10 +21,10 @@ class QrBarcode(BaseAnalyzer):
     """
     Scans the image for QR codes and barcodes.
     Pluggably integrates OpenCV QRCodeDetector and PyZbar.
-    Supports a two-stage QR scanning architecture with image enhancements
-    and semantic payload classification.
+    Supports a two-stage QR scanning architecture with image enhancements,
+    rotation sweeps, pyramid scaling, and semantic payload classification.
     """
-    VERSION = "1.3.0"
+    VERSION = "1.4.0"
     
     def analyze(self, file_path: str, img, context: dict) -> dict:
         results = {
@@ -138,53 +138,57 @@ class QrBarcode(BaseAnalyzer):
                 has_multi = hasattr(detector, "detectMulti") and hasattr(detector, "decodeMulti")
                 
                 if has_multi:
-                    # Attempt multi-QR detection
-                    retval, points = detector.detectMulti(open_cv_image)
-                    if retval and points is not None and len(points) > 0:
-                        success, decoded_info, _ = detector.decodeMulti(open_cv_image, points)
-                        for i, pts in enumerate(points):
-                            bbox_coords = pts.tolist() if hasattr(pts, "tolist") else pts
-                            local_quality = self._evaluate_qr_image_quality(open_cv_image, np.expand_dims(pts, axis=0))
+                    # Run Multi-QR sweep with pyramid and rotation fallbacks
+                    matches = self._detect_and_decode_with_fallback(open_cv_image, detector)
+                    
+                    for match in matches:
+                        pts = match["points"]
+                        data = match["data"]
+                        angle = match["angle"]
+                        
+                        bbox_coords = pts.tolist() if hasattr(pts, "tolist") else pts
+                        local_quality = self._evaluate_qr_image_quality(open_cv_image, np.expand_dims(pts, axis=0))
+                        
+                        enhanced_attempted = False
+                        if not data:
+                            enhanced_attempted = True
+                            data = self._enhance_and_decode(open_cv_image, np.expand_dims(pts, axis=0), detector)
                             
-                            data = decoded_info[i] if (success and i < len(decoded_info)) else ""
-                            enhanced_attempted = False
-                            if not data:
-                                enhanced_attempted = True
-                                data = self._enhance_and_decode(open_cv_image, np.expand_dims(pts, axis=0), detector)
-                                
-                            if data:
-                                classification = self._classify_qr_payload(data)
-                                results["facts"]["qr_codes"].append({
-                                    "present": True,
-                                    "decoded": True,
-                                    "data": data,
-                                    "payload_info": classification,
-                                    "bbox": bbox_coords,
-                                    "local_quality": local_quality,
-                                    "error_correction_attempted": enhanced_attempted,
-                                    "confidence": 0.95
-                                })
-                                results["indicators"].append({
-                                    "type": "qr_code_detected",
-                                    "description": f"QR Code ({classification['type']}) decoded successfully: '{data[:40]}...'",
-                                    "severity": "low"
-                                })
-                            else:
-                                results["facts"]["qr_codes"].append({
-                                    "present": True,
-                                    "decoded": False,
-                                    "bbox": bbox_coords,
-                                    "local_quality": local_quality,
-                                    "error_correction_attempted": enhanced_attempted,
-                                    "status": "QR code detected but could not be decoded.",
-                                    "reason": "Stylized artwork or poor image quality (e.g. low contrast / noise) obscuring modules.",
-                                    "confidence": 0.80
-                                })
-                                results["indicators"].append({
-                                    "type": "qr_code_obscured",
-                                    "description": "QR Code detected but could not be decoded (obscured).",
-                                    "severity": "low"
-                                })
+                        if data:
+                            classification = self._classify_qr_payload(data)
+                            results["facts"]["qr_codes"].append({
+                                "present": True,
+                                "decoded": True,
+                                "data": data,
+                                "payload_info": classification,
+                                "bbox": bbox_coords,
+                                "local_quality": local_quality,
+                                "error_correction_attempted": enhanced_attempted,
+                                "estimated_rotation": angle,
+                                "confidence": 0.95
+                            })
+                            results["indicators"].append({
+                                "type": "qr_code_detected",
+                                "description": f"QR Code ({classification['type']}) decoded successfully: '{data[:40]}...'",
+                                "severity": "low"
+                            })
+                        else:
+                            results["facts"]["qr_codes"].append({
+                                "present": True,
+                                "decoded": False,
+                                "bbox": bbox_coords,
+                                "local_quality": local_quality,
+                                "error_correction_attempted": enhanced_attempted,
+                                "estimated_rotation": angle,
+                                "status": "QR code detected but could not be decoded.",
+                                "reason": "Stylized artwork or poor image quality (e.g. low contrast / noise) obscuring modules.",
+                                "confidence": 0.80
+                            })
+                            results["indicators"].append({
+                                "type": "qr_code_obscured",
+                                "description": "QR Code detected but could not be decoded (obscured).",
+                                "severity": "low"
+                            })
                 else:
                     # Fallback to single QR detection
                     retval, points = detector.detect(open_cv_image)
@@ -247,6 +251,84 @@ class QrBarcode(BaseAnalyzer):
             })
 
         return results
+
+    def _detect_and_decode_with_fallback(self, open_cv_image, detector) -> list:
+        """
+        Runs a multi-QR detection sweep, trying scale upscaling pyramids
+        and 90/180/270 degree rotation angles when standard scans fail.
+        """
+        detected_codes = []
+        h, w = open_cv_image.shape[:2]
+        
+        # Helper to process raw detector results
+        def process_detections(pts_array, decoded_list, success_flag):
+            items = []
+            for i, pts in enumerate(pts_array):
+                data = decoded_list[i] if (success_flag and i < len(decoded_list)) else ""
+                items.append((pts, data))
+            return items
+        
+        # Pass 1: Standard Scan
+        retval, points = detector.detectMulti(open_cv_image)
+        if retval and points is not None and len(points) > 0:
+            success, decoded_info, _ = detector.decodeMulti(open_cv_image, points)
+            for pts, data in process_detections(points, decoded_info, success):
+                detected_codes.append({
+                    "points": pts,
+                    "data": data,
+                    "angle": 0
+                })
+            return detected_codes
+            
+        # Pass 2: Pyramid Scale-up (2x)
+        try:
+            scaled = cv2.resize(open_cv_image, (w * 2, h * 2), interpolation=cv2.INTER_CUBIC)
+            retval, points = detector.detectMulti(scaled)
+            if retval and points is not None and len(points) > 0:
+                success, decoded_info, _ = detector.decodeMulti(scaled, points)
+                for pts, data in process_detections(points, decoded_info, success):
+                    pts_orig = pts / 2.0
+                    detected_codes.append({
+                        "points": pts_orig,
+                        "data": data,
+                        "angle": 0
+                    })
+                return detected_codes
+        except Exception:
+            pass
+            
+        # Pass 3: Rotations (90, 180, 270)
+        for angle_type, angle_deg in [(cv2.ROTATE_90_CLOCKWISE, 90), (cv2.ROTATE_180, 180), (cv2.ROTATE_90_COUNTERCLOCKWISE, 270)]:
+            try:
+                rotated = cv2.rotate(open_cv_image, angle_type)
+                retval, points = detector.detectMulti(rotated)
+                if retval and points is not None and len(points) > 0:
+                    success, decoded_info, _ = detector.decodeMulti(rotated, points)
+                    for pts, data in process_detections(points, decoded_info, success):
+                        # Map coordinates back to original non-rotated canvas
+                        pts_orig = []
+                        for pt in pts:
+                            rx, ry = pt
+                            if angle_type == cv2.ROTATE_90_CLOCKWISE:
+                                ox = ry
+                                oy = h - rx
+                            elif angle_type == cv2.ROTATE_180:
+                                ox = w - rx
+                                oy = h - ry
+                            else: # ROTATE_90_COUNTERCLOCKWISE
+                                ox = w - ry
+                                oy = rx
+                            pts_orig.append([ox, oy])
+                        detected_codes.append({
+                            "points": np.array(pts_orig),
+                            "data": data,
+                            "angle": angle_deg
+                        })
+                    return detected_codes
+            except Exception:
+                pass
+                
+        return detected_codes
 
     def _enhance_and_decode(self, open_cv_image, points, detector) -> str:
         """
