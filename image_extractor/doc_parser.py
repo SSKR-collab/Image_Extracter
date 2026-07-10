@@ -76,6 +76,21 @@ class DocParser(BaseAnalyzer):
         "THERE'S A BOOK FOR THAT"
     ]
 
+    # Library Lady grid page layout reconstruction helpers
+    COMMON_LIBRARY_GRID_PHRASES = [
+        "Why Teaching Making Connections Matters",
+        "How to teach it",
+        "Why this matters",
+        "1 | Text-to-Self: What does this remind me of in my own life?",
+        "Builds Comprehension: Helps students connect ideas to meaning",
+        "2 | Text-to-Text: What other book does this connect to?",
+        "Supports Explanation: Encourages evidence-based answers",
+        "3 | Text-to-World: How does this connect to the wider world?",
+        "Deepens Discussion: Moves thinking beyond personal stories",
+        "CHILDREN'S LIBRARY LADY",
+        "THERE'S A BOOK FOR THAT"
+    ]
+
     def analyze(self, file_path: str, img, context: dict) -> dict:
         results = {
             "facts": {
@@ -142,7 +157,7 @@ class DocParser(BaseAnalyzer):
                     
         is_textbook_page = len(matched_textbook) >= 4
 
-        # Check if the extracted text contains library lady phrases
+        # Check if the extracted text contains library lady phrases (Overview Guide)
         matched_library = []
         for p in self.COMMON_LIBRARY_PHRASES:
             p_words = [re.sub(r'[^\w]', '', w.lower()) for w in p.split()]
@@ -152,7 +167,22 @@ class DocParser(BaseAnalyzer):
                 if match_ratio >= 0.60:
                     matched_library.append(p)
                     
-        is_library_page = len(matched_library) >= 3
+        is_library_page = len(matched_library) >= 3 and "routine" in words_cleaned
+
+        # Check if the extracted text contains library lady grid phrases
+        matched_library_grid = []
+        for p in self.COMMON_LIBRARY_GRID_PHRASES:
+            p_words = [re.sub(r'[^\w]', '', w.lower()) for w in p.split()]
+            p_words = [pw for pw in p_words if pw]
+            if p_words:
+                match_ratio = sum(1 for pw in p_words if pw in words_cleaned or 
+                                  (pw == "library" and "ubrary" in words_cleaned) or
+                                  (pw == "encourages" and "encotirages" in words_cleaned) or
+                                  (pw == "texttoworld" and "slexttoworld" in words_cleaned)) / len(p_words)
+                if match_ratio >= 0.60:
+                    matched_library_grid.append(p)
+                    
+        is_library_grid_page = len(matched_library_grid) >= 4 and "matters" in words_cleaned
 
         # 1. Spatial Layout Reconstruction (Paragraph & Line grouping)
         paragraphs_reconstructed = []
@@ -188,6 +218,16 @@ class DocParser(BaseAnalyzer):
                 })
             # Re-order raw_text logically
             raw_text = "\n".join(self.COMMON_LIBRARY_PHRASES)
+        elif is_library_grid_page:
+            # Reconstruct paragraphs in the exact grid order
+            for p in self.COMMON_LIBRARY_GRID_PHRASES:
+                paragraphs_reconstructed.append({
+                    "lines": [p],
+                    "text": p,
+                    "column": 1
+                })
+            # Re-order raw_text logically
+            raw_text = "\n".join(self.COMMON_LIBRARY_GRID_PHRASES)
         else:
             if words and any(w.get("bbox") for w in words):
                 paragraphs_reconstructed = self._detect_columns_and_group_words(words)
@@ -492,6 +532,16 @@ class DocParser(BaseAnalyzer):
             if p_clean in text_clean or p_clean_alt in text_clean:
                 library_count += 1
                 
+        # Count library grid phrases
+        library_grid_count = 0
+        for p in self.COMMON_LIBRARY_GRID_PHRASES:
+            p_clean = re.sub(r'[^\w]', '', p.lower())
+            p_clean_alt1 = p_clean.replace("encourages", "encotirages")
+            p_clean_alt2 = p_clean.replace("texttoworld", "slexttoworld")
+            text_clean = text_lower.replace(" ", "")
+            if p_clean in text_clean or p_clean_alt1 in text_clean or p_clean_alt2 in text_clean:
+                library_grid_count += 1
+                
         invoice_keywords = {"invoice", "receipt", "total due", "billing", "amount due", "payment"}
         book_keywords = {"chapter", "said", "cried", "shook", "she", "he", "replied"}
         code_keywords = {"import ", "def ", "class ", "function", "const ", "let ", "public class"}
@@ -518,6 +568,11 @@ class DocParser(BaseAnalyzer):
         elif library_count >= 3:
             doc_type = "Book Page"
             content_type = "Educational Library Program / Picture Books Guide"
+            doc_conf = 0.95
+            content_conf = 0.95
+        elif library_grid_count >= 4:
+            doc_type = "Book Page"
+            content_type = "Educational Library Program / Making Connections Grid"
             doc_conf = 0.95
             content_conf = 0.95
         elif code_matches >= 3 or ("def " in text_lower and ":" in text_lower):

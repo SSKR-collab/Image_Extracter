@@ -1,7 +1,7 @@
 {
     "schema_version": "1.0.0",
     "metadata": {
-        "timestamp": "2026-07-10T17:25:24.303864+00:00",
+        "timestamp": "2026-07-10T17:32:45.065064+00:00",
         "analyzer_capabilities": {
             "active_plugins": [
                 "ocr_engine",
@@ -11,249 +11,811 @@
         }
     },
     "facts": {
-        "raw_text": "Book Text-to-Self Teaching ideas, classroom — Text-to-Text CHILDREN'S questions, UBRARY Making LADY and — Text-to-World a simple routine\nConnections with\nPicture Books",
+        "raw_text": "(1) (3) 2 Why How What What How slext=to-World Teaching Text-to-Text Text-to-Self does to other does teach this this book remind connect does it me this Making to of CHILDREN'S THERE'S A BOOK LIBRARY Connections FOR L— THAT LADY ___ Why Builds Supports Helps Moves this students Comprehension to thinking Matters matters meaning Explanation connect beyond ideas\nthe in my wider own world? life? — x Encotirages personal evidence-based stories answers\nconnect to? .",
         "words": [
             {
-                "text": "Book",
+                "text": "(1)",
                 "bbox": [
-                    94,
-                    410,
-                    89,
-                    33
+                    50,
+                    263,
+                    135,
+                    135
+                ],
+                "confidence": 0.92
+            },
+            {
+                "text": "(3)",
+                "bbox": [
+                    50,
+                    767,
+                    127,
+                    138
                 ],
                 "confidence": 0.96
             },
             {
-                "text": "Text-to-Self",
+                "text": "2",
                 "bbox": [
-                    124,
-                    532,
-                    248,
-                    38
+                    100,
+                    554,
+                    29,
+                    59
                 ],
-                "confidence": 0.9
+                "confidence": 0.31
+            },
+            {
+                "text": "Why",
+                "bbox": [
+                    168,
+                    32,
+                    121,
+                    52
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "How",
+                "bbox": [
+                    230,
+                    157,
+                    86,
+                    34
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "What",
+                "bbox": [
+                    250,
+                    327,
+                    71,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "What",
+                "bbox": [
+                    264,
+                    571,
+                    68,
+                    43
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "How",
+                "bbox": [
+                    283,
+                    829,
+                    55,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "slext=to-World",
+                "bbox": [
+                    296,
+                    767,
+                    297,
+                    61
+                ],
+                "confidence": 0.0
             },
             {
                 "text": "Teaching",
                 "bbox": [
-                    138,
-                    48,
-                    489,
-                    104
+                    304,
+                    30,
+                    256,
+                    54
                 ],
                 "confidence": 0.96
-            },
-            {
-                "text": "ideas,",
-                "bbox": [
-                    198,
-                    410,
-                    105,
-                    41
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "classroom",
-                "bbox": [
-                    319,
-                    410,
-                    184,
-                    33
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "—",
-                "bbox": [
-                    390,
-                    541,
-                    42,
-                    21
-                ],
-                "confidence": 0.86
             },
             {
                 "text": "Text-to-Text",
                 "bbox": [
-                    452,
-                    534,
-                    251,
-                    36
+                    309,
+                    527,
+                    268,
+                    33
                 ],
-                "confidence": 0.91
+                "confidence": 0.9
             },
             {
-                "text": "CHILDREN'S",
+                "text": "Text-to-Self",
                 "bbox": [
-                    490,
-                    632,
-                    100,
-                    43
+                    315,
+                    272,
+                    257,
+                    40
                 ],
-                "confidence": 0.85
+                "confidence": 0.46
             },
             {
-                "text": "questions,",
+                "text": "does",
                 "bbox": [
-                    519,
-                    415,
-                    184,
-                    36
+                    332,
+                    327,
+                    60,
+                    22
                 ],
                 "confidence": 0.96
             },
             {
-                "text": "UBRARY",
+                "text": "to",
                 "bbox": [
-                    600,
-                    632,
+                    333,
+                    162,
+                    39,
+                    29
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "other",
+                "bbox": [
+                    346,
+                    575,
+                    72,
+                    31
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "does",
+                "bbox": [
+                    348,
+                    828,
+                    60,
+                    23
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "teach",
+                "bbox": [
+                    390,
+                    155,
+                    111,
+                    36
+                ],
+                "confidence": 0.94
+            },
+            {
+                "text": "this",
+                "bbox": [
+                    403,
+                    327,
+                    46,
+                    23
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "this",
+                "bbox": [
+                    419,
+                    828,
+                    46,
+                    23
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "book",
+                "bbox": [
+                    432,
+                    571,
                     58,
                     43
                 ],
-                "confidence": 0.87
+                "confidence": 0.95
             },
             {
-                "text": "Making",
+                "text": "remind",
                 "bbox": [
-                    668,
-                    48,
-                    389,
-                    104
+                    461,
+                    327,
+                    89,
+                    22
                 ],
-                "confidence": 0.96
+                "confidence": 0.95
             },
             {
-                "text": "LADY",
+                "text": "connect",
                 "bbox": [
-                    668,
-                    648,
-                    42,
-                    16
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "and",
-                "bbox": [
-                    719,
-                    410,
-                    72,
-                    33
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "—",
-                "bbox": [
-                    722,
-                    541,
-                    42,
-                    21
-                ],
-                "confidence": 0.74
-            },
-            {
-                "text": "Text-to-World",
-                "bbox": [
-                    784,
-                    532,
-                    291,
-                    38
-                ],
-                "confidence": 0.91
-            },
-            {
-                "text": "a",
-                "bbox": [
-                    804,
-                    424,
-                    22,
+                    476,
+                    832,
+                    101,
                     19
                 ],
                 "confidence": 0.96
             },
             {
-                "text": "simple",
+                "text": "does",
                 "bbox": [
-                    841,
-                    410,
-                    120,
-                    41
+                    503,
+                    576,
+                    55,
+                    29
+                ],
+                "confidence": 0.93
+            },
+            {
+                "text": "it",
+                "bbox": [
+                    522,
+                    161,
+                    25,
+                    29
+                ],
+                "confidence": 0.94
+            },
+            {
+                "text": "me",
+                "bbox": [
+                    562,
+                    336,
+                    37,
+                    13
                 ],
                 "confidence": 0.96
             },
             {
-                "text": "routine",
+                "text": "this",
                 "bbox": [
-                    976,
-                    415,
-                    132,
-                    28
+                    568,
+                    575,
+                    56,
+                    29
+                ],
+                "confidence": 0.91
+            },
+            {
+                "text": "Making",
+                "bbox": [
+                    573,
+                    25,
+                    198,
+                    60
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "to",
+                "bbox": [
+                    588,
+                    832,
+                    25,
+                    19
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "of",
+                "bbox": [
+                    610,
+                    327,
+                    27,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "CHILDREN'S",
+                "bbox": [
+                    631,
+                    973,
+                    129,
+                    19
+                ],
+                "confidence": 0.71
+            },
+            {
+                "text": "THERE'S",
+                "bbox": [
+                    705,
+                    998,
+                    45,
+                    11
+                ],
+                "confidence": 0.63
+            },
+            {
+                "text": "A",
+                "bbox": [
+                    756,
+                    998,
+                    7,
+                    10
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "BOOK",
+                "bbox": [
+                    769,
+                    998,
+                    39,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "LIBRARY",
+                "bbox": [
+                    787,
+                    973,
+                    91,
+                    20
                 ],
                 "confidence": 0.96
             },
             {
                 "text": "Connections",
                 "bbox": [
-                    120,
-                    156,
-                    684,
-                    86
+                    788,
+                    30,
+                    348,
+                    49
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "FOR",
+                "bbox": [
+                    814,
+                    998,
+                    24,
+                    11
                 ],
                 "confidence": 0.95
             },
             {
-                "text": "with",
+                "text": "L—",
                 "bbox": [
-                    838,
+                    835,
+                    588,
+                    49,
+                    17
+                ],
+                "confidence": 0.0
+            },
+            {
+                "text": "THAT",
+                "bbox": [
+                    843,
+                    998,
+                    30,
+                    11
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "LADY",
+                "bbox": [
+                    888,
+                    973,
+                    59,
+                    20
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "___",
+                "bbox": [
+                    898,
+                    318,
+                    6,
+                    4
+                ],
+                "confidence": 0.31
+            },
+            {
+                "text": "Why",
+                "bbox": [
+                    957,
+                    155,
+                    92,
+                    44
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "Builds",
+                "bbox": [
+                    979,
+                    276,
+                    121,
+                    51
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Supports",
+                "bbox": [
+                    998,
+                    547,
+                    178,
+                    41
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Helps",
+                "bbox": [
+                    1005,
+                    326,
+                    72,
+                    28
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Moves",
+                "bbox": [
+                    1052,
+                    828,
+                    82,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "this",
+                "bbox": [
+                    1066,
+                    155,
+                    72,
+                    36
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "students",
+                "bbox": [
+                    1089,
+                    326,
+                    110,
+                    23
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Comprehension",
+                "bbox": [
+                    1110,
+                    275,
+                    305,
+                    43
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "to",
+                "bbox": [
+                    1122,
+                    369,
+                    25,
+                    18
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "thinking",
+                "bbox": [
+                    1145,
+                    827,
+                    107,
+                    29
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Matters",
+                "bbox": [
+                    1151,
+                    32,
+                    217,
+                    44
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "matters",
+                "bbox": [
+                    1157,
+                    162,
                     157,
-                    240,
-                    85
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "Picture",
-                "bbox": [
-                    224,
-                    266,
-                    387,
-                    85
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "Books",
-                "bbox": [
-                    650,
-                    272,
-                    330,
-                    79
+                    29
                 ],
                 "confidence": 0.95
+            },
+            {
+                "text": "meaning",
+                "bbox": [
+                    1159,
+                    368,
+                    112,
+                    25
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Explanation",
+                "bbox": [
+                    1189,
+                    546,
+                    238,
+                    42
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "connect",
+                "bbox": [
+                    1211,
+                    330,
+                    100,
+                    19
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "beyond",
+                "bbox": [
+                    1264,
+                    827,
+                    95,
+                    28
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "ideas",
+                "bbox": [
+                    1323,
+                    326,
+                    68,
+                    23
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "the",
+                "bbox": [
+                    339,
+                    867,
+                    42,
+                    23
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "in",
+                "bbox": [
+                    346,
+                    369,
+                    21,
+                    19
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "my",
+                "bbox": [
+                    380,
+                    375,
+                    36,
+                    19
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "wider",
+                "bbox": [
+                    391,
+                    867,
+                    71,
+                    23
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "own",
+                "bbox": [
+                    427,
+                    375,
+                    49,
+                    13
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "world?",
+                "bbox": [
+                    472,
+                    867,
+                    84,
+                    23
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "life?",
+                "bbox": [
+                    488,
+                    366,
+                    54,
+                    22
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "—",
+                "bbox": [
+                    818,
+                    611,
+                    64,
+                    13
+                ],
+                "confidence": 0.21
+            },
+            {
+                "text": "x",
+                "bbox": [
+                    879,
+                    368,
+                    13,
+                    19
+                ],
+                "confidence": 0.12
+            },
+            {
+                "text": "Encotirages",
+                "bbox": [
+                    974,
+                    597,
+                    151,
+                    27
+                ],
+                "confidence": 0.85
+            },
+            {
+                "text": "personal",
+                "bbox": [
+                    1101,
+                    865,
+                    112,
+                    29
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "evidence-based",
+                "bbox": [
+                    1136,
+                    596,
+                    203,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "stories",
+                "bbox": [
+                    1224,
+                    869,
+                    85,
+                    20
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "answers",
+                "bbox": [
+                    1351,
+                    605,
+                    102,
+                    14
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "connect",
+                "bbox": [
+                    368,
+                    621,
+                    101,
+                    18
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "to?",
+                "bbox": [
+                    480,
+                    618,
+                    39,
+                    22
+                ],
+                "confidence": 0.83
+            },
+            {
+                "text": ".",
+                "bbox": [
+                    1453,
+                    622,
+                    3,
+                    2
+                ],
+                "confidence": 0.04
             }
         ],
         "paragraphs": [
             {
                 "lines": [
-                    "Teaching Making Connections with Picture Books"
+                    "Why Teaching Making Connections Matters"
                 ],
-                "text": "Teaching Making Connections with Picture Books",
+                "text": "Why Teaching Making Connections Matters",
                 "column": 1
             },
             {
                 "lines": [
-                    "Book ideas, classroom questions, and a simple routine"
+                    "How to teach it"
                 ],
-                "text": "Book ideas, classroom questions, and a simple routine",
+                "text": "How to teach it",
                 "column": 1
             },
             {
                 "lines": [
-                    "Text-to-Self → Text-to-Text → Text-to-World"
+                    "Why this matters"
                 ],
-                "text": "Text-to-Self → Text-to-Text → Text-to-World",
+                "text": "Why this matters",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "1 | Text-to-Self: What does this remind me of in my own life?"
+                ],
+                "text": "1 | Text-to-Self: What does this remind me of in my own life?",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Builds Comprehension: Helps students connect ideas to meaning"
+                ],
+                "text": "Builds Comprehension: Helps students connect ideas to meaning",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "2 | Text-to-Text: What other book does this connect to?"
+                ],
+                "text": "2 | Text-to-Text: What other book does this connect to?",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Supports Explanation: Encourages evidence-based answers"
+                ],
+                "text": "Supports Explanation: Encourages evidence-based answers",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "3 | Text-to-World: How does this connect to the wider world?"
+                ],
+                "text": "3 | Text-to-World: How does this connect to the wider world?",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Deepens Discussion: Moves thinking beyond personal stories"
+                ],
+                "text": "Deepens Discussion: Moves thinking beyond personal stories",
                 "column": 1
             },
             {
@@ -272,10 +834,13 @@
             }
         ],
         "sentences": [
-            "Teaching Making Connections with Picture Books\nBook ideas, classroom questions, and a simple routine\nText-to-Self → Text-to-Text → Text-to-World\nCHILDREN'S LIBRARY LADY\nTHERE'S A BOOK FOR THAT"
+            "Why Teaching Making Connections Matters\nHow to teach it\nWhy this matters\n1 | Text-to-Self: What does this remind me of in my own life?",
+            "Builds Comprehension: Helps students connect ideas to meaning\n2 | Text-to-Text: What other book does this connect to?",
+            "Supports Explanation: Encourages evidence-based answers\n3 | Text-to-World: How does this connect to the wider world?",
+            "Deepens Discussion: Moves thinking beyond personal stories\nCHILDREN'S LIBRARY LADY\nTHERE'S A BOOK FOR THAT"
         ],
         "typography": {
-            "indented_paragraphs_count": 4,
+            "indented_paragraphs_count": 8,
             "uppercase_lines": [
                 "CHILDREN'S LIBRARY LADY",
                 "THERE'S A BOOK FOR THAT"
@@ -283,25 +848,25 @@
         },
         "page_structure": {
             "content_boundaries": {
-                "top": 48,
-                "bottom": 675,
-                "left": 94,
-                "right": 1108
+                "top": 25,
+                "bottom": 1009,
+                "left": 50,
+                "right": 1456
             },
             "page_continuation_hyphenated": false
         },
         "statistics": {
-            "word_count": 27,
-            "line_count": 5,
-            "paragraph_count": 5,
-            "sentence_count": 1
+            "word_count": 74,
+            "line_count": 11,
+            "paragraph_count": 11,
+            "sentence_count": 4
         }
     },
     "indicators": [],
     "assessments": {
         "language_detection": {
             "language": "English (en)",
-            "confidence": 0.99
+            "confidence": 0.946
         },
         "document_classification": {
             "document_type": "Standard Printed Document Page",
@@ -311,11 +876,11 @@
         }
     },
     "metrics": {
-        "total_execution_ms": 1495.95,
-        "bytes_processed": 50304,
+        "total_execution_ms": 1945.69,
+        "bytes_processed": 73332,
         "plugin_timings_ms": {
-            "ocr_engine": 1420.27,
-            "doc_parser": 1.46
+            "ocr_engine": 1863.8,
+            "doc_parser": 1.75
         }
     },
     "errors": []
