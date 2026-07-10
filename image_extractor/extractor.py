@@ -4,33 +4,20 @@ from PIL import Image
 from image_extractor.utils import Timer
 
 # Import default plugins
-from image_extractor.file_analyzer import FileAnalyzer
-from image_extractor.stego_analyzer import StegoAnalyzer
 from image_extractor.ocr_engine import OcrEngine
 from image_extractor.doc_parser import DocParser
-from image_extractor.entity_nlp import EntityNlp
-from image_extractor.qr_barcode import QrBarcode
-from image_extractor.security_scanner import SecurityScanner
-from image_extractor.visual_analyzer import VisualAnalyzer
 
 
 class ImageInfoExtractor:
     """
-    Coordinator class that manages a plugin pipeline to perform basic metadata, 
-    forensic steganography, OCR text recognition, named entity NLP, 
-    and threat security audits.
+    Coordinator class that manages a plugin pipeline to perform
+    robust OCR text extraction and visual document layout parsing.
     """
     SCHEMA_VERSION = "1.0.0"
 
     DEFAULT_PLUGINS = [
-        FileAnalyzer,
-        StegoAnalyzer,
-        VisualAnalyzer,
         OcrEngine,
-        EntityNlp,
-        DocParser,
-        QrBarcode,
-        SecurityScanner # SecurityScanner runs last to aggregate previous indicators
+        DocParser
     ]
 
     def __init__(self, file_path: str, config: dict = None):
@@ -55,7 +42,7 @@ class ImageInfoExtractor:
 
     def extract_all(self) -> dict:
         """
-        Executes all active plugin analyzers in sequence, measuring resource metrics
+        Executes active plugins in sequence, measuring resource metrics
         and aggregating findings under a versioned JSON schema.
         """
         total_timer = Timer()
@@ -73,7 +60,6 @@ class ImageInfoExtractor:
                 "facts": {},
                 "indicators": [],
                 "assessments": {},
-                "nlp_insights": {},
                 "metrics": {
                     "total_execution_ms": 0.0,
                     "bytes_processed": os.path.getsize(self.file_path),
@@ -82,7 +68,7 @@ class ImageInfoExtractor:
                 "errors": []
             }
 
-            # 2. Try loading the image using Pillow (optional for some plugins, mandatory for others)
+            # 2. Load the image using Pillow
             img = None
             try:
                 img = Image.open(self.file_path)
@@ -90,7 +76,7 @@ class ImageInfoExtractor:
                 results["errors"].append({
                     "plugin": "core_loader",
                     "severity": "warning",
-                    "message": f"Failed to load image via Pillow: {str(e)}. Some visual scans will be bypassed."
+                    "message": f"Failed to load image via Pillow: {str(e)}."
                 })
 
             # 3. Execute Plugins in order
@@ -152,14 +138,6 @@ class ImageInfoExtractor:
         if "assessments" in source and isinstance(source["assessments"], dict):
             target["assessments"].update(source["assessments"])
 
-        # 4. Merge NLP Insights
-        if "nlp_insights" in source and isinstance(source["nlp_insights"], dict):
-            for k, v in source["nlp_insights"].items():
-                if k in target["nlp_insights"] and isinstance(target["nlp_insights"][k], list) and isinstance(v, list):
-                    target["nlp_insights"][k].extend(v)
-                else:
-                    target["nlp_insights"][k] = v
-
-        # 5. Merge Errors
+        # 4. Merge Errors
         if "errors" in source and isinstance(source["errors"], list):
             target["errors"].extend(source["errors"])
