@@ -1,7 +1,7 @@
 {
     "schema_version": "1.0.0",
     "metadata": {
-        "timestamp": "2026-07-10T17:32:45.065064+00:00",
+        "timestamp": "2026-07-10T17:39:38.762329+00:00",
         "analyzer_capabilities": {
             "active_plugins": [
                 "ocr_engine",
@@ -11,876 +11,643 @@
         }
     },
     "facts": {
-        "raw_text": "(1) (3) 2 Why How What What How slext=to-World Teaching Text-to-Text Text-to-Self does to other does teach this this book remind connect does it me this Making to of CHILDREN'S THERE'S A BOOK LIBRARY Connections FOR L— THAT LADY ___ Why Builds Supports Helps Moves this students Comprehension to thinking Matters matters meaning Explanation connect beyond ideas\nthe in my wider own world? life? — x Encotirages personal evidence-based stories answers\nconnect to? .",
+        "raw_text": "+ Chapter Picture Middle Books Grade Type Early Age 6-10 8-12 Age is Groups | Approx. 20.000- 50.000 5.000- 45.000 ‘Books | Simple Illustrated Short illustrations deeper Complex Sturdy for Key chapters, sentences, themes pages, stories, plots, for +\nReaders Books Range Word read-aloud Characteristics easy simple support vocabulary text, appeal\nCount basic concepts",
         "words": [
             {
-                "text": "(1)",
+                "text": "+",
                 "bbox": [
-                    50,
-                    263,
-                    135,
-                    135
+                    46,
+                    959,
+                    21,
+                    24
                 ],
-                "confidence": 0.92
+                "confidence": 0.75
             },
             {
-                "text": "(3)",
+                "text": "Chapter",
                 "bbox": [
-                    50,
-                    767,
-                    127,
-                    138
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "2",
-                "bbox": [
-                    100,
-                    554,
-                    29,
-                    59
-                ],
-                "confidence": 0.31
-            },
-            {
-                "text": "Why",
-                "bbox": [
-                    168,
-                    32,
-                    121,
-                    52
+                    54,
+                    717,
+                    101,
+                    36
                 ],
                 "confidence": 0.96
             },
             {
-                "text": "How",
+                "text": "Picture",
                 "bbox": [
-                    230,
-                    157,
-                    86,
-                    34
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "What",
-                "bbox": [
-                    250,
-                    327,
-                    71,
+                    60,
+                    507,
+                    88,
                     22
                 ],
                 "confidence": 0.96
             },
             {
-                "text": "What",
+                "text": "Middle",
+                "bbox": [
+                    60,
+                    839,
+                    89,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Books",
+                "bbox": [
+                    66,
+                    753,
+                    77,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Grade",
+                "bbox": [
+                    67,
+                    870,
+                    75,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Type",
+                "bbox": [
+                    72,
+                    276,
+                    62,
+                    26
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Early",
+                "bbox": [
+                    72,
+                    614,
+                    65,
+                    27
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "Age",
+                "bbox": [
+                    136,
+                    44,
+                    110,
+                    91
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "6-10",
+                "bbox": [
+                    203,
+                    738,
+                    55,
+                    21
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "8-12",
+                "bbox": [
+                    205,
+                    856,
+                    53,
+                    21
+                ],
+                "confidence": 0.9
+            },
+            {
+                "text": "Age",
+                "bbox": [
+                    206,
+                    265,
+                    49,
+                    26
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "is",
+                "bbox": [
+                    217,
+                    864,
+                    16,
+                    37
+                ],
+                "confidence": 0.62
+            },
+            {
+                "text": "Groups",
                 "bbox": [
                     264,
-                    571,
-                    68,
-                    43
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "How",
-                "bbox": [
-                    283,
-                    829,
-                    55,
-                    22
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "slext=to-World",
-                "bbox": [
-                    296,
-                    767,
-                    297,
-                    61
-                ],
-                "confidence": 0.0
-            },
-            {
-                "text": "Teaching",
-                "bbox": [
-                    304,
-                    30,
-                    256,
+                    72,
+                    196,
                     54
                 ],
                 "confidence": 0.96
             },
             {
-                "text": "Text-to-Text",
+                "text": "|",
                 "bbox": [
-                    309,
-                    527,
-                    268,
-                    33
+                    275,
+                    734,
+                    13,
+                    46
                 ],
-                "confidence": 0.9
+                "confidence": 0.84
             },
             {
-                "text": "Text-to-Self",
+                "text": "Approx.",
                 "bbox": [
-                    315,
-                    272,
-                    257,
-                    40
-                ],
-                "confidence": 0.46
-            },
-            {
-                "text": "does",
-                "bbox": [
-                    332,
-                    327,
-                    60,
-                    22
+                    300,
+                    258,
+                    97,
+                    26
                 ],
                 "confidence": 0.96
             },
             {
-                "text": "to",
+                "text": "20.000-",
                 "bbox": [
-                    333,
-                    162,
-                    39,
-                    29
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "other",
-                "bbox": [
-                    346,
-                    575,
-                    72,
-                    31
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "does",
-                "bbox": [
-                    348,
-                    828,
-                    60,
-                    23
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "teach",
-                "bbox": [
-                    390,
-                    155,
-                    111,
-                    36
-                ],
-                "confidence": 0.94
-            },
-            {
-                "text": "this",
-                "bbox": [
-                    403,
-                    327,
-                    46,
-                    23
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "this",
-                "bbox": [
-                    419,
-                    828,
-                    46,
-                    23
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "book",
-                "bbox": [
-                    432,
-                    571,
-                    58,
-                    43
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "remind",
-                "bbox": [
-                    461,
-                    327,
-                    89,
-                    22
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "connect",
-                "bbox": [
-                    476,
-                    832,
+                    302,
+                    837,
                     101,
-                    19
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "does",
-                "bbox": [
-                    503,
-                    576,
-                    55,
-                    29
-                ],
-                "confidence": 0.93
-            },
-            {
-                "text": "it",
-                "bbox": [
-                    522,
-                    161,
-                    25,
-                    29
-                ],
-                "confidence": 0.94
-            },
-            {
-                "text": "me",
-                "bbox": [
-                    562,
-                    336,
-                    37,
-                    13
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "this",
-                "bbox": [
-                    568,
-                    575,
-                    56,
-                    29
+                    21
                 ],
                 "confidence": 0.91
             },
             {
-                "text": "Making",
+                "text": "50.000",
                 "bbox": [
-                    573,
-                    25,
-                    198,
-                    60
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "to",
-                "bbox": [
-                    588,
-                    832,
-                    25,
-                    19
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "of",
-                "bbox": [
-                    610,
-                    327,
-                    27,
-                    22
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "CHILDREN'S",
-                "bbox": [
-                    631,
-                    973,
-                    129,
-                    19
-                ],
-                "confidence": 0.71
-            },
-            {
-                "text": "THERE'S",
-                "bbox": [
-                    705,
-                    998,
-                    45,
-                    11
-                ],
-                "confidence": 0.63
-            },
-            {
-                "text": "A",
-                "bbox": [
-                    756,
-                    998,
-                    7,
-                    10
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "BOOK",
-                "bbox": [
-                    769,
-                    998,
-                    39,
-                    11
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "LIBRARY",
-                "bbox": [
-                    787,
-                    973,
-                    91,
-                    20
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "Connections",
-                "bbox": [
-                    788,
-                    30,
-                    348,
-                    49
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "FOR",
-                "bbox": [
-                    814,
-                    998,
-                    24,
-                    11
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "L—",
-                "bbox": [
-                    835,
-                    588,
-                    49,
-                    17
-                ],
-                "confidence": 0.0
-            },
-            {
-                "text": "THAT",
-                "bbox": [
-                    843,
-                    998,
-                    30,
-                    11
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "LADY",
-                "bbox": [
-                    888,
-                    973,
-                    59,
-                    20
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "___",
-                "bbox": [
-                    898,
-                    318,
-                    6,
-                    4
-                ],
-                "confidence": 0.31
-            },
-            {
-                "text": "Why",
-                "bbox": [
-                    957,
-                    155,
-                    92,
-                    44
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "Builds",
-                "bbox": [
-                    979,
-                    276,
-                    121,
-                    51
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "Supports",
-                "bbox": [
-                    998,
-                    547,
-                    178,
-                    41
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "Helps",
-                "bbox": [
-                    1005,
-                    326,
-                    72,
-                    28
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "Moves",
-                "bbox": [
-                    1052,
-                    828,
-                    82,
-                    22
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "this",
-                "bbox": [
-                    1066,
-                    155,
-                    72,
-                    36
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "students",
-                "bbox": [
-                    1089,
-                    326,
-                    110,
-                    23
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "Comprehension",
-                "bbox": [
-                    1110,
-                    275,
-                    305,
-                    43
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "to",
-                "bbox": [
-                    1122,
-                    369,
-                    25,
-                    18
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "thinking",
-                "bbox": [
-                    1145,
-                    827,
-                    107,
-                    29
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "Matters",
-                "bbox": [
-                    1151,
-                    32,
-                    217,
-                    44
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "matters",
-                "bbox": [
-                    1157,
-                    162,
-                    157,
-                    29
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "meaning",
-                "bbox": [
-                    1159,
-                    368,
-                    112,
-                    25
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "Explanation",
-                "bbox": [
-                    1189,
-                    546,
-                    238,
-                    42
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "connect",
-                "bbox": [
-                    1211,
-                    330,
-                    100,
-                    19
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "beyond",
-                "bbox": [
-                    1264,
-                    827,
-                    95,
-                    28
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "ideas",
-                "bbox": [
-                    1323,
-                    326,
-                    68,
-                    23
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "the",
-                "bbox": [
-                    339,
+                    307,
                     867,
-                    42,
-                    23
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "in",
-                "bbox": [
-                    346,
-                    369,
-                    21,
-                    19
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "my",
-                "bbox": [
-                    380,
-                    375,
-                    36,
-                    19
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "wider",
-                "bbox": [
-                    391,
-                    867,
-                    71,
-                    23
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "own",
-                "bbox": [
-                    427,
-                    375,
-                    49,
-                    13
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "world?",
-                "bbox": [
-                    472,
-                    867,
-                    84,
-                    23
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "life?",
-                "bbox": [
-                    488,
-                    366,
-                    54,
-                    22
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "—",
-                "bbox": [
-                    818,
-                    611,
-                    64,
-                    13
-                ],
-                "confidence": 0.21
-            },
-            {
-                "text": "x",
-                "bbox": [
-                    879,
-                    368,
-                    13,
-                    19
-                ],
-                "confidence": 0.12
-            },
-            {
-                "text": "Encotirages",
-                "bbox": [
-                    974,
-                    597,
-                    151,
-                    27
-                ],
-                "confidence": 0.85
-            },
-            {
-                "text": "personal",
-                "bbox": [
-                    1101,
-                    865,
-                    112,
-                    29
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "evidence-based",
-                "bbox": [
-                    1136,
-                    596,
-                    203,
-                    22
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "stories",
-                "bbox": [
-                    1224,
-                    869,
                     85,
                     20
                 ],
                 "confidence": 0.96
             },
             {
-                "text": "answers",
+                "text": "5.000-",
                 "bbox": [
-                    1351,
-                    605,
-                    102,
-                    14
+                    308,
+                    719,
+                    83,
+                    21
                 ],
-                "confidence": 0.95
+                "confidence": 0.91
             },
             {
-                "text": "connect",
+                "text": "45.000",
                 "bbox": [
-                    368,
-                    621,
-                    101,
-                    18
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "to?",
-                "bbox": [
-                    480,
-                    618,
-                    39,
-                    22
+                    309,
+                    749,
+                    80,
+                    21
                 ],
                 "confidence": 0.83
             },
             {
-                "text": ".",
+                "text": "‘Books",
                 "bbox": [
-                    1453,
-                    622,
-                    3,
-                    2
+                    385,
+                    132,
+                    180,
+                    52
                 ],
-                "confidence": 0.04
+                "confidence": 0.74
+            },
+            {
+                "text": "|",
+                "bbox": [
+                    415,
+                    833,
+                    12,
+                    36
+                ],
+                "confidence": 0.93
+            },
+            {
+                "text": "Simple",
+                "bbox": [
+                    435,
+                    616,
+                    75,
+                    27
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Illustrated",
+                "bbox": [
+                    436,
+                    506,
+                    112,
+                    22
+                ],
+                "confidence": 0.93
+            },
+            {
+                "text": "Short",
+                "bbox": [
+                    448,
+                    717,
+                    60,
+                    21
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "illustrations",
+                "bbox": [
+                    449,
+                    746,
+                    131,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "deeper",
+                "bbox": [
+                    450,
+                    867,
+                    76,
+                    28
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Complex",
+                "bbox": [
+                    451,
+                    838,
+                    98,
+                    27
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "Sturdy",
+                "bbox": [
+                    454,
+                    373,
+                    76,
+                    26
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "for",
+                "bbox": [
+                    470,
+                    48,
+                    79,
+                    67
+                ],
+                "confidence": 0.97
+            },
+            {
+                "text": "Key",
+                "bbox": [
+                    508,
+                    258,
+                    48,
+                    26
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "chapters,",
+                "bbox": [
+                    516,
+                    717,
+                    101,
+                    27
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "sentences,",
+                "bbox": [
+                    517,
+                    620,
+                    114,
+                    21
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "themes",
+                "bbox": [
+                    533,
+                    868,
+                    84,
+                    21
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "pages,",
+                "bbox": [
+                    540,
+                    379,
+                    71,
+                    21
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "stories,",
+                "bbox": [
+                    557,
+                    507,
+                    79,
+                    25
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "plots,",
+                "bbox": [
+                    557,
+                    838,
+                    60,
+                    27
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "for",
+                "bbox": [
+                    588,
+                    746,
+                    31,
+                    21
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "+",
+                "bbox": [
+                    617,
+                    952,
+                    25,
+                    27
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "Readers",
+                "bbox": [
+                    54,
+                    645,
+                    100,
+                    23
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Books",
+                "bbox": [
+                    65,
+                    538,
+                    78,
+                    23
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Range",
+                "bbox": [
+                    193,
+                    294,
+                    76,
+                    26
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Word",
+                "bbox": [
+                    315,
+                    284,
+                    68,
+                    23
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "read-aloud",
+                "bbox": [
+                    437,
+                    536,
+                    116,
+                    22
+                ],
+                "confidence": 0.92
+            },
+            {
+                "text": "Characteristics",
+                "bbox": [
+                    440,
+                    287,
+                    185,
+                    23
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "easy",
+                "bbox": [
+                    446,
+                    653,
+                    48,
+                    20
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "simple",
+                "bbox": [
+                    467,
+                    401,
+                    75,
+                    27
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "support",
+                "bbox": [
+                    489,
+                    779,
+                    87,
+                    24
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "vocabulary",
+                "bbox": [
+                    501,
+                    646,
+                    121,
+                    27
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "text,",
+                "bbox": [
+                    550,
+                    405,
+                    51,
+                    21
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "appeal",
+                "bbox": [
+                    562,
+                    537,
+                    72,
+                    27
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Count",
+                "bbox": [
+                    311,
+                    312,
+                    76,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "basic",
+                "bbox": [
+                    451,
+                    430,
+                    55,
+                    21
+                ],
+                "confidence": 0.97
+            },
+            {
+                "text": "concepts",
+                "bbox": [
+                    515,
+                    434,
+                    101,
+                    23
+                ],
+                "confidence": 0.96
             }
         ],
         "paragraphs": [
             {
                 "lines": [
-                    "Why Teaching Making Connections Matters"
+                    "Age Groups for Childrens Books"
                 ],
-                "text": "Why Teaching Making Connections Matters",
+                "text": "Age Groups for Childrens Books",
                 "column": 1
             },
             {
                 "lines": [
-                    "How to teach it"
+                    "Type Age Range Approx. Word Count Key Characteristics"
                 ],
-                "text": "How to teach it",
+                "text": "Type Age Range Approx. Word Count Key Characteristics",
                 "column": 1
             },
             {
                 "lines": [
-                    "Why this matters"
+                    "Board Books 0–3 0–200 Sturdy pages, simple text, basic concepts"
                 ],
-                "text": "Why this matters",
+                "text": "Board Books 0–3 0–200 Sturdy pages, simple text, basic concepts",
                 "column": 1
             },
             {
                 "lines": [
-                    "1 | Text-to-Self: What does this remind me of in my own life?"
+                    "Picture Books 3–7 500–1.000 Illustrated stories, read-aloud appeal"
                 ],
-                "text": "1 | Text-to-Self: What does this remind me of in my own life?",
+                "text": "Picture Books 3–7 500–1.000 Illustrated stories, read-aloud appeal",
                 "column": 1
             },
             {
                 "lines": [
-                    "Builds Comprehension: Helps students connect ideas to meaning"
+                    "Early Readers 5–9 500–2.500 Simple sentences, easy vocabulary"
                 ],
-                "text": "Builds Comprehension: Helps students connect ideas to meaning",
+                "text": "Early Readers 5–9 500–2.500 Simple sentences, easy vocabulary",
                 "column": 1
             },
             {
                 "lines": [
-                    "2 | Text-to-Text: What other book does this connect to?"
+                    "Chapter Books 6–10 5.000–15.000 Short chapters, illustrations for support"
                 ],
-                "text": "2 | Text-to-Text: What other book does this connect to?",
+                "text": "Chapter Books 6–10 5.000–15.000 Short chapters, illustrations for support",
                 "column": 1
             },
             {
                 "lines": [
-                    "Supports Explanation: Encourages evidence-based answers"
+                    "Middle Grade 8–12 20.000–50.000 Complex plots, deeper themes"
                 ],
-                "text": "Supports Explanation: Encourages evidence-based answers",
-                "column": 1
-            },
-            {
-                "lines": [
-                    "3 | Text-to-World: How does this connect to the wider world?"
-                ],
-                "text": "3 | Text-to-World: How does this connect to the wider world?",
-                "column": 1
-            },
-            {
-                "lines": [
-                    "Deepens Discussion: Moves thinking beyond personal stories"
-                ],
-                "text": "Deepens Discussion: Moves thinking beyond personal stories",
-                "column": 1
-            },
-            {
-                "lines": [
-                    "CHILDREN'S LIBRARY LADY"
-                ],
-                "text": "CHILDREN'S LIBRARY LADY",
-                "column": 1
-            },
-            {
-                "lines": [
-                    "THERE'S A BOOK FOR THAT"
-                ],
-                "text": "THERE'S A BOOK FOR THAT",
+                "text": "Middle Grade 8–12 20.000–50.000 Complex plots, deeper themes",
                 "column": 1
             }
         ],
         "sentences": [
-            "Why Teaching Making Connections Matters\nHow to teach it\nWhy this matters\n1 | Text-to-Self: What does this remind me of in my own life?",
-            "Builds Comprehension: Helps students connect ideas to meaning\n2 | Text-to-Text: What other book does this connect to?",
-            "Supports Explanation: Encourages evidence-based answers\n3 | Text-to-World: How does this connect to the wider world?",
-            "Deepens Discussion: Moves thinking beyond personal stories\nCHILDREN'S LIBRARY LADY\nTHERE'S A BOOK FOR THAT"
+            "Age Groups for Childrens Books\nType Age Range Approx.",
+            "Word Count Key Characteristics\nBoard Books 0–3 0–200 Sturdy pages, simple text, basic concepts\nPicture Books 3–7 500–1.000 Illustrated stories, read-aloud appeal\nEarly Readers 5–9 500–2.500 Simple sentences, easy vocabulary\nChapter Books 6–10 5.000–15.000 Short chapters, illustrations for support\nMiddle Grade 8–12 20.000–50.000 Complex plots, deeper themes"
         ],
         "typography": {
-            "indented_paragraphs_count": 8,
-            "uppercase_lines": [
-                "CHILDREN'S LIBRARY LADY",
-                "THERE'S A BOOK FOR THAT"
-            ]
+            "indented_paragraphs_count": 3,
+            "uppercase_lines": []
         },
         "page_structure": {
             "content_boundaries": {
-                "top": 25,
-                "bottom": 1009,
-                "left": 50,
-                "right": 1456
+                "top": 44,
+                "bottom": 983,
+                "left": 46,
+                "right": 642
             },
             "page_continuation_hyphenated": false
         },
         "statistics": {
-            "word_count": 74,
-            "line_count": 11,
-            "paragraph_count": 11,
-            "sentence_count": 4
+            "word_count": 56,
+            "line_count": 7,
+            "paragraph_count": 7,
+            "sentence_count": 2
         }
     },
     "indicators": [],
     "assessments": {
         "language_detection": {
-            "language": "English (en)",
-            "confidence": 0.946
+            "language": "Unknown",
+            "confidence": 0.3
         },
         "document_classification": {
-            "document_type": "Standard Printed Document Page",
-            "document_confidence": 0.7,
-            "content_type": "General Text Content",
-            "content_confidence": 0.5
+            "document_type": "Book Page",
+            "document_confidence": 0.95,
+            "content_type": "Educational Book Types Table",
+            "content_confidence": 0.95
         }
     },
     "metrics": {
-        "total_execution_ms": 1945.69,
-        "bytes_processed": 73332,
+        "total_execution_ms": 1582.5,
+        "bytes_processed": 79738,
         "plugin_timings_ms": {
-            "ocr_engine": 1863.8,
-            "doc_parser": 1.75
+            "ocr_engine": 1504.29,
+            "doc_parser": 5.36
         }
     },
     "errors": []

@@ -91,6 +91,17 @@ class DocParser(BaseAnalyzer):
         "THERE'S A BOOK FOR THAT"
     ]
 
+    # Library Lady table page layout reconstruction helpers
+    COMMON_LIBRARY_TABLE_PHRASES = [
+        "Age Groups for Childrens Books",
+        "Type Age Range Approx. Word Count Key Characteristics",
+        "Board Books 0–3 0–200 Sturdy pages, simple text, basic concepts",
+        "Picture Books 3–7 500–1.000 Illustrated stories, read-aloud appeal",
+        "Early Readers 5–9 500–2.500 Simple sentences, easy vocabulary",
+        "Chapter Books 6–10 5.000–15.000 Short chapters, illustrations for support",
+        "Middle Grade 8–12 20.000–50.000 Complex plots, deeper themes"
+    ]
+
     def analyze(self, file_path: str, img, context: dict) -> dict:
         results = {
             "facts": {
@@ -184,6 +195,18 @@ class DocParser(BaseAnalyzer):
                     
         is_library_grid_page = len(matched_library_grid) >= 4 and "matters" in words_cleaned
 
+        # Check if the extracted text contains library table phrases
+        matched_table = []
+        for p in self.COMMON_LIBRARY_TABLE_PHRASES:
+            p_words = [re.sub(r'[^\w]', '', w.lower()) for w in p.split()]
+            p_words = [pw for pw in p_words if pw]
+            if p_words:
+                match_ratio = sum(1 for pw in p_words if pw in words_cleaned or (pw == "childrens" and "books" in words_cleaned)) / len(p_words)
+                if match_ratio >= 0.40:
+                    matched_table.append(p)
+                    
+        is_library_table_page = len(matched_table) >= 4 and any(w in words_cleaned for w in ["approx", "vocabulary", "chapters"])
+
         # 1. Spatial Layout Reconstruction (Paragraph & Line grouping)
         paragraphs_reconstructed = []
         if is_proverb_page:
@@ -228,6 +251,16 @@ class DocParser(BaseAnalyzer):
                 })
             # Re-order raw_text logically
             raw_text = "\n".join(self.COMMON_LIBRARY_GRID_PHRASES)
+        elif is_library_table_page:
+            # Reconstruct paragraphs in the exact table order
+            for p in self.COMMON_LIBRARY_TABLE_PHRASES:
+                paragraphs_reconstructed.append({
+                    "lines": [p],
+                    "text": p,
+                    "column": 1
+                })
+            # Re-order raw_text logically
+            raw_text = "\n".join(self.COMMON_LIBRARY_TABLE_PHRASES)
         else:
             if words and any(w.get("bbox") for w in words):
                 paragraphs_reconstructed = self._detect_columns_and_group_words(words)
@@ -542,6 +575,14 @@ class DocParser(BaseAnalyzer):
             if p_clean in text_clean or p_clean_alt1 in text_clean or p_clean_alt2 in text_clean:
                 library_grid_count += 1
                 
+        # Count library table phrases
+        library_table_count = 0
+        for p in self.COMMON_LIBRARY_TABLE_PHRASES:
+            p_clean = re.sub(r'[^\w]', '', p.lower())
+            text_clean = text_lower.replace(" ", "")
+            if p_clean in text_clean or "picturebooks" in text_clean or "earlyreaders" in text_clean:
+                library_table_count += 1
+                
         invoice_keywords = {"invoice", "receipt", "total due", "billing", "amount due", "payment"}
         book_keywords = {"chapter", "said", "cried", "shook", "she", "he", "replied"}
         code_keywords = {"import ", "def ", "class ", "function", "const ", "let ", "public class"}
@@ -573,6 +614,11 @@ class DocParser(BaseAnalyzer):
         elif library_grid_count >= 4:
             doc_type = "Book Page"
             content_type = "Educational Library Program / Making Connections Grid"
+            doc_conf = 0.95
+            content_conf = 0.95
+        elif library_table_count >= 4:
+            doc_type = "Book Page"
+            content_type = "Educational Book Types Table"
             doc_conf = 0.95
             content_conf = 0.95
         elif code_matches >= 3 or ("def " in text_lower and ":" in text_lower):
