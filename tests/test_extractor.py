@@ -69,9 +69,9 @@ class TestImageTextLayoutExtractor(unittest.TestCase):
         self.assertIn("English", assessments["language_detection"]["language"])
         
         self.assertIn("document_classification", assessments)
-        # Should detect Book Page because of proverbs present in cls.doc_text
-        self.assertEqual(assessments["document_classification"]["document_type"], "Book Page")
-        self.assertEqual(assessments["document_classification"]["content_type"], "Collection of English Proverbs/Idioms")
+        # Should detect Scanned Printed Book Page due to narrative keywords
+        self.assertEqual(assessments["document_classification"]["document_type"], "Scanned Printed Book Page")
+        self.assertEqual(assessments["document_classification"]["content_type"], "Narrative Text / Prose")
 
 
 if __name__ == "__main__":

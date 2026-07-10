@@ -1,0 +1,3561 @@
+{
+    "schema_version": "1.0.0",
+    "metadata": {
+        "timestamp": "2026-07-10T17:00:47.217199+00:00",
+        "analyzer_capabilities": {
+            "active_plugins": [
+                "ocr_engine",
+                "doc_parser"
+            ],
+            "missing_dependencies": []
+        }
+    },
+    "facts": {
+        "raw_text": "fair The Two The You Everything of face. can’t customer best is company, things make comes is a in always silk but to life him purse three’s are who right. free. from waits. a crowd. East, a Finders sow’s Tomorrow west, It’s ear. keepers, home's the As is squeaky another thick losers best. as\nLife’s thieves. day. wheel weepers. Better not that Clothes There's all to gets beer light the make no and a candle grease. place skittles. the like man. than Please The home. to All devil curse enjoy that Speak looks the glisters the softly darkness. pain after is and not which his carry gold. own. is\nThe a Manners unable big pen stick. to is maketh avoid. mightier Music Don’t man. has than teach charms Many sword. your a to mickle Grandma Is soothe fair makes and the to wise savage suck a muckle. and eggs. breast. good He A\nman and who Ne’er gay. who lives cast Make is by a his clout the own love sword till lawyer not May shall war. be has out. die Devil a fool by There’s take the for sword. his the no client. hindmost. such Don’t thing meet as The a\nfemale troubles free lunch. of half-way. the Nothing species Oil venture, is and more water nothing deadly don’t gain. than mix. the He All male. who work can A and place does, no\nfor play he who everything makes cannot, Jack and teaches. a dull everything boy. A stitch in in its time place. saves Hell nine. hath The no child fury\nlike is the a father woman of scorned. the man. When And a in child Rome, that’s do born as the on Romans the Sab-\ndo. To err is human; to forgive divine. Enough is as good\nas a feast. People who live in glass houses shouldn’t throw\nstones. Nature abhors a vacuum. Moderation in all things.",
+        "words": [
+            {
+                "text": "fair",
+                "bbox": [
+                    7,
+                    5,
+                    32,
+                    17
+                ],
+                "confidence": 0.97
+            },
+            {
+                "text": "The",
+                "bbox": [
+                    38,
+                    34,
+                    36,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Two",
+                "bbox": [
+                    38,
+                    479,
+                    41,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "The",
+                "bbox": [
+                    38,
+                    645,
+                    36,
+                    17
+                ],
+                "confidence": 0.97
+            },
+            {
+                "text": "You",
+                "bbox": [
+                    39,
+                    146,
+                    36,
+                    16
+                ],
+                "confidence": 0.97
+            },
+            {
+                "text": "Everything",
+                "bbox": [
+                    39,
+                    423,
+                    106,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "of",
+                "bbox": [
+                    45,
+                    5,
+                    19,
+                    17
+                ],
+                "confidence": 0.93
+            },
+            {
+                "text": "face.",
+                "bbox": [
+                    71,
+                    5,
+                    41,
+                    17
+                ],
+                "confidence": 0.93
+            },
+            {
+                "text": "can’t",
+                "bbox": [
+                    82,
+                    146,
+                    46,
+                    16
+                ],
+                "confidence": 0.83
+            },
+            {
+                "text": "customer",
+                "bbox": [
+                    84,
+                    37,
+                    89,
+                    14
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "best",
+                "bbox": [
+                    84,
+                    645,
+                    38,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "is",
+                "bbox": [
+                    90,
+                    479,
+                    14,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "company,",
+                "bbox": [
+                    113,
+                    484,
+                    92,
+                    17
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "things",
+                "bbox": [
+                    132,
+                    645,
+                    59,
+                    23
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "make",
+                "bbox": [
+                    135,
+                    146,
+                    52,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "comes",
+                "bbox": [
+                    150,
+                    428,
+                    60,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "is",
+                "bbox": [
+                    183,
+                    35,
+                    14,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "a",
+                "bbox": [
+                    190,
+                    141,
+                    8,
+                    31
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "in",
+                "bbox": [
+                    201,
+                    646,
+                    17,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "always",
+                "bbox": [
+                    207,
+                    34,
+                    66,
+                    23
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "silk",
+                "bbox": [
+                    211,
+                    145,
+                    33,
+                    17
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "but",
+                "bbox": [
+                    215,
+                    479,
+                    32,
+                    16
+                ],
+                "confidence": 0.93
+            },
+            {
+                "text": "to",
+                "bbox": [
+                    216,
+                    425,
+                    18,
+                    14
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "life",
+                "bbox": [
+                    229,
+                    645,
+                    29,
+                    17
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "him",
+                "bbox": [
+                    239,
+                    423,
+                    37,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "purse",
+                "bbox": [
+                    251,
+                    151,
+                    53,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "three’s",
+                "bbox": [
+                    258,
+                    479,
+                    62,
+                    16
+                ],
+                "confidence": 0.92
+            },
+            {
+                "text": "are",
+                "bbox": [
+                    268,
+                    650,
+                    29,
+                    12
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "who",
+                "bbox": [
+                    281,
+                    423,
+                    42,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "right.",
+                "bbox": [
+                    284,
+                    34,
+                    50,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "free.",
+                "bbox": [
+                    307,
+                    645,
+                    39,
+                    17
+                ],
+                "confidence": 0.94
+            },
+            {
+                "text": "from",
+                "bbox": [
+                    312,
+                    145,
+                    45,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "waits.",
+                "bbox": [
+                    328,
+                    423,
+                    56,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "a",
+                "bbox": [
+                    330,
+                    484,
+                    9,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "crowd.",
+                "bbox": [
+                    350,
+                    479,
+                    65,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "East,",
+                "bbox": [
+                    354,
+                    35,
+                    44,
+                    18
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "a",
+                "bbox": [
+                    364,
+                    151,
+                    10,
+                    11
+                ],
+                "confidence": 0.93
+            },
+            {
+                "text": "Finders",
+                "bbox": [
+                    366,
+                    645,
+                    71,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "sow’s",
+                "bbox": [
+                    381,
+                    146,
+                    54,
+                    16
+                ],
+                "confidence": 0.92
+            },
+            {
+                "text": "Tomorrow",
+                "bbox": [
+                    391,
+                    423,
+                    101,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "west,",
+                "bbox": [
+                    409,
+                    37,
+                    49,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "It’s",
+                "bbox": [
+                    434,
+                    479,
+                    29,
+                    16
+                ],
+                "confidence": 0.94
+            },
+            {
+                "text": "ear.",
+                "bbox": [
+                    442,
+                    151,
+                    32,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "keepers,",
+                "bbox": [
+                    447,
+                    645,
+                    78,
+                    23
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "home's",
+                "bbox": [
+                    469,
+                    34,
+                    69,
+                    17
+                ],
+                "confidence": 0.12
+            },
+            {
+                "text": "the",
+                "bbox": [
+                    473,
+                    479,
+                    29,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "As",
+                "bbox": [
+                    486,
+                    146,
+                    24,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "is",
+                "bbox": [
+                    498,
+                    423,
+                    14,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "squeaky",
+                "bbox": [
+                    511,
+                    479,
+                    79,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "another",
+                "bbox": [
+                    517,
+                    423,
+                    74,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "thick",
+                "bbox": [
+                    518,
+                    145,
+                    46,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "losers",
+                "bbox": [
+                    536,
+                    645,
+                    55,
+                    17
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "best.",
+                "bbox": [
+                    547,
+                    34,
+                    43,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "as",
+                "bbox": [
+                    571,
+                    151,
+                    20,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Life’s",
+                "bbox": [
+                    7,
+                    62,
+                    51,
+                    16
+                ],
+                "confidence": 0.92
+            },
+            {
+                "text": "thieves.",
+                "bbox": [
+                    7,
+                    173,
+                    72,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "day.",
+                "bbox": [
+                    7,
+                    450,
+                    37,
+                    23
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "wheel",
+                "bbox": [
+                    7,
+                    506,
+                    56,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "weepers.",
+                "bbox": [
+                    7,
+                    678,
+                    84,
+                    17
+                ],
+                "confidence": 0.93
+            },
+            {
+                "text": "Better",
+                "bbox": [
+                    53,
+                    450,
+                    56,
+                    17
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "not",
+                "bbox": [
+                    65,
+                    64,
+                    31,
+                    14
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "that",
+                "bbox": [
+                    73,
+                    506,
+                    37,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Clothes",
+                "bbox": [
+                    91,
+                    173,
+                    72,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "There's",
+                "bbox": [
+                    101,
+                    673,
+                    70,
+                    16
+                ],
+                "confidence": 0.0
+            },
+            {
+                "text": "all",
+                "bbox": [
+                    103,
+                    62,
+                    22,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "to",
+                "bbox": [
+                    115,
+                    453,
+                    18,
+                    14
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "gets",
+                "bbox": [
+                    119,
+                    509,
+                    39,
+                    20
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "beer",
+                "bbox": [
+                    132,
+                    62,
+                    41,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "light",
+                "bbox": [
+                    140,
+                    450,
+                    43,
+                    23
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "the",
+                "bbox": [
+                    167,
+                    506,
+                    29,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "make",
+                "bbox": [
+                    171,
+                    173,
+                    52,
+                    17
+                ],
+                "confidence": 0.97
+            },
+            {
+                "text": "no",
+                "bbox": [
+                    178,
+                    678,
+                    24,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "and",
+                "bbox": [
+                    180,
+                    62,
+                    35,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "a",
+                "bbox": [
+                    189,
+                    455,
+                    10,
+                    12
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "candle",
+                "bbox": [
+                    205,
+                    450,
+                    63,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "grease.",
+                "bbox": [
+                    205,
+                    512,
+                    65,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "place",
+                "bbox": [
+                    209,
+                    673,
+                    49,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "skittles.",
+                "bbox": [
+                    223,
+                    62,
+                    71,
+                    16
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "the",
+                "bbox": [
+                    231,
+                    173,
+                    28,
+                    17
+                ],
+                "confidence": 0.97
+            },
+            {
+                "text": "like",
+                "bbox": [
+                    265,
+                    673,
+                    34,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "man.",
+                "bbox": [
+                    267,
+                    179,
+                    46,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "than",
+                "bbox": [
+                    275,
+                    450,
+                    41,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Please",
+                "bbox": [
+                    289,
+                    506,
+                    59,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "The",
+                "bbox": [
+                    304,
+                    62,
+                    36,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "home.",
+                "bbox": [
+                    306,
+                    673,
+                    58,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "to",
+                "bbox": [
+                    324,
+                    453,
+                    17,
+                    14
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "All",
+                "bbox": [
+                    326,
+                    173,
+                    28,
+                    16
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "devil",
+                "bbox": [
+                    347,
+                    62,
+                    47,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "curse",
+                "bbox": [
+                    347,
+                    455,
+                    51,
+                    12
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "enjoy",
+                "bbox": [
+                    357,
+                    507,
+                    51,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "that",
+                "bbox": [
+                    362,
+                    173,
+                    37,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Speak",
+                "bbox": [
+                    374,
+                    673,
+                    58,
+                    22
+                ],
+                "confidence": 0.97
+            },
+            {
+                "text": "looks",
+                "bbox": [
+                    402,
+                    62,
+                    50,
+                    16
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "the",
+                "bbox": [
+                    404,
+                    450,
+                    29,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "glisters",
+                "bbox": [
+                    406,
+                    173,
+                    68,
+                    22
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "the",
+                "bbox": [
+                    418,
+                    506,
+                    29,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "softly",
+                "bbox": [
+                    439,
+                    673,
+                    52,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "darkness.",
+                "bbox": [
+                    440,
+                    450,
+                    89,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "pain",
+                "bbox": [
+                    457,
+                    507,
+                    41,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "after",
+                "bbox": [
+                    459,
+                    61,
+                    44,
+                    17
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "is",
+                "bbox": [
+                    482,
+                    174,
+                    15,
+                    16
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "and",
+                "bbox": [
+                    499,
+                    673,
+                    35,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "not",
+                "bbox": [
+                    504,
+                    176,
+                    31,
+                    14
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "which",
+                "bbox": [
+                    508,
+                    506,
+                    58,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "his",
+                "bbox": [
+                    509,
+                    62,
+                    28,
+                    16
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "carry",
+                "bbox": [
+                    541,
+                    678,
+                    49,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "gold.",
+                "bbox": [
+                    542,
+                    173,
+                    48,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "own.",
+                "bbox": [
+                    543,
+                    67,
+                    47,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "is",
+                "bbox": [
+                    576,
+                    507,
+                    15,
+                    16
+                ],
+                "confidence": 0.94
+            },
+            {
+                "text": "The",
+                "bbox": [
+                    6,
+                    201,
+                    36,
+                    17
+                ],
+                "confidence": 0.97
+            },
+            {
+                "text": "a",
+                "bbox": [
+                    6,
+                    706,
+                    10,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Manners",
+                "bbox": [
+                    7,
+                    90,
+                    84,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "unable",
+                "bbox": [
+                    7,
+                    534,
+                    65,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "big",
+                "bbox": [
+                    26,
+                    700,
+                    29,
+                    23
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "pen",
+                "bbox": [
+                    51,
+                    206,
+                    34,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "stick.",
+                "bbox": [
+                    65,
+                    700,
+                    48,
+                    17
+                ],
+                "confidence": 0.94
+            },
+            {
+                "text": "to",
+                "bbox": [
+                    78,
+                    536,
+                    18,
+                    15
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "is",
+                "bbox": [
+                    95,
+                    202,
+                    14,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "maketh",
+                "bbox": [
+                    100,
+                    89,
+                    71,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "avoid.",
+                "bbox": [
+                    102,
+                    534,
+                    58,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "mightier",
+                "bbox": [
+                    118,
+                    201,
+                    81,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Music",
+                "bbox": [
+                    131,
+                    701,
+                    57,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Don’t",
+                "bbox": [
+                    169,
+                    534,
+                    53,
+                    17
+                ],
+                "confidence": 0.94
+            },
+            {
+                "text": "man.",
+                "bbox": [
+                    180,
+                    95,
+                    46,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "has",
+                "bbox": [
+                    198,
+                    700,
+                    31,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "than",
+                "bbox": [
+                    208,
+                    201,
+                    41,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "teach",
+                "bbox": [
+                    229,
+                    534,
+                    49,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "charms",
+                "bbox": [
+                    238,
+                    700,
+                    70,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Many",
+                "bbox": [
+                    242,
+                    90,
+                    55,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "sword.",
+                "bbox": [
+                    258,
+                    201,
+                    65,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "your",
+                "bbox": [
+                    285,
+                    539,
+                    45,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "a",
+                "bbox": [
+                    306,
+                    95,
+                    9,
+                    11
+                ],
+                "confidence": 0.93
+            },
+            {
+                "text": "to",
+                "bbox": [
+                    317,
+                    703,
+                    18,
+                    14
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "mickle",
+                "bbox": [
+                    325,
+                    89,
+                    63,
+                    17
+                ],
+                "confidence": 0.92
+            },
+            {
+                "text": "Grandma",
+                "bbox": [
+                    335,
+                    534,
+                    91,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Is",
+                "bbox": [
+                    338,
+                    201,
+                    15,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "soothe",
+                "bbox": [
+                    344,
+                    700,
+                    63,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "fair",
+                "bbox": [
+                    362,
+                    200,
+                    32,
+                    17
+                ],
+                "confidence": 0.94
+            },
+            {
+                "text": "makes",
+                "bbox": [
+                    397,
+                    89,
+                    60,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "and",
+                "bbox": [
+                    402,
+                    201,
+                    35,
+                    16
+                ],
+                "confidence": 0.94
+            },
+            {
+                "text": "the",
+                "bbox": [
+                    416,
+                    700,
+                    29,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "to",
+                "bbox": [
+                    434,
+                    537,
+                    17,
+                    14
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "wise",
+                "bbox": [
+                    447,
+                    202,
+                    43,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "savage",
+                "bbox": [
+                    454,
+                    706,
+                    65,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "suck",
+                "bbox": [
+                    458,
+                    534,
+                    43,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "a",
+                "bbox": [
+                    466,
+                    95,
+                    9,
+                    11
+                ],
+                "confidence": 0.93
+            },
+            {
+                "text": "muckle.",
+                "bbox": [
+                    485,
+                    89,
+                    74,
+                    17
+                ],
+                "confidence": 0.91
+            },
+            {
+                "text": "and",
+                "bbox": [
+                    498,
+                    201,
+                    35,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "eggs.",
+                "bbox": [
+                    507,
+                    539,
+                    47,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "breast.",
+                "bbox": [
+                    528,
+                    700,
+                    62,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "good",
+                "bbox": [
+                    542,
+                    201,
+                    48,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "He",
+                "bbox": [
+                    563,
+                    534,
+                    28,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "A",
+                "bbox": [
+                    575,
+                    90,
+                    15,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "man",
+                "bbox": [
+                    7,
+                    122,
+                    41,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "and",
+                "bbox": [
+                    7,
+                    228,
+                    35,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "who",
+                "bbox": [
+                    7,
+                    562,
+                    42,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Ne’er",
+                "bbox": [
+                    7,
+                    729,
+                    52,
+                    16
+                ],
+                "confidence": 0.8
+            },
+            {
+                "text": "gay.",
+                "bbox": [
+                    50,
+                    234,
+                    37,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "who",
+                "bbox": [
+                    55,
+                    117,
+                    42,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "lives",
+                "bbox": [
+                    57,
+                    562,
+                    43,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "cast",
+                "bbox": [
+                    66,
+                    730,
+                    37,
+                    15
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Make",
+                "bbox": [
+                    101,
+                    228,
+                    53,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "is",
+                "bbox": [
+                    103,
+                    118,
+                    15,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "by",
+                "bbox": [
+                    108,
+                    562,
+                    23,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "a",
+                "bbox": [
+                    110,
+                    733,
+                    9,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "his",
+                "bbox": [
+                    124,
+                    117,
+                    28,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "clout",
+                "bbox": [
+                    126,
+                    728,
+                    48,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "the",
+                "bbox": [
+                    140,
+                    562,
+                    29,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "own",
+                "bbox": [
+                    158,
+                    122,
+                    41,
+                    12
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "love",
+                "bbox": [
+                    162,
+                    228,
+                    40,
+                    17
+                ],
+                "confidence": 0.97
+            },
+            {
+                "text": "sword",
+                "bbox": [
+                    177,
+                    562,
+                    59,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "till",
+                "bbox": [
+                    182,
+                    728,
+                    24,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "lawyer",
+                "bbox": [
+                    206,
+                    117,
+                    66,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "not",
+                "bbox": [
+                    210,
+                    231,
+                    30,
+                    14
+                ],
+                "confidence": 0.97
+            },
+            {
+                "text": "May",
+                "bbox": [
+                    214,
+                    729,
+                    42,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "shall",
+                "bbox": [
+                    245,
+                    562,
+                    44,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "war.",
+                "bbox": [
+                    248,
+                    234,
+                    40,
+                    11
+                ],
+                "confidence": 0.97
+            },
+            {
+                "text": "be",
+                "bbox": [
+                    263,
+                    728,
+                    22,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "has",
+                "bbox": [
+                    278,
+                    117,
+                    31,
+                    17
+                ],
+                "confidence": 0.93
+            },
+            {
+                "text": "out.",
+                "bbox": [
+                    292,
+                    730,
+                    36,
+                    15
+                ],
+                "confidence": 0.92
+            },
+            {
+                "text": "die",
+                "bbox": [
+                    298,
+                    562,
+                    29,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Devil",
+                "bbox": [
+                    302,
+                    229,
+                    50,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "a",
+                "bbox": [
+                    316,
+                    122,
+                    9,
+                    11
+                ],
+                "confidence": 0.93
+            },
+            {
+                "text": "fool",
+                "bbox": [
+                    333,
+                    117,
+                    35,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "by",
+                "bbox": [
+                    335,
+                    562,
+                    23,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "There’s",
+                "bbox": [
+                    339,
+                    728,
+                    69,
+                    17
+                ],
+                "confidence": 0.88
+            },
+            {
+                "text": "take",
+                "bbox": [
+                    361,
+                    229,
+                    39,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "the",
+                "bbox": [
+                    367,
+                    562,
+                    29,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "for",
+                "bbox": [
+                    375,
+                    117,
+                    27,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "sword.",
+                "bbox": [
+                    404,
+                    562,
+                    65,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "his",
+                "bbox": [
+                    408,
+                    117,
+                    27,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "the",
+                "bbox": [
+                    409,
+                    229,
+                    29,
+                    16
+                ],
+                "confidence": 0.93
+            },
+            {
+                "text": "no",
+                "bbox": [
+                    415,
+                    733,
+                    24,
+                    12
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "client.",
+                "bbox": [
+                    441,
+                    117,
+                    57,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "hindmost.",
+                "bbox": [
+                    446,
+                    229,
+                    96,
+                    16
+                ],
+                "confidence": 0.91
+            },
+            {
+                "text": "such",
+                "bbox": [
+                    446,
+                    728,
+                    44,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Don’t",
+                "bbox": [
+                    483,
+                    562,
+                    54,
+                    16
+                ],
+                "confidence": 0.87
+            },
+            {
+                "text": "thing",
+                "bbox": [
+                    498,
+                    728,
+                    49,
+                    22
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "meet",
+                "bbox": [
+                    545,
+                    564,
+                    46,
+                    14
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "as",
+                "bbox": [
+                    554,
+                    733,
+                    19,
+                    12
+                ],
+                "confidence": 0.94
+            },
+            {
+                "text": "The",
+                "bbox": [
+                    555,
+                    229,
+                    36,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "a",
+                "bbox": [
+                    580,
+                    733,
+                    10,
+                    12
+                ],
+                "confidence": 0.94
+            },
+            {
+                "text": "female",
+                "bbox": [
+                    7,
+                    256,
+                    63,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "troubles",
+                "bbox": [
+                    7,
+                    589,
+                    77,
+                    17
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "free",
+                "bbox": [
+                    7,
+                    755,
+                    35,
+                    17
+                ],
+                "confidence": 0.93
+            },
+            {
+                "text": "lunch.",
+                "bbox": [
+                    49,
+                    756,
+                    58,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "of",
+                "bbox": [
+                    78,
+                    256,
+                    19,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "half-way.",
+                "bbox": [
+                    91,
+                    589,
+                    87,
+                    23
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "the",
+                "bbox": [
+                    104,
+                    256,
+                    29,
+                    17
+                ],
+                "confidence": 0.97
+            },
+            {
+                "text": "Nothing",
+                "bbox": [
+                    115,
+                    756,
+                    80,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "species",
+                "bbox": [
+                    141,
+                    257,
+                    67,
+                    21
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Oil",
+                "bbox": [
+                    187,
+                    589,
+                    28,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "venture,",
+                "bbox": [
+                    201,
+                    758,
+                    78,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "is",
+                "bbox": [
+                    216,
+                    257,
+                    15,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "and",
+                "bbox": [
+                    222,
+                    589,
+                    36,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "more",
+                "bbox": [
+                    239,
+                    261,
+                    48,
+                    12
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "water",
+                "bbox": [
+                    265,
+                    592,
+                    54,
+                    14
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "nothing",
+                "bbox": [
+                    286,
+                    756,
+                    74,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "deadly",
+                "bbox": [
+                    295,
+                    256,
+                    65,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "don’t",
+                "bbox": [
+                    326,
+                    589,
+                    50,
+                    17
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "gain.",
+                "bbox": [
+                    366,
+                    757,
+                    46,
+                    21
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "than",
+                "bbox": [
+                    368,
+                    256,
+                    42,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "mix.",
+                "bbox": [
+                    383,
+                    590,
+                    40,
+                    15
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "the",
+                "bbox": [
+                    418,
+                    256,
+                    29,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "He",
+                "bbox": [
+                    422,
+                    756,
+                    26,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "All",
+                "bbox": [
+                    433,
+                    589,
+                    28,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "male.",
+                "bbox": [
+                    455,
+                    256,
+                    50,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "who",
+                "bbox": [
+                    455,
+                    756,
+                    42,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "work",
+                "bbox": [
+                    468,
+                    589,
+                    50,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "can",
+                "bbox": [
+                    503,
+                    761,
+                    32,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "A",
+                "bbox": [
+                    518,
+                    257,
+                    15,
+                    15
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "and",
+                "bbox": [
+                    524,
+                    589,
+                    36,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "place",
+                "bbox": [
+                    541,
+                    256,
+                    50,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "does,",
+                "bbox": [
+                    541,
+                    756,
+                    49,
+                    19
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "no",
+                "bbox": [
+                    567,
+                    594,
+                    24,
+                    12
+                ],
+                "confidence": 0.92
+            },
+            {
+                "text": "for",
+                "bbox": [
+                    7,
+                    283,
+                    27,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "play",
+                "bbox": [
+                    7,
+                    617,
+                    41,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "he",
+                "bbox": [
+                    7,
+                    783,
+                    22,
+                    17
+                ],
+                "confidence": 0.97
+            },
+            {
+                "text": "who",
+                "bbox": [
+                    35,
+                    783,
+                    42,
+                    17
+                ],
+                "confidence": 0.97
+            },
+            {
+                "text": "everything",
+                "bbox": [
+                    40,
+                    284,
+                    104,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "makes",
+                "bbox": [
+                    55,
+                    617,
+                    60,
+                    16
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "cannot,",
+                "bbox": [
+                    82,
+                    786,
+                    70,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Jack",
+                "bbox": [
+                    121,
+                    617,
+                    40,
+                    20
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "and",
+                "bbox": [
+                    151,
+                    284,
+                    35,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "teaches.",
+                "bbox": [
+                    158,
+                    783,
+                    74,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "a",
+                "bbox": [
+                    167,
+                    622,
+                    10,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "dull",
+                "bbox": [
+                    183,
+                    617,
+                    38,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "everything",
+                "bbox": [
+                    194,
+                    284,
+                    104,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "boy.",
+                "bbox": [
+                    228,
+                    617,
+                    37,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "A",
+                "bbox": [
+                    238,
+                    779,
+                    8,
+                    31
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "stitch",
+                "bbox": [
+                    262,
+                    783,
+                    51,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "in",
+                "bbox": [
+                    306,
+                    284,
+                    17,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "in",
+                "bbox": [
+                    319,
+                    784,
+                    18,
+                    15
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "its",
+                "bbox": [
+                    331,
+                    284,
+                    21,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "time",
+                "bbox": [
+                    343,
+                    784,
+                    42,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "place.",
+                "bbox": [
+                    359,
+                    284,
+                    54,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "saves",
+                "bbox": [
+                    391,
+                    789,
+                    51,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Hell",
+                "bbox": [
+                    424,
+                    284,
+                    39,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "nine.",
+                "bbox": [
+                    448,
+                    784,
+                    46,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "hath",
+                "bbox": [
+                    470,
+                    284,
+                    42,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "The",
+                "bbox": [
+                    501,
+                    783,
+                    37,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "no",
+                "bbox": [
+                    520,
+                    289,
+                    24,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "child",
+                "bbox": [
+                    543,
+                    783,
+                    47,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "fury",
+                "bbox": [
+                    551,
+                    283,
+                    39,
+                    23
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "like",
+                "bbox": [
+                    7,
+                    311,
+                    34,
+                    17
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "is",
+                "bbox": [
+                    7,
+                    812,
+                    15,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "the",
+                "bbox": [
+                    29,
+                    811,
+                    29,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "a",
+                "bbox": [
+                    50,
+                    316,
+                    9,
+                    12
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "father",
+                "bbox": [
+                    66,
+                    811,
+                    56,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "woman",
+                "bbox": [
+                    70,
+                    316,
+                    71,
+                    12
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "of",
+                "bbox": [
+                    129,
+                    811,
+                    19,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "scorned.",
+                "bbox": [
+                    151,
+                    311,
+                    79,
+                    17
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "the",
+                "bbox": [
+                    155,
+                    811,
+                    29,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "man.",
+                "bbox": [
+                    192,
+                    816,
+                    46,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "When",
+                "bbox": [
+                    248,
+                    311,
+                    56,
+                    17
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "And",
+                "bbox": [
+                    250,
+                    811,
+                    40,
+                    16
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "a",
+                "bbox": [
+                    293,
+                    807,
+                    9,
+                    26
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "in",
+                "bbox": [
+                    314,
+                    312,
+                    18,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "child",
+                "bbox": [
+                    316,
+                    811,
+                    47,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Rome,",
+                "bbox": [
+                    342,
+                    312,
+                    60,
+                    18
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "that’s",
+                "bbox": [
+                    371,
+                    811,
+                    52,
+                    17
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "do",
+                "bbox": [
+                    412,
+                    311,
+                    25,
+                    17
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "born",
+                "bbox": [
+                    430,
+                    811,
+                    44,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "as",
+                "bbox": [
+                    446,
+                    317,
+                    19,
+                    11
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "the",
+                "bbox": [
+                    475,
+                    311,
+                    29,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "on",
+                "bbox": [
+                    482,
+                    816,
+                    23,
+                    12
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Romans",
+                "bbox": [
+                    514,
+                    312,
+                    77,
+                    16
+                ],
+                "confidence": 0.94
+            },
+            {
+                "text": "the",
+                "bbox": [
+                    514,
+                    811,
+                    29,
+                    17
+                ],
+                "confidence": 0.93
+            },
+            {
+                "text": "Sab-",
+                "bbox": [
+                    550,
+                    811,
+                    40,
+                    17
+                ],
+                "confidence": 0.92
+            },
+            {
+                "text": "do.",
+                "bbox": [
+                    7,
+                    339,
+                    29,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "To",
+                "bbox": [
+                    51,
+                    339,
+                    23,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "err",
+                "bbox": [
+                    82,
+                    344,
+                    27,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "is",
+                "bbox": [
+                    118,
+                    340,
+                    14,
+                    15
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "human;",
+                "bbox": [
+                    141,
+                    339,
+                    73,
+                    19
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "to",
+                "bbox": [
+                    225,
+                    341,
+                    17,
+                    14
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "forgive",
+                "bbox": [
+                    251,
+                    339,
+                    67,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "divine.",
+                "bbox": [
+                    327,
+                    339,
+                    65,
+                    16
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "Enough",
+                "bbox": [
+                    408,
+                    339,
+                    74,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "is",
+                "bbox": [
+                    492,
+                    340,
+                    14,
+                    15
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "as",
+                "bbox": [
+                    514,
+                    344,
+                    20,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "good",
+                "bbox": [
+                    542,
+                    339,
+                    48,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "as",
+                "bbox": [
+                    7,
+                    372,
+                    19,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "a",
+                "bbox": [
+                    34,
+                    372,
+                    9,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "feast.",
+                "bbox": [
+                    53,
+                    366,
+                    47,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "People",
+                "bbox": [
+                    115,
+                    366,
+                    64,
+                    23
+                ],
+                "confidence": 0.97
+            },
+            {
+                "text": "who",
+                "bbox": [
+                    187,
+                    367,
+                    42,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "live",
+                "bbox": [
+                    237,
+                    366,
+                    34,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "in",
+                "bbox": [
+                    279,
+                    367,
+                    18,
+                    16
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "glass",
+                "bbox": [
+                    305,
+                    367,
+                    47,
+                    22
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "houses",
+                "bbox": [
+                    360,
+                    367,
+                    66,
+                    16
+                ],
+                "confidence": 0.93
+            },
+            {
+                "text": "shouldn’t",
+                "bbox": [
+                    434,
+                    366,
+                    92,
+                    17
+                ],
+                "confidence": 0.89
+            },
+            {
+                "text": "throw",
+                "bbox": [
+                    534,
+                    366,
+                    56,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "stones.",
+                "bbox": [
+                    7,
+                    397,
+                    64,
+                    14
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Nature",
+                "bbox": [
+                    80,
+                    394,
+                    67,
+                    17
+                ],
+                "confidence": 0.93
+            },
+            {
+                "text": "abhors",
+                "bbox": [
+                    153,
+                    394,
+                    64,
+                    17
+                ],
+                "confidence": 0.93
+            },
+            {
+                "text": "a",
+                "bbox": [
+                    223,
+                    399,
+                    10,
+                    11
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "vacuum.",
+                "bbox": [
+                    240,
+                    399,
+                    82,
+                    12
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Moderation",
+                "bbox": [
+                    330,
+                    394,
+                    112,
+                    17
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "in",
+                "bbox": [
+                    449,
+                    395,
+                    18,
+                    15
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "all",
+                "bbox": [
+                    473,
+                    394,
+                    23,
+                    16
+                ],
+                "confidence": 0.92
+            },
+            {
+                "text": "things.",
+                "bbox": [
+                    503,
+                    394,
+                    63,
+                    22
+                ],
+                "confidence": 0.96
+            }
+        ],
+        "paragraphs": [
+            {
+                "lines": [
+                    "Fair of face."
+                ],
+                "text": "Fair of face.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "The customer is always right."
+                ],
+                "text": "The customer is always right.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Two's company, three's a crowd."
+                ],
+                "text": "Two's company, three's a crowd.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "The best things in life are free."
+                ],
+                "text": "The best things in life are free.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "You can't make a silk purse from a sow's ear."
+                ],
+                "text": "You can't make a silk purse from a sow's ear.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Everything comes to him who waits."
+                ],
+                "text": "Everything comes to him who waits.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "East, west, home's best."
+                ],
+                "text": "East, west, home's best.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Finders keepers, losers weepers."
+                ],
+                "text": "Finders keepers, losers weepers.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Tomorrow is another day."
+                ],
+                "text": "Tomorrow is another day.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "It's the squeaky wheel that gets the grease."
+                ],
+                "text": "It's the squeaky wheel that gets the grease.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "As thick as thieves."
+                ],
+                "text": "As thick as thieves.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Life's not all beer and skittles."
+                ],
+                "text": "Life's not all beer and skittles.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Better to light a candle than to curse the darkness."
+                ],
+                "text": "Better to light a candle than to curse the darkness.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Clothes make the man."
+                ],
+                "text": "Clothes make the man.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "There's no place like home."
+                ],
+                "text": "There's no place like home.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Please to enjoy the pain which is unable to avoid."
+                ],
+                "text": "Please to enjoy the pain which is unable to avoid.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "The devil looks after his own."
+                ],
+                "text": "The devil looks after his own.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "All that glisters is not gold."
+                ],
+                "text": "All that glisters is not gold.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Speak softly and carry a big stick."
+                ],
+                "text": "Speak softly and carry a big stick.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Manners maketh man."
+                ],
+                "text": "Manners maketh man.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "The pen is mightier than the sword."
+                ],
+                "text": "The pen is mightier than the sword.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Music has charms to soothe the savage breast."
+                ],
+                "text": "Music has charms to soothe the savage breast.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Don't teach your Grandma to suck eggs."
+                ],
+                "text": "Don't teach your Grandma to suck eggs.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Many a mickle makes a muckle."
+                ],
+                "text": "Many a mickle makes a muckle.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Is fair and wise and good and gay."
+                ],
+                "text": "Is fair and wise and good and gay.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "He who lives by the sword shall die by the sword."
+                ],
+                "text": "He who lives by the sword shall die by the sword.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Ne'er cast a clout till May be out."
+                ],
+                "text": "Ne'er cast a clout till May be out.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Make love not war."
+                ],
+                "text": "Make love not war.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "A man who is his own lawyer has a fool for a client."
+                ],
+                "text": "A man who is his own lawyer has a fool for a client.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Devil take the hindmost."
+                ],
+                "text": "Devil take the hindmost.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "When in Rome, do as the Romans do."
+                ],
+                "text": "When in Rome, do as the Romans do.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "To err is human; to forgive divine."
+                ],
+                "text": "To err is human; to forgive divine.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Enough is as good as a feast."
+                ],
+                "text": "Enough is as good as a feast.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "People who live in glass houses shouldn't throw stones."
+                ],
+                "text": "People who live in glass houses shouldn't throw stones.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Nature abhors a vacuum."
+                ],
+                "text": "Nature abhors a vacuum.",
+                "column": 1
+            },
+            {
+                "lines": [
+                    "Moderation in all things."
+                ],
+                "text": "Moderation in all things.",
+                "column": 1
+            }
+        ],
+        "sentences": [
+            "Fair of face.",
+            "The customer is always right.",
+            "Two's company, three's a crowd.",
+            "The best things in life are free.",
+            "You can't make a silk purse from a sow's ear.",
+            "Everything comes to him who waits.",
+            "East, west, home's best.",
+            "Finders keepers, losers weepers.",
+            "Tomorrow is another day.",
+            "It's the squeaky wheel that gets the grease.",
+            "As thick as thieves.",
+            "Life's not all beer and skittles.",
+            "Better to light a candle than to curse the darkness.",
+            "Clothes make the man.",
+            "There's no place like home.",
+            "Please to enjoy the pain which is unable to avoid.",
+            "The devil looks after his own.",
+            "All that glisters is not gold.",
+            "Speak softly and carry a big stick.",
+            "Manners maketh man.",
+            "The pen is mightier than the sword.",
+            "Music has charms to soothe the savage breast.",
+            "Don't teach your Grandma to suck eggs.",
+            "Many a mickle makes a muckle.",
+            "Is fair and wise and good and gay.",
+            "He who lives by the sword shall die by the sword.",
+            "Ne'er cast a clout till May be out.",
+            "Make love not war.",
+            "A man who is his own lawyer has a fool for a client.",
+            "Devil take the hindmost.",
+            "When in Rome, do as the Romans do.",
+            "To err is human; to forgive divine.",
+            "Enough is as good as a feast.",
+            "People who live in glass houses shouldn't throw stones.",
+            "Nature abhors a vacuum.",
+            "Moderation in all things."
+        ],
+        "typography": {
+            "indented_paragraphs_count": 21,
+            "uppercase_lines": []
+        },
+        "page_structure": {
+            "content_boundaries": {
+                "top": 5,
+                "bottom": 833,
+                "left": 6,
+                "right": 591
+            },
+            "page_continuation_hyphenated": false
+        },
+        "statistics": {
+            "word_count": 232,
+            "line_count": 36,
+            "paragraph_count": 36,
+            "sentence_count": 36
+        }
+    },
+    "indicators": [],
+    "assessments": {
+        "language_detection": {
+            "language": "English (en)",
+            "confidence": 0.99
+        },
+        "document_classification": {
+            "document_type": "Book Page",
+            "document_confidence": 0.95,
+            "content_type": "Collection of English Proverbs/Idioms",
+            "content_confidence": 0.95
+        }
+    },
+    "metrics": {
+        "total_execution_ms": 1160.16,
+        "bytes_processed": 407531,
+        "plugin_timings_ms": {
+            "ocr_engine": 1138.14,
+            "doc_parser": 3.67
+        }
+    },
+    "errors": []
+}
