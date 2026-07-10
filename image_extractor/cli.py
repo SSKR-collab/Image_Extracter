@@ -4,6 +4,18 @@ import argparse
 from image_extractor.extractor import ImageInfoExtractor
 
 
+def safe_print(*args, **kwargs):
+    try:
+        sys.stdout.write(" ".join(str(arg) for arg in args) + kwargs.get("end", "\n"))
+    except UnicodeEncodeError:
+        encoding = sys.stdout.encoding or 'ascii'
+        sys.stdout.write(" ".join(str(arg).encode(encoding, errors='replace').decode(encoding) for arg in args) + kwargs.get("end", "\n"))
+
+# Override print
+print = safe_print
+
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Robust Offline Image Text & Layout Extractor."

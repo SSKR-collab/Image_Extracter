@@ -1,7 +1,7 @@
 {
     "schema_version": "1.0.0",
     "metadata": {
-        "timestamp": "2026-07-10T17:14:43.212808+00:00",
+        "timestamp": "2026-07-10T17:25:24.303864+00:00",
         "analyzer_capabilities": {
             "active_plugins": [
                 "ocr_engine",
@@ -11,1555 +11,290 @@
         }
     },
     "facts": {
-        "raw_text": "aot gs : eat DEFINITION more Text A et | \"1 text ai’ WOO stamps, Pere book EE Ne i Kno book wate Matth ————— Vy NONE i is SU is e a Sr Cee ee aneesse sta standard a learning oa ee { work instrument . Are Are_there tu me piare for fouey, more any Uy, ay that prayer usually branch : “Yo a pineapples! 2. o ee ” ~ x \\ Hy \\ ”\n0 C of employed f study Comparing — Andres in Numbers i schools i Lang and % bs colleges re naan shere more Oh, Dy catrots to ran support than a a fe rabbi rN fae al al\n| a Camparing program Purbear- of instructions : — Or Encyclopedia pee fy ‘ _ | en yr of As Mi — NU.\neducational ¢ research. re Lea eee rae ~~ SSS",
+        "raw_text": "Book Text-to-Self Teaching ideas, classroom — Text-to-Text CHILDREN'S questions, UBRARY Making LADY and — Text-to-World a simple routine\nConnections with\nPicture Books",
         "words": [
             {
-                "text": "aot",
-                "bbox": [
-                    0,
-                    1360,
-                    33,
-                    28
-                ],
-                "confidence": 0.27
-            },
-            {
-                "text": "gs",
-                "bbox": [
-                    0,
-                    1472,
-                    45,
-                    25
-                ],
-                "confidence": 0.69
-            },
-            {
-                "text": ":",
-                "bbox": [
-                    19,
-                    1230,
-                    17,
-                    2
-                ],
-                "confidence": 0.0
-            },
-            {
-                "text": "eat",
-                "bbox": [
-                    39,
-                    1369,
-                    31,
-                    10
-                ],
-                "confidence": 0.0
-            },
-            {
-                "text": "DEFINITION",
-                "bbox": [
-                    59,
-                    63,
-                    593,
-                    82
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "more",
-                "bbox": [
-                    68,
-                    1474,
-                    116,
-                    27
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "Text",
-                "bbox": [
-                    72,
-                    434,
-                    171,
-                    66
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "A",
-                "bbox": [
-                    73,
-                    802,
-                    59,
-                    66
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "et",
-                "bbox": [
-                    74,
-                    1360,
-                    15,
-                    28
-                ],
-                "confidence": 0.0
-            },
-            {
-                "text": "|",
-                "bbox": [
-                    105,
-                    1365,
-                    17,
-                    16
-                ],
-                "confidence": 0.0
-            },
-            {
-                "text": "\"1",
-                "bbox": [
-                    117,
-                    1037,
-                    24,
-                    35
-                ],
-                "confidence": 0.39
-            },
-            {
-                "text": "text",
-                "bbox": [
-                    158,
-                    807,
-                    162,
-                    62
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "ai’",
-                "bbox": [
-                    170,
-                    797,
-                    29,
-                    15
-                ],
-                "confidence": 0.51
-            },
-            {
-                "text": "WOO",
-                "bbox": [
-                    193,
-                    263,
-                    42,
-                    39
-                ],
-                "confidence": 0.25
-            },
-            {
-                "text": "stamps,",
-                "bbox": [
-                    207,
-                    1475,
-                    165,
-                    42
-                ],
-                "confidence": 0.93
-            },
-            {
-                "text": "Pere",
-                "bbox": [
-                    244,
-                    263,
-                    59,
-                    39
-                ],
-                "confidence": 0.05
-            },
-            {
-                "text": "book",
-                "bbox": [
-                    275,
-                    429,
-                    207,
-                    71
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "EE",
-                "bbox": [
-                    297,
-                    0,
-                    105,
-                    38
-                ],
-                "confidence": 0.16
-            },
-            {
-                "text": "Ne",
-                "bbox": [
-                    315,
-                    263,
-                    27,
-                    39
-                ],
-                "confidence": 0.05
-            },
-            {
-                "text": "i",
-                "bbox": [
-                    348,
-                    168,
-                    71,
-                    24
-                ],
-                "confidence": 0.23
-            },
-            {
-                "text": "Kno",
-                "bbox": [
-                    351,
-                    263,
-                    43,
-                    39
-                ],
-                "confidence": 0.0
-            },
-            {
-                "text": "book",
-                "bbox": [
-                    353,
-                    798,
-                    206,
-                    71
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "wate",
-                "bbox": [
-                    400,
-                    263,
-                    66,
-                    39
-                ],
-                "confidence": 0.0
-            },
-            {
-                "text": "Matth",
-                "bbox": [
-                    400,
-                    1466,
-                    127,
-                    39
-                ],
-                "confidence": 0.91
-            },
-            {
-                "text": "—————",
-                "bbox": [
-                    420,
-                    0,
-                    121,
-                    38
-                ],
-                "confidence": 0.02
-            },
-            {
-                "text": "Vy",
-                "bbox": [
-                    462,
-                    168,
-                    32,
-                    26
-                ],
-                "confidence": 0.52
-            },
-            {
-                "text": "NONE",
-                "bbox": [
-                    475,
-                    263,
-                    58,
-                    39
-                ],
-                "confidence": 0.03
-            },
-            {
-                "text": "i",
-                "bbox": [
-                    481,
-                    429,
-                    44,
-                    70
-                ],
-                "confidence": 0.91
-            },
-            {
-                "text": "is",
-                "bbox": [
-                    512,
-                    431,
-                    57,
-                    69
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "SU",
-                "bbox": [
-                    562,
-                    279,
-                    24,
-                    7
-                ],
-                "confidence": 0.15
-            },
-            {
-                "text": "is",
-                "bbox": [
-                    589,
-                    800,
-                    58,
-                    69
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "e",
-                "bbox": [
-                    598,
-                    282,
-                    6,
-                    4
-                ],
-                "confidence": 0.0
-            },
-            {
-                "text": "a",
-                "bbox": [
-                    600,
-                    450,
-                    40,
-                    50
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "Sr",
-                "bbox": [
-                    610,
-                    187,
-                    2,
-                    2
-                ],
-                "confidence": 0.14
-            },
-            {
-                "text": "Cee",
-                "bbox": [
-                    618,
-                    282,
-                    38,
-                    7
-                ],
-                "confidence": 0.12
-            },
-            {
-                "text": "ee",
-                "bbox": [
-                    635,
-                    0,
-                    144,
-                    38
-                ],
-                "confidence": 0.24
-            },
-            {
-                "text": "aneesse",
-                "bbox": [
-                    668,
-                    284,
-                    113,
-                    13
-                ],
-                "confidence": 0.0
-            },
-            {
-                "text": "sta",
-                "bbox": [
-                    671,
-                    390,
-                    124,
-                    178
-                ],
-                "confidence": 0.79
-            },
-            {
-                "text": "standard",
-                "bbox": [
-                    673,
-                    429,
-                    365,
-                    71
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "a",
-                "bbox": [
-                    677,
-                    818,
-                    41,
-                    51
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "learning",
-                "bbox": [
-                    753,
-                    798,
-                    339,
-                    88
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "oa",
-                "bbox": [
-                    790,
-                    293,
-                    25,
-                    5
-                ],
-                "confidence": 0.43
-            },
-            {
-                "text": "ee",
-                "bbox": [
-                    860,
-                    0,
-                    71,
-                    38
-                ],
-                "confidence": 0.3
-            },
-            {
-                "text": "{",
-                "bbox": [
-                    1067,
-                    192,
-                    6,
-                    22
-                ],
-                "confidence": 0.56
-            },
-            {
-                "text": "work",
-                "bbox": [
-                    1070,
-                    429,
-                    213,
-                    71
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "instrument",
-                "bbox": [
-                    1123,
-                    800,
-                    463,
-                    69
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": ".",
-                "bbox": [
-                    1134,
-                    1040,
-                    6,
-                    6
-                ],
-                "confidence": 0.65
-            },
-            {
-                "text": "Are",
-                "bbox": [
-                    1135,
-                    191,
-                    46,
-                    20
-                ],
-                "confidence": 0.38
-            },
-            {
-                "text": "Are_there",
-                "bbox": [
-                    1196,
-                    1013,
-                    186,
-                    35
-                ],
-                "confidence": 0.63
-            },
-            {
-                "text": "tu",
-                "bbox": [
-                    1208,
-                    196,
-                    17,
-                    17
-                ],
-                "confidence": 0.38
-            },
-            {
-                "text": "me",
-                "bbox": [
-                    1302,
-                    693,
-                    161,
-                    123
-                ],
-                "confidence": 0.64
-            },
-            {
-                "text": "piare",
-                "bbox": [
-                    1304,
-                    207,
-                    78,
-                    17
-                ],
-                "confidence": 0.0
-            },
-            {
-                "text": "for",
-                "bbox": [
-                    1308,
-                    429,
-                    120,
-                    71
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "fouey,",
-                "bbox": [
-                    1399,
-                    205,
-                    77,
-                    29
-                ],
-                "confidence": 0.0
-            },
-            {
-                "text": "more",
-                "bbox": [
-                    1409,
-                    1028,
-                    91,
-                    22
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "any",
-                "bbox": [
-                    1456,
-                    450,
-                    147,
-                    67
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "Uy,",
-                "bbox": [
-                    1478,
-                    1154,
-                    140,
-                    168
-                ],
-                "confidence": 0.32
-            },
-            {
-                "text": "ay",
-                "bbox": [
-                    1486,
-                    757,
-                    38,
-                    59
-                ],
-                "confidence": 0.53
-            },
-            {
-                "text": "that",
-                "bbox": [
-                    1492,
-                    208,
-                    65,
-                    21
-                ],
-                "confidence": 0.44
-            },
-            {
-                "text": "prayer",
-                "bbox": [
-                    1573,
-                    210,
-                    140,
-                    26
-                ],
-                "confidence": 0.0
-            },
-            {
-                "text": "usually",
-                "bbox": [
-                    1618,
-                    798,
-                    294,
-                    88
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "branch",
-                "bbox": [
-                    1634,
-                    429,
-                    280,
-                    71
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": ":",
-                "bbox": [
-                    1715,
-                    228,
-                    3,
-                    2
-                ],
-                "confidence": 0.0
-            },
-            {
-                "text": "“Yo",
-                "bbox": [
-                    1752,
-                    755,
-                    84,
-                    70
-                ],
-                "confidence": 0.07
-            },
-            {
-                "text": "a",
-                "bbox": [
-                    1781,
-                    1204,
-                    72,
-                    25
-                ],
-                "confidence": 0.53
-            },
-            {
-                "text": "pineapples!",
-                "bbox": [
-                    1808,
-                    1022,
-                    204,
-                    41
-                ],
-                "confidence": 0.35
-            },
-            {
-                "text": "2.",
-                "bbox": [
-                    1864,
-                    767,
-                    158,
-                    89
-                ],
-                "confidence": 0.34
-            },
-            {
-                "text": "o",
-                "bbox": [
-                    1891,
-                    1218,
-                    25,
-                    15
-                ],
-                "confidence": 0.21
-            },
-            {
-                "text": "ee",
-                "bbox": [
-                    1904,
-                    1300,
-                    37,
-                    27
-                ],
-                "confidence": 0.4
-            },
-            {
-                "text": "”",
-                "bbox": [
-                    1941,
-                    1294,
-                    9,
-                    19
-                ],
-                "confidence": 0.0
-            },
-            {
-                "text": "~",
-                "bbox": [
-                    1954,
-                    1221,
-                    23,
-                    17
-                ],
-                "confidence": 0.56
-            },
-            {
-                "text": "x",
-                "bbox": [
-                    1957,
-                    1305,
-                    7,
-                    6
-                ],
-                "confidence": 0.37
-            },
-            {
-                "text": "\\",
-                "bbox": [
-                    1982,
-                    162,
-                    14,
+                "text": "Book",
+                "bbox": [
+                    94,
+                    410,
+                    89,
                     33
                 ],
-                "confidence": 0.92
+                "confidence": 0.96
             },
             {
-                "text": "Hy",
+                "text": "Text-to-Self",
                 "bbox": [
-                    2000,
-                    215,
-                    5,
-                    13
+                    124,
+                    532,
+                    248,
+                    38
                 ],
-                "confidence": 0.24
+                "confidence": 0.9
             },
             {
-                "text": "\\",
+                "text": "Teaching",
                 "bbox": [
-                    2006,
-                    230,
-                    2,
-                    4
-                ],
-                "confidence": 0.92
-            },
-            {
-                "text": "”",
-                "bbox": [
-                    2020,
-                    1220,
-                    15,
-                    5
-                ],
-                "confidence": 0.35
-            },
-            {
-                "text": "0",
-                "bbox": [
-                    0,
-                    619,
-                    50,
-                    84
-                ],
-                "confidence": 0.19
-            },
-            {
-                "text": "C",
-                "bbox": [
-                    8,
-                    565,
-                    41,
-                    81
-                ],
-                "confidence": 0.0
-            },
-            {
-                "text": "of",
-                "bbox": [
-                    75,
-                    552,
-                    85,
-                    71
+                    138,
+                    48,
+                    489,
+                    104
                 ],
                 "confidence": 0.96
             },
             {
-                "text": "employed",
+                "text": "ideas,",
                 "bbox": [
-                    75,
-                    921,
-                    413,
-                    88
+                    198,
+                    410,
+                    105,
+                    41
                 ],
-                "confidence": 0.93
+                "confidence": 0.95
             },
             {
-                "text": "f",
+                "text": "classroom",
                 "bbox": [
-                    112,
-                    700,
-                    39,
-                    23
-                ],
-                "confidence": 0.58
-            },
-            {
-                "text": "study",
-                "bbox": [
-                    186,
-                    552,
-                    229,
-                    88
-                ],
-                "confidence": 0.93
-            },
-            {
-                "text": "Comparing",
-                "bbox": [
-                    205,
-                    220,
-                    314,
-                    45
+                    319,
+                    410,
+                    184,
+                    33
                 ],
                 "confidence": 0.95
             },
             {
                 "text": "—",
                 "bbox": [
-                    439,
-                    588,
-                    51,
-                    11
+                    390,
+                    541,
+                    42,
+                    21
                 ],
-                "confidence": 0.9
+                "confidence": 0.86
             },
             {
-                "text": "Andres",
+                "text": "Text-to-Text",
                 "bbox": [
-                    514,
-                    552,
-                    296,
-                    71
+                    452,
+                    534,
+                    251,
+                    36
                 ],
-                "confidence": 0.96
+                "confidence": 0.91
             },
             {
-                "text": "in",
+                "text": "CHILDREN'S",
                 "bbox": [
-                    523,
-                    921,
-                    205,
-                    71
-                ],
-                "confidence": 0.76
-            },
-            {
-                "text": "Numbers",
-                "bbox": [
-                    555,
-                    222,
-                    258,
-                    46
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "i",
-                "bbox": [
+                    490,
                     632,
-                    1028,
-                    33,
-                    128
+                    100,
+                    43
                 ],
-                "confidence": 0.61
+                "confidence": 0.85
             },
             {
-                "text": "schools",
+                "text": "questions,",
                 "bbox": [
-                    728,
-                    921,
-                    205,
-                    71
+                    519,
+                    415,
+                    184,
+                    36
                 ],
-                "confidence": 0.76
+                "confidence": 0.96
             },
             {
-                "text": "i",
+                "text": "UBRARY",
                 "bbox": [
-                    781,
-                    568,
-                    119,
-                    150
+                    600,
+                    632,
+                    58,
+                    43
                 ],
-                "confidence": 0.36
+                "confidence": 0.87
             },
             {
-                "text": "Lang",
+                "text": "Making",
                 "bbox": [
-                    843,
-                    557,
-                    188,
-                    83
+                    668,
+                    48,
+                    389,
+                    104
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "LADY",
+                "bbox": [
+                    668,
+                    648,
+                    42,
+                    16
                 ],
                 "confidence": 0.96
             },
             {
                 "text": "and",
                 "bbox": [
-                    963,
-                    921,
-                    151,
-                    71
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "%",
-                "bbox": [
-                    1093,
-                    578,
-                    6,
-                    9
-                ],
-                "confidence": 0.52
-            },
-            {
-                "text": "bs",
-                "bbox": [
-                    1116,
-                    1399,
+                    719,
+                    410,
                     72,
-                    121
-                ],
-                "confidence": 0.34
-            },
-            {
-                "text": "colleges",
-                "bbox": [
-                    1147,
-                    921,
-                    333,
-                    88
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "re",
-                "bbox": [
-                    1164,
-                    571,
-                    22,
-                    22
-                ],
-                "confidence": 0.32
-            },
-            {
-                "text": "naan",
-                "bbox": [
-                    1166,
-                    282,
-                    175,
                     33
                 ],
-                "confidence": 0.13
-            },
-            {
-                "text": "shere",
-                "bbox": [
-                    1239,
-                    532,
-                    93,
-                    110
-                ],
-                "confidence": 0.33
-            },
-            {
-                "text": "more",
-                "bbox": [
-                    1359,
-                    588,
-                    50,
-                    16
-                ],
-                "confidence": 0.86
-            },
-            {
-                "text": "Oh,",
-                "bbox": [
-                    1398,
-                    287,
-                    102,
-                    36
-                ],
-                "confidence": 0.28
-            },
-            {
-                "text": "Dy",
-                "bbox": [
-                    1418,
-                    1396,
-                    172,
-                    89
-                ],
-                "confidence": 0.34
-            },
-            {
-                "text": "catrots",
-                "bbox": [
-                    1453,
-                    591,
-                    91,
-                    15
-                ],
-                "confidence": 0.54
-            },
-            {
-                "text": "to",
-                "bbox": [
-                    1507,
-                    930,
-                    85,
-                    62
-                ],
                 "confidence": 0.96
-            },
-            {
-                "text": "ran",
-                "bbox": [
-                    1565,
-                    282,
-                    87,
-                    29
-                ],
-                "confidence": 0.13
-            },
-            {
-                "text": "support",
-                "bbox": [
-                    1623,
-                    930,
-                    326,
-                    79
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "than",
-                "bbox": [
-                    1628,
-                    592,
-                    37,
-                    16
-                ],
-                "confidence": 0.85
-            },
-            {
-                "text": "a",
-                "bbox": [
-                    1681,
-                    291,
-                    27,
-                    23
-                ],
-                "confidence": 0.11
-            },
-            {
-                "text": "a",
-                "bbox": [
-                    1737,
-                    283,
-                    28,
-                    8
-                ],
-                "confidence": 0.2
-            },
-            {
-                "text": "fe",
-                "bbox": [
-                    1766,
-                    1249,
-                    23,
-                    13
-                ],
-                "confidence": 0.26
-            },
-            {
-                "text": "rabbi",
-                "bbox": [
-                    1786,
-                    593,
-                    8,
-                    7
-                ],
-                "confidence": 0.62
-            },
-            {
-                "text": "rN",
-                "bbox": [
-                    1824,
-                    283,
-                    109,
-                    33
-                ],
-                "confidence": 0.22
-            },
-            {
-                "text": "fae",
-                "bbox": [
-                    1841,
-                    1237,
-                    66,
-                    23
-                ],
-                "confidence": 0.16
-            },
-            {
-                "text": "al",
-                "bbox": [
-                    1925,
-                    1242,
-                    54,
-                    31
-                ],
-                "confidence": 0.29
-            },
-            {
-                "text": "al",
-                "bbox": [
-                    1982,
-                    1090,
-                    53,
-                    53
-                ],
-                "confidence": 0.62
-            },
-            {
-                "text": "|",
-                "bbox": [
-                    29,
-                    990,
-                    20,
-                    19
-                ],
-                "confidence": 0.72
-            },
-            {
-                "text": "a",
-                "bbox": [
-                    75,
-                    1064,
-                    41,
-                    50
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "Camparing",
-                "bbox": [
-                    83,
-                    312,
-                    227,
-                    33
-                ],
-                "confidence": 0.38
-            },
-            {
-                "text": "program",
-                "bbox": [
-                    151,
-                    1064,
-                    350,
-                    68
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "Purbear-",
-                "bbox": [
-                    331,
-                    313,
-                    183,
-                    28
-                ],
-                "confidence": 0.01
-            },
-            {
-                "text": "of",
-                "bbox": [
-                    533,
-                    1043,
-                    85,
-                    71
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "instructions",
-                "bbox": [
-                    646,
-                    1045,
-                    493,
-                    70
-                ],
-                "confidence": 0.93
-            },
-            {
-                "text": ":",
-                "bbox": [
-                    1161,
-                    344,
-                    2,
-                    2
-                ],
-                "confidence": 0.73
             },
             {
                 "text": "—",
                 "bbox": [
-                    1165,
-                    1080,
-                    52,
-                    10
-                ],
-                "confidence": 0.92
-            },
-            {
-                "text": "Or",
-                "bbox": [
-                    1198,
-                    319,
-                    84,
-                    51
-                ],
-                "confidence": 0.2
-            },
-            {
-                "text": "Encyclopedia",
-                "bbox": [
-                    1246,
-                    1044,
-                    543,
-                    87
-                ],
-                "confidence": 0.93
-            },
-            {
-                "text": "pee",
-                "bbox": [
-                    1374,
-                    319,
-                    147,
-                    27
-                ],
-                "confidence": 0.0
-            },
-            {
-                "text": "fy",
-                "bbox": [
-                    1585,
-                    311,
+                    722,
+                    541,
                     42,
-                    34
-                ],
-                "confidence": 0.51
-            },
-            {
-                "text": "‘",
-                "bbox": [
-                    1650,
-                    299,
-                    47,
-                    81
-                ],
-                "confidence": 0.0
-            },
-            {
-                "text": "_",
-                "bbox": [
-                    1696,
-                    1284,
-                    12,
-                    1
-                ],
-                "confidence": 0.0
-            },
-            {
-                "text": "|",
-                "bbox": [
-                    1721,
-                    293,
-                    7,
-                    41
-                ],
-                "confidence": 0.61
-            },
-            {
-                "text": "en",
-                "bbox": [
-                    1722,
-                    1277,
-                    36,
-                    8
-                ],
-                "confidence": 0.4
-            },
-            {
-                "text": "yr",
-                "bbox": [
-                    1791,
-                    304,
-                    74,
-                    40
-                ],
-                "confidence": 0.23
-            },
-            {
-                "text": "of",
-                "bbox": [
-                    1822,
-                    1043,
-                    85,
-                    72
-                ],
-                "confidence": 0.93
-            },
-            {
-                "text": "As",
-                "bbox": [
-                    1891,
-                    1250,
-                    39,
-                    46
-                ],
-                "confidence": 0.2
-            },
-            {
-                "text": "Mi",
-                "bbox": [
-                    1893,
-                    297,
-                    46,
-                    63
-                ],
-                "confidence": 0.39
-            },
-            {
-                "text": "—",
-                "bbox": [
-                    2010,
-                    905,
-                    2,
-                    25
-                ],
-                "confidence": 0.43
-            },
-            {
-                "text": "NU.",
-                "bbox": [
-                    2030,
-                    1279,
-                    6,
-                    13
-                ],
-                "confidence": 0.25
-            },
-            {
-                "text": "educational",
-                "bbox": [
-                    75,
-                    1167,
-                    490,
-                    71
-                ],
-                "confidence": 0.95
-            },
-            {
-                "text": "¢",
-                "bbox": [
-                    574,
-                    1353,
-                    17,
-                    23
-                ],
-                "confidence": 0.11
-            },
-            {
-                "text": "research.",
-                "bbox": [
-                    601,
-                    1166,
-                    378,
-                    72
-                ],
-                "confidence": 0.96
-            },
-            {
-                "text": "re",
-                "bbox": [
-                    1145,
-                    357,
-                    89,
-                    66
-                ],
-                "confidence": 0.53
-            },
-            {
-                "text": "Lea",
-                "bbox": [
-                    1234,
-                    380,
-                    43,
-                    11
-                ],
-                "confidence": 0.32
-            },
-            {
-                "text": "eee",
-                "bbox": [
-                    1324,
-                    385,
-                    36,
-                    6
-                ],
-                "confidence": 0.28
-            },
-            {
-                "text": "rae",
-                "bbox": [
-                    1370,
-                    368,
-                    116,
-                    66
-                ],
-                "confidence": 0.33
-            },
-            {
-                "text": "~~",
-                "bbox": [
-                    1705,
-                    371,
-                    29,
-                    8
+                    21
                 ],
                 "confidence": 0.74
             },
             {
-                "text": "SSS",
+                "text": "Text-to-World",
                 "bbox": [
-                    1820,
-                    372,
-                    135,
+                    784,
+                    532,
+                    291,
+                    38
+                ],
+                "confidence": 0.91
+            },
+            {
+                "text": "a",
+                "bbox": [
+                    804,
+                    424,
+                    22,
+                    19
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "simple",
+                "bbox": [
+                    841,
+                    410,
+                    120,
                     41
                 ],
-                "confidence": 0.1
+                "confidence": 0.96
+            },
+            {
+                "text": "routine",
+                "bbox": [
+                    976,
+                    415,
+                    132,
+                    28
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Connections",
+                "bbox": [
+                    120,
+                    156,
+                    684,
+                    86
+                ],
+                "confidence": 0.95
+            },
+            {
+                "text": "with",
+                "bbox": [
+                    838,
+                    157,
+                    240,
+                    85
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Picture",
+                "bbox": [
+                    224,
+                    266,
+                    387,
+                    85
+                ],
+                "confidence": 0.96
+            },
+            {
+                "text": "Books",
+                "bbox": [
+                    650,
+                    272,
+                    330,
+                    79
+                ],
+                "confidence": 0.95
             }
         ],
         "paragraphs": [
             {
                 "lines": [
-                    "DEFINITION"
+                    "Teaching Making Connections with Picture Books"
                 ],
-                "text": "DEFINITION",
+                "text": "Teaching Making Connections with Picture Books",
                 "column": 1
             },
             {
                 "lines": [
-                    "Comparing Numbers"
+                    "Book ideas, classroom questions, and a simple routine"
                 ],
-                "text": "Comparing Numbers",
+                "text": "Book ideas, classroom questions, and a simple routine",
                 "column": 1
             },
             {
                 "lines": [
-                    "1. Are there more frogs than penguins?"
+                    "Text-to-Self → Text-to-Text → Text-to-World"
                 ],
-                "text": "1. Are there more frogs than penguins?",
+                "text": "Text-to-Self → Text-to-Text → Text-to-World",
                 "column": 1
             },
             {
                 "lines": [
-                    "Text book is a standard work for any branch of study — Andres Lang"
+                    "CHILDREN'S LIBRARY LADY"
                 ],
-                "text": "Text book is a standard work for any branch of study — Andres Lang",
+                "text": "CHILDREN'S LIBRARY LADY",
                 "column": 1
             },
             {
                 "lines": [
-                    "2. Are there more carrots than rabbits?"
+                    "THERE'S A BOOK FOR THAT"
                 ],
-                "text": "2. Are there more carrots than rabbits?",
-                "column": 1
-            },
-            {
-                "lines": [
-                    "A text book is a learning instrument usually employed in schools and colleges to support a program of instructions — Encyclopedia of educational research."
-                ],
-                "text": "A text book is a learning instrument usually employed in schools and colleges to support a program of instructions — Encyclopedia of educational research.",
-                "column": 1
-            },
-            {
-                "lines": [
-                    "3. Are there more mangoes than pineapples?"
-                ],
-                "text": "3. Are there more mangoes than pineapples?",
-                "column": 1
-            },
-            {
-                "lines": [
-                    "as more stamps, Matth"
-                ],
-                "text": "as more stamps, Matth",
+                "text": "THERE'S A BOOK FOR THAT",
                 "column": 1
             }
         ],
         "sentences": [
-            "DEFINITION\nComparing Numbers\n1.",
-            "Are there more frogs than penguins?",
-            "Text book is a standard work for any branch of study — Andres Lang\n2.",
-            "Are there more carrots than rabbits?",
-            "A text book is a learning instrument usually employed in schools and colleges to support a program of instructions — Encyclopedia of educational research.\n3.",
-            "Are there more mangoes than pineapples?\nas more stamps, Matth"
+            "Teaching Making Connections with Picture Books\nBook ideas, classroom questions, and a simple routine\nText-to-Self → Text-to-Text → Text-to-World\nCHILDREN'S LIBRARY LADY\nTHERE'S A BOOK FOR THAT"
         ],
         "typography": {
-            "indented_paragraphs_count": 5,
+            "indented_paragraphs_count": 4,
             "uppercase_lines": [
-                "DEFINITION"
+                "CHILDREN'S LIBRARY LADY",
+                "THERE'S A BOOK FOR THAT"
             ]
         },
         "page_structure": {
             "content_boundaries": {
-                "top": 0,
-                "bottom": 1520,
-                "left": 0,
-                "right": 2036
+                "top": 48,
+                "bottom": 675,
+                "left": 94,
+                "right": 1108
             },
             "page_continuation_hyphenated": false
         },
         "statistics": {
-            "word_count": 66,
-            "line_count": 8,
-            "paragraph_count": 8,
-            "sentence_count": 6
+            "word_count": 27,
+            "line_count": 5,
+            "paragraph_count": 5,
+            "sentence_count": 1
         }
     },
     "indicators": [],
@@ -1576,11 +311,11 @@
         }
     },
     "metrics": {
-        "total_execution_ms": 3714.94,
-        "bytes_processed": 131918,
+        "total_execution_ms": 1495.95,
+        "bytes_processed": 50304,
         "plugin_timings_ms": {
-            "ocr_engine": 3641.62,
-            "doc_parser": 1.81
+            "ocr_engine": 1420.27,
+            "doc_parser": 1.46
         }
     },
     "errors": []

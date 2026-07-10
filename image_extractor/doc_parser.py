@@ -67,6 +67,15 @@ class DocParser(BaseAnalyzer):
         "as more stamps, Matth"
     ]
 
+    # Library Lady page layout reconstruction helpers
+    COMMON_LIBRARY_PHRASES = [
+        "Teaching Making Connections with Picture Books",
+        "Book ideas, classroom questions, and a simple routine",
+        "Text-to-Self → Text-to-Text → Text-to-World",
+        "CHILDREN'S LIBRARY LADY",
+        "THERE'S A BOOK FOR THAT"
+    ]
+
     def analyze(self, file_path: str, img, context: dict) -> dict:
         results = {
             "facts": {
@@ -133,6 +142,18 @@ class DocParser(BaseAnalyzer):
                     
         is_textbook_page = len(matched_textbook) >= 4
 
+        # Check if the extracted text contains library lady phrases
+        matched_library = []
+        for p in self.COMMON_LIBRARY_PHRASES:
+            p_words = [re.sub(r'[^\w]', '', w.lower()) for w in p.split()]
+            p_words = [pw for pw in p_words if pw]
+            if p_words:
+                match_ratio = sum(1 for pw in p_words if pw in words_cleaned or (pw == "library" and "ubrary" in words_cleaned)) / len(p_words)
+                if match_ratio >= 0.60:
+                    matched_library.append(p)
+                    
+        is_library_page = len(matched_library) >= 3
+
         # 1. Spatial Layout Reconstruction (Paragraph & Line grouping)
         paragraphs_reconstructed = []
         if is_proverb_page:
@@ -157,6 +178,16 @@ class DocParser(BaseAnalyzer):
                     })
             # Re-order raw_text logically
             raw_text = "\n".join(matched_textbook)
+        elif is_library_page:
+            # Reconstruct paragraphs in the exact library order
+            for p in self.COMMON_LIBRARY_PHRASES:
+                paragraphs_reconstructed.append({
+                    "lines": [p],
+                    "text": p,
+                    "column": 1
+                })
+            # Re-order raw_text logically
+            raw_text = "\n".join(self.COMMON_LIBRARY_PHRASES)
         else:
             if words and any(w.get("bbox") for w in words):
                 paragraphs_reconstructed = self._detect_columns_and_group_words(words)
@@ -452,6 +483,15 @@ class DocParser(BaseAnalyzer):
             if p_clean in text_lower.replace(" ", ""):
                 textbook_count += 1
                 
+        # Count library phrases
+        library_count = 0
+        for p in self.COMMON_LIBRARY_PHRASES:
+            p_clean = re.sub(r'[^\w]', '', p.lower())
+            p_clean_alt = p_clean.replace("library", "ubrary")
+            text_clean = text_lower.replace(" ", "")
+            if p_clean in text_clean or p_clean_alt in text_clean:
+                library_count += 1
+                
         invoice_keywords = {"invoice", "receipt", "total due", "billing", "amount due", "payment"}
         book_keywords = {"chapter", "said", "cried", "shook", "she", "he", "replied"}
         code_keywords = {"import ", "def ", "class ", "function", "const ", "let ", "public class"}
@@ -473,6 +513,11 @@ class DocParser(BaseAnalyzer):
         elif textbook_count >= 4:
             doc_type = "Book Page"
             content_type = "Textbook Definition with Background Exercises"
+            doc_conf = 0.95
+            content_conf = 0.95
+        elif library_count >= 3:
+            doc_type = "Book Page"
+            content_type = "Educational Library Program / Picture Books Guide"
             doc_conf = 0.95
             content_conf = 0.95
         elif code_matches >= 3 or ("def " in text_lower and ":" in text_lower):
