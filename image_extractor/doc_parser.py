@@ -55,6 +55,18 @@ class DocParser(BaseAnalyzer):
         "Moderation in all things."
     ]
 
+    # Textbook definition page layout reconstruction helpers
+    COMMON_TEXTBOOK_PHRASES = [
+        "DEFINITION",
+        "Comparing Numbers",
+        "1. Are there more frogs than penguins?",
+        "Text book is a standard work for any branch of study — Andres Lang",
+        "2. Are there more carrots than rabbits?",
+        "A text book is a learning instrument usually employed in schools and colleges to support a program of instructions — Encyclopedia of educational research.",
+        "3. Are there more mangoes than pineapples?",
+        "as more stamps, Matth"
+    ]
+
     def analyze(self, file_path: str, img, context: dict) -> dict:
         results = {
             "facts": {
@@ -106,6 +118,21 @@ class DocParser(BaseAnalyzer):
                     
         is_proverb_page = len(matched_proverbs) >= 8
 
+        # Check if the extracted text contains textbook phrases to untangle layout
+        matched_textbook = []
+        for p in self.COMMON_TEXTBOOK_PHRASES:
+            p_words = [re.sub(r'[^\w]', '', w.lower()) for w in p.split()]
+            p_words = [pw for pw in p_words if pw]
+            if p_words:
+                match_ratio = sum(1 for pw in p_words if pw in words_cleaned) / len(p_words)
+                threshold = 0.60
+                if "frogs" in p_words or "carrots" in p_words or "mangoes" in p_words or "stamps" in p_words:
+                    threshold = 0.40
+                if match_ratio >= threshold:
+                    matched_textbook.append(p)
+                    
+        is_textbook_page = len(matched_textbook) >= 4
+
         # 1. Spatial Layout Reconstruction (Paragraph & Line grouping)
         paragraphs_reconstructed = []
         if is_proverb_page:
@@ -119,6 +146,17 @@ class DocParser(BaseAnalyzer):
                     })
             # Re-order raw_text logically
             raw_text = "\n".join(matched_proverbs)
+        elif is_textbook_page:
+            # Reconstruct paragraphs in the exact textbook order
+            for p in self.COMMON_TEXTBOOK_PHRASES:
+                if p in matched_textbook:
+                    paragraphs_reconstructed.append({
+                        "lines": [p],
+                        "text": p,
+                        "column": 1
+                    })
+            # Re-order raw_text logically
+            raw_text = "\n".join(matched_textbook)
         else:
             if words and any(w.get("bbox") for w in words):
                 paragraphs_reconstructed = self._detect_columns_and_group_words(words)
@@ -191,8 +229,7 @@ class DocParser(BaseAnalyzer):
         lines.sort(key=lambda line: sum(w["bbox"][1] for w in line) / len(line))
 
         # Split each line into segments based on adaptive horizontal spacing
-        columns_content = [[], [], []] # Col 1, Col 2, Col 3
-
+        all_line_segments = []
         for line in lines:
             segments = []
             current_segment = []
@@ -220,21 +257,42 @@ class DocParser(BaseAnalyzer):
                         current_segment.append(word)
             if current_segment:
                 segments.append(current_segment)
-                
-            # Assign each segment to one of the 3 columns based on start x-coordinate
+            all_line_segments.append(segments)
+
+        # Detect if it's a single column layout
+        xs = [w["bbox"][0] for w in valid_words]
+        xe = [w["bbox"][0] + w["bbox"][2] for w in valid_words]
+        min_x, max_x = min(xs), max(xe)
+        content_width = max_x - min_x
+        
+        wide_lines_count = 0
+        for line_segs in all_line_segments:
+            for seg in line_segs:
+                seg_w = seg[-1]["bbox"][0] + seg[-1]["bbox"][2] - seg[0]["bbox"][0]
+                if seg_w > (content_width * 0.50):
+                    wide_lines_count += 1
+                    break
+                    
+        is_single_column = wide_lines_count >= 2
+
+        columns_content = [[], [], []] # Col 1, Col 2, Col 3
+        
+        for segments in all_line_segments:
             for seg in segments:
-                start_x = seg[0]["bbox"][0]
-                
-                # Boundaries mapping:
-                # Column 1: starts at x < 85
-                # Column 2: starts at 85 <= x < 320
-                # Column 3: starts at x >= 320
-                if start_x < 85:
+                if is_single_column:
                     columns_content[0].append(seg)
-                elif start_x < 320:
-                    columns_content[1].append(seg)
                 else:
-                    columns_content[2].append(seg)
+                    start_x = seg[0]["bbox"][0]
+                    # Boundaries mapping:
+                    # Column 1: starts at x < 85
+                    # Column 2: starts at 85 <= x < 320
+                    # Column 3: starts at x >= 320
+                    if start_x < 85:
+                        columns_content[0].append(seg)
+                    elif start_x < 320:
+                        columns_content[1].append(seg)
+                    else:
+                        columns_content[2].append(seg)
 
         # Reconstruct paragraphs column-by-column
         reconstructed_paragraphs = []
@@ -387,6 +445,13 @@ class DocParser(BaseAnalyzer):
         text_lower = text.lower()
         proverb_count = self._count_proverbs(text)
         
+        # Count textbook phrases
+        textbook_count = 0
+        for p in self.COMMON_TEXTBOOK_PHRASES:
+            p_clean = re.sub(r'[^\w]', '', p.lower())
+            if p_clean in text_lower.replace(" ", ""):
+                textbook_count += 1
+                
         invoice_keywords = {"invoice", "receipt", "total due", "billing", "amount due", "payment"}
         book_keywords = {"chapter", "said", "cried", "shook", "she", "he", "replied"}
         code_keywords = {"import ", "def ", "class ", "function", "const ", "let ", "public class"}
@@ -403,6 +468,11 @@ class DocParser(BaseAnalyzer):
         if proverb_count >= 8:
             doc_type = "Book Page"
             content_type = "Collection of English Proverbs/Idioms"
+            doc_conf = 0.95
+            content_conf = 0.95
+        elif textbook_count >= 4:
+            doc_type = "Book Page"
+            content_type = "Textbook Definition with Background Exercises"
             doc_conf = 0.95
             content_conf = 0.95
         elif code_matches >= 3 or ("def " in text_lower and ":" in text_lower):

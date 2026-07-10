@@ -228,6 +228,33 @@ class OcrEngine(BaseAnalyzer):
         data_str = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT)
         words = self._parse_tesseract_dict(data_str)
         
+        # Pass 2: Enhanced Grayscale (CLAHE + Sharpening)
+        try:
+            clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+            contrast = clahe.apply(gray)
+            kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
+            sharpened = cv2.filter2D(contrast, -1, kernel)
+            data_str_2 = pytesseract.image_to_data(Image.fromarray(sharpened), output_type=pytesseract.Output.DICT)
+            words_2 = self._parse_tesseract_dict(data_str_2)
+            
+            for w2 in words_2:
+                if not any(self._is_overlapping(w2["bbox"], w["bbox"]) for w in words):
+                    words.append(w2)
+        except Exception:
+            pass
+            
+        # Pass 3: Adaptive Thresholding (brings out low-contrast background text)
+        try:
+            thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 15, 8)
+            data_str_3 = pytesseract.image_to_data(Image.fromarray(thresh), output_type=pytesseract.Output.DICT)
+            words_3 = self._parse_tesseract_dict(data_str_3)
+            
+            for w3 in words_3:
+                if not any(self._is_overlapping(w3["bbox"], w["bbox"]) for w in words):
+                    words.append(w3)
+        except Exception:
+            pass
+            
         # If text is extremely short, run advanced tile-based preprocessing passes
         if len(words) < 15:
             # Attempt grid-based overlapping tile scans (captures small, curved, and stylized text segments)
@@ -255,7 +282,27 @@ class OcrEngine(BaseAnalyzer):
             except Exception:
                 pass
                 
-        return words
+        # Split words joined by colons (e.g. "in:schools" -> "in", "schools")
+        cleaned_words = []
+        for w in words:
+            txt = w["text"]
+            if ":" in txt and not txt.startswith("http") and not txt.replace(":", "").isdigit():
+                parts = txt.split(":")
+                parts = [p for p in parts if p.strip()]
+                if len(parts) > 1:
+                    x, y, width, height = w["bbox"]
+                    part_w = width // len(parts)
+                    for idx, part in enumerate(parts):
+                        cleaned_words.append({
+                            "text": part,
+                            "bbox": [x + idx * part_w, y, part_w, height],
+                            "confidence": w["confidence"],
+                            "line_num": w.get("line_num", 0)
+                        })
+                    continue
+            cleaned_words.append(w)
+            
+        return cleaned_words
 
     def _run_tile_based_ocr(self, gray_img) -> list:
         """
