@@ -3,10 +3,10 @@ import tempfile
 import unittest
 import shutil
 from PIL import Image
-from image_extractor.extractor import ImageInfoExtractor
+from image_extractor.extractor import ImageTextExtractor
 
 
-class TestImageTextLayoutExtractor(unittest.TestCase):
+class TestImageTextExtractor(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Create a temporary directory for test assets
@@ -82,79 +82,44 @@ class TestImageTextLayoutExtractor(unittest.TestCase):
 
     def test_invalid_paths(self):
         with self.assertRaises(FileNotFoundError):
-            ImageInfoExtractor("missing_file.jpg")
+            ImageTextExtractor("missing_file.jpg")
         with self.assertRaises(ValueError):
-            ImageInfoExtractor(self.test_dir)
+            ImageTextExtractor(self.test_dir)
 
-    def test_text_and_layout_extraction(self):
-        extractor = ImageInfoExtractor(self.doc_path)
-        results = extractor.extract_all()
-        
-        # Verify sidecar loaded indicator is logged
-        self.assertTrue(any(ind["type"] == "ocr_sidecar_loaded" for ind in results["indicators"]))
-        
-        # Verify paragraph and layout reconstruction
-        facts = results["facts"]
-        self.assertIn("paragraphs", facts)
-        self.assertGreaterEqual(len(facts["paragraphs"]), 2)
-        
-        # Ensure we have columns information
-        self.assertEqual(facts["paragraphs"][0]["column"], 1)
-        
-        stats = facts["statistics"]
-        self.assertGreater(stats["word_count"], 15)
-        self.assertGreater(stats["line_count"], 3)
-        
-        # Verify language detection and classification
-        assessments = results["assessments"]
-        self.assertIn("language_detection", assessments)
-        self.assertIn("English", assessments["language_detection"]["language"])
-        
-        self.assertIn("document_classification", assessments)
-        # Should detect Scanned Printed Book Page due to narrative keywords
-        self.assertEqual(assessments["document_classification"]["document_type"], "Scanned Printed Book Page")
-        self.assertEqual(assessments["document_classification"]["content_type"], "Narrative Text / Prose")
+    def test_image_text_extraction_via_sidecar(self):
+        extractor = ImageTextExtractor(self.doc_path)
+        text = extractor.extract_text()
+        self.assertIn("Mrs. Russell", text)
+        self.assertIn("romans", text)
 
     def test_pdf_extraction(self):
-        extractor = ImageInfoExtractor(self.pdf_path)
-        results = extractor.extract_all()
-        facts = results["facts"]
-        self.assertIn("pages", facts)
-        self.assertEqual(len(facts["pages"]), 1)
-        self.assertIn("reportlab", facts["raw_text"])
-        self.assertEqual(facts["statistics"]["word_count"], 12)
+        extractor = ImageTextExtractor(self.pdf_path)
+        text = extractor.extract_text()
+        self.assertIn("reportlab", text)
+        self.assertIn("second line", text)
 
     def test_docx_extraction(self):
-        extractor = ImageInfoExtractor(self.docx_path)
-        results = extractor.extract_all()
-        facts = results["facts"]
-        self.assertIn("docx", facts["raw_text"])
-        self.assertEqual(facts["statistics"]["word_count"], 10)
+        extractor = ImageTextExtractor(self.docx_path)
+        text = extractor.extract_text()
+        self.assertIn("docx", text)
+        self.assertIn("Second paragraph", text)
 
     def test_pptx_extraction(self):
-        extractor = ImageInfoExtractor(self.pptx_path)
-        results = extractor.extract_all()
-        facts = results["facts"]
-        self.assertIn("pages", facts)
-        self.assertEqual(len(facts["pages"]), 1)
-        self.assertIn("pptx", facts["raw_text"])
-        self.assertEqual(facts["statistics"]["word_count"], 10)
+        extractor = ImageTextExtractor(self.pptx_path)
+        text = extractor.extract_text()
+        self.assertIn("pptx", text)
+        self.assertIn("body paragraph", text)
 
     def test_xlsx_extraction(self):
-        extractor = ImageInfoExtractor(self.xlsx_path)
-        results = extractor.extract_all()
-        facts = results["facts"]
-        self.assertIn("pages", facts)
-        self.assertEqual(len(facts["pages"]), 1)
-        self.assertIn("Alice", facts["raw_text"])
-        self.assertEqual(facts["statistics"]["word_count"], 6)
+        extractor = ImageTextExtractor(self.xlsx_path)
+        text = extractor.extract_text()
+        self.assertIn("Alice", text)
+        self.assertIn("Bob", text)
 
     def test_txt_extraction(self):
-        extractor = ImageInfoExtractor(self.txt_path)
-        results = extractor.extract_all()
-        facts = results["facts"]
-        self.assertIn("simple", facts["raw_text"])
-        self.assertEqual(facts["statistics"]["word_count"], 7)
+        extractor = ImageTextExtractor(self.txt_path)
+        text = extractor.extract_text()
+        self.assertIn("simple", text)
 
 
 if __name__ == "__main__":

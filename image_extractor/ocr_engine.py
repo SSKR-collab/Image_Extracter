@@ -1,7 +1,6 @@
 import os
 import json
 from PIL import Image
-from image_extractor.base_analyzer import BaseAnalyzer
 
 # Check for Tesseract and EasyOCR dependencies
 try:
@@ -24,20 +23,17 @@ except ImportError:
     HAS_OPENCV = False
 
 
-class OcrEngine(BaseAnalyzer):
+class OcrEngine:
     """
-    Coordinates Optical Character Recognition. Supports EasyOCR, Tesseract,
-    and falls back to loading sidecar (.ocr/.txt/.json) files for offline/test environments.
-    Implements advanced local Tesseract preprocessing (tiling, multi-scale, multi-PSM, CLAHE, sharpening)
-    to maximize text extraction accuracy on complex layouts without heavy models.
+    Coordinates Optical Character Recognition and native text extraction across various formats.
     """
-    VERSION = "1.3.0"
+    def __init__(self, config=None):
+        self.config = config or {}
 
     def analyze(self, file_path: str, img, context: dict) -> dict:
         results = {
             "facts": {
-                "raw_text": "",
-                "words": []
+                "raw_text": ""
             },
             "indicators": [],
             "assessments": {},
@@ -62,6 +58,7 @@ class OcrEngine(BaseAnalyzer):
         sidecar_ocr = base_path + ".ocr"
         sidecar_txt = base_path + ".txt"
         sidecar_json = base_path + ".json"
+        sidecar_results = base_path + "_results.json"
         
         selected_sidecar = None
         if os.path.exists(sidecar_ocr):
@@ -70,6 +67,8 @@ class OcrEngine(BaseAnalyzer):
             selected_sidecar = sidecar_txt
         elif os.path.exists(sidecar_json):
             selected_sidecar = sidecar_json
+        elif os.path.exists(sidecar_results):
+            selected_sidecar = sidecar_results
 
         if selected_sidecar:
             try:
@@ -99,9 +98,8 @@ class OcrEngine(BaseAnalyzer):
                         if "words" in json_data:
                             words_list = json_data["words"]
                             
-                        if raw_text or words_list:
+                        if raw_text:
                             results["facts"]["raw_text"] = raw_text
-                            results["facts"]["words"] = words_list if words_list else self._mock_words_from_text(raw_text)
                         else:
                             raise ValueError()
                     else:
@@ -109,7 +107,6 @@ class OcrEngine(BaseAnalyzer):
                 except Exception:
                     # Plain text sidecar
                     results["facts"]["raw_text"] = content
-                    results["facts"]["words"] = self._mock_words_from_text(content)
 
                 results["indicators"].append({
                     "type": "ocr_sidecar_loaded",
@@ -119,7 +116,7 @@ class OcrEngine(BaseAnalyzer):
                 return results
             except Exception as e:
                 results["errors"].append({
-                    "plugin": self.get_name(),
+                    "plugin": "ocr_engine",
                     "severity": "warning",
                     "message": f"Failed to load OCR sidecar: {str(e)}"
                 })
@@ -151,11 +148,10 @@ class OcrEngine(BaseAnalyzer):
                     })
                 
                 results["facts"]["raw_text"] = "\n".join(raw_lines)
-                results["facts"]["words"] = words_list
                 return results
             except Exception as e:
                 results["errors"].append({
-                    "plugin": self.get_name(),
+                    "plugin": "ocr_engine",
                     "severity": "warning",
                     "message": f"EasyOCR execution failed: {str(e)}"
                 })
@@ -204,25 +200,17 @@ class OcrEngine(BaseAnalyzer):
                 if current_line:
                     raw_lines.append(" ".join(current_line))
                 
-                results["facts"]["raw_text"] = "\n".join(raw_lines)
-                
-                # Clean line_num helper keys
-                for w in words_list:
-                    if "line_num" in w:
-                        del w["line_num"]
-                
-                results["facts"]["words"] = words_list
                 return results
             except Exception as e:
                 results["errors"].append({
-                    "plugin": self.get_name(),
+                    "plugin": "ocr_engine",
                     "severity": "warning",
                     "message": f"Tesseract execution failed: {str(e)}"
                 })
 
         # If no OCR is available
         results["errors"].append({
-            "plugin": self.get_name(),
+            "plugin": "ocr_engine",
             "severity": "warning",
             "message": "No local OCR engine (EasyOCR or Tesseract) is installed, and no sidecar OCR file was found."
         })
@@ -423,32 +411,6 @@ class OcrEngine(BaseAnalyzer):
             return overlap > 0.4
         return False
 
-    def _mock_words_from_text(self, text: str) -> list:
-        """
-        Generates simulated words with structured coordinates so that downstream
-        layout, entities, and relationship analyzers can run on raw text inputs.
-        """
-        words = []
-        lines = text.split("\n")
-        
-        y_offset = 20
-        for line in lines:
-            line_words = line.strip().split()
-            if not line_words:
-                y_offset += 30
-                continue
-                
-            x_offset = 20
-            for lw in line_words:
-                w_len = len(lw) * 10
-                words.append({
-                    "text": lw,
-                    "bbox": [x_offset, y_offset, w_len, 20],
-                    "confidence": 0.95
-                })
-                x_offset += w_len + 15
-            y_offset += 35
-        return words
 
     def _rebuild_text_from_words(self, words: list) -> str:
         if not words:
@@ -477,57 +439,16 @@ class OcrEngine(BaseAnalyzer):
         import pypdf
         try:
             reader = pypdf.PdfReader(file_path)
-            pages_list = []
-            
-            cumulative_height = 0.0
-            global_words = []
             global_raw_text_parts = []
             
             for idx, page in enumerate(reader.pages):
                 page_number = idx + 1
-                media_box = page.mediabox
-                page_height = float(media_box.height) if media_box else 792.0
-                page_width = float(media_box.width) if media_box else 612.0
+                page_text = page.extract_text() or ""
                 
-                page_words = []
-                
-                def visitor_text(text, cm, tm, fontDict, fontSize):
-                    if not text or not text.strip():
-                        return
-                    x = tm[4]
-                    y = tm[5]
-                    y_top = page_height - y - fontSize
-                    width = len(text) * fontSize * 0.5
-                    height = fontSize
-                    
-                    clean_text = text.strip()
-                    if clean_text:
-                        sub_words = clean_text.split()
-                        if len(sub_words) > 1:
-                            char_width = width / len(clean_text)
-                            current_x = x
-                            for sw in sub_words:
-                                sw_len = len(sw)
-                                sw_width = sw_len * char_width
-                                page_words.append({
-                                    "text": sw,
-                                    "bbox": [round(current_x, 1), round(y_top, 1), round(sw_width, 1), round(height, 1)],
-                                    "confidence": 1.0
-                                })
-                                current_x += (sw_len + 1) * char_width
-                        else:
-                            page_words.append({
-                                "text": clean_text,
-                                "bbox": [round(x, 1), round(y_top, 1), round(width, 1), round(height, 1)],
-                                "confidence": 1.0
-                            })
-                
-                page.extract_text(visitor_text=visitor_text)
-                
-                # Scanned PDF fallback: if pypdf extracts very little text, try embedded images or pdf2image
-                if len(page_words) < 5:
+                # Scanned PDF fallback
+                if len(page_text.strip().split()) < 5:
                     page_words = []
-                    # Try embedded page images first
+                    # Try embedded page images
                     if page.images:
                         for img_idx, img_obj in enumerate(page.images):
                             try:
@@ -541,78 +462,51 @@ class OcrEngine(BaseAnalyzer):
                                     else:
                                         data_str = pytesseract.image_to_data(pil_img, output_type=pytesseract.Output.DICT)
                                         ocr_words = self._parse_tesseract_dict(data_str)
-                                elif HAS_EASYOCR:
-                                    # Fallback simple easyocr
-                                    ocr_words = []
                                 else:
                                     ocr_words = []
                                 page_words.extend(ocr_words)
                             except Exception as ocr_err:
                                 results["errors"].append({
-                                    "plugin": self.get_name(),
+                                    "plugin": "ocr_engine",
                                     "severity": "warning",
                                     "message": f"Failed image OCR extraction on page {page_number}: {str(ocr_err)}"
                                 })
                                 
-                if len(page_words) < 5:
-                    # Try pdf2image rendering
-                    try:
-                        from pdf2image import convert_from_path
-                        images = convert_from_path(file_path, first_page=page_number, last_page=page_number)
-                        if images:
-                            pil_img = images[0]
-                            if HAS_TESSERACT:
-                                if HAS_OPENCV:
-                                    ocr_words = self._run_tesseract_with_enhancements(pil_img, pytesseract.pytesseract.tesseract_cmd)
+                    if len(page_words) < 5:
+                        try:
+                            from pdf2image import convert_from_path
+                            images = convert_from_path(file_path, first_page=page_number, last_page=page_number)
+                            if images:
+                                pil_img = images[0]
+                                if HAS_TESSERACT:
+                                    if HAS_OPENCV:
+                                        ocr_words = self._run_tesseract_with_enhancements(pil_img, pytesseract.pytesseract.tesseract_cmd)
+                                    else:
+                                        data_str = pytesseract.image_to_data(pil_img, output_type=pytesseract.Output.DICT)
+                                        ocr_words = self._parse_tesseract_dict(data_str)
                                 else:
-                                    data_str = pytesseract.image_to_data(pil_img, output_type=pytesseract.Output.DICT)
-                                    ocr_words = self._parse_tesseract_dict(data_str)
-                            else:
-                                ocr_words = []
-                            page_words.extend(ocr_words)
-                    except Exception:
-                        pass
-                
-                page_words.sort(key=lambda w: (w["bbox"][1], w["bbox"][0]))
-                page_raw_text = self._rebuild_text_from_words(page_words)
-                
-                shifted_words = []
-                for w in page_words:
-                    sw = dict(w)
-                    sw["bbox"] = [w["bbox"][0], w["bbox"][1] + cumulative_height, w["bbox"][2], w["bbox"][3]]
-                    shifted_words.append(sw)
+                                    ocr_words = []
+                                page_words.extend(ocr_words)
+                        except Exception:
+                            pass
+                            
+                    if page_words:
+                        page_words.sort(key=lambda w: (w["bbox"][1], w["bbox"][0]))
+                        page_text = self._rebuild_text_from_words(page_words)
+                        
+                if page_text.strip():
+                    global_raw_text_parts.append(page_text)
                     
-                pages_list.append({
-                    "page_number": page_number,
-                    "raw_text": page_raw_text,
-                    "words": page_words,
-                    "width": page_width,
-                    "height": page_height
-                })
-                
-                global_words.extend(shifted_words)
-                if page_raw_text:
-                    global_raw_text_parts.append(page_raw_text)
-                    
-                cumulative_height += page_height
-                
             results["facts"]["raw_text"] = "\n\n".join(global_raw_text_parts)
-            results["facts"]["words"] = global_words
-            results["facts"]["pages"] = pages_list
-            
-            results["indicators"].append({
-                "type": "pdf_extracted",
-                "description": f"Extracted native text / images from PDF file with {len(reader.pages)} pages.",
-                "severity": "low"
-            })
             return results
         except Exception as e:
             results["errors"].append({
-                "plugin": self.get_name(),
+                "plugin": "ocr_engine",
                 "severity": "error",
                 "message": f"Failed to parse PDF file: {str(e)}"
             })
             return results
+
 
     def _analyze_docx(self, file_path: str, results: dict) -> dict:
         import docx
@@ -632,20 +526,11 @@ class OcrEngine(BaseAnalyzer):
                     raw_text_parts.append("\n".join(table_lines))
                     
             raw_text = "\n\n".join(raw_text_parts)
-            words = self._mock_words_from_text(raw_text)
-            
             results["facts"]["raw_text"] = raw_text
-            results["facts"]["words"] = words
-            
-            results["indicators"].append({
-                "type": "docx_extracted",
-                "description": "Extracted paragraphs and tables from DOCX file.",
-                "severity": "low"
-            })
             return results
         except Exception as e:
             results["errors"].append({
-                "plugin": self.get_name(),
+                "plugin": "ocr_engine",
                 "severity": "error",
                 "message": f"Failed to parse DOCX document: {str(e)}"
             })
@@ -664,9 +549,7 @@ class OcrEngine(BaseAnalyzer):
             slide_height = prs.slide_height.inches * 96 if hasattr(prs, "slide_height") else 720.0
             
             for idx, slide in enumerate(prs.slides):
-                page_number = idx + 1
                 page_words = []
-                
                 for shape in slide.shapes:
                     if shape.has_text_frame:
                         x = shape.left.inches * 96 if shape.left else 20.0
@@ -696,40 +579,17 @@ class OcrEngine(BaseAnalyzer):
                                     current_x += (sw_len + 1) * char_width
                             y_offset += px_height + 5
                             
-                page_words.sort(key=lambda w: (w["bbox"][1], w["bbox"][0]))
-                page_raw_text = self._rebuild_text_from_words(page_words)
-                
-                shifted_words = []
-                for w in page_words:
-                    sw = dict(w)
-                    sw["bbox"] = [w["bbox"][0], w["bbox"][1] + cumulative_height, w["bbox"][2], w["bbox"][3]]
-                    shifted_words.append(sw)
-                    
-                pages_list.append({
-                    "page_number": page_number,
-                    "raw_text": page_raw_text,
-                    "words": page_words,
-                    "width": slide_width,
-                    "height": slide_height
-                })
-                global_words.extend(shifted_words)
-                if page_raw_text:
-                    global_raw_text_parts.append(page_raw_text)
-                cumulative_height += slide_height
+                if page_words:
+                    page_words.sort(key=lambda w: (w["bbox"][1], w["bbox"][0]))
+                    page_raw_text = self._rebuild_text_from_words(page_words)
+                    if page_raw_text.strip():
+                        global_raw_text_parts.append(page_raw_text)
                 
             results["facts"]["raw_text"] = "\n\n".join(global_raw_text_parts)
-            results["facts"]["words"] = global_words
-            results["facts"]["pages"] = pages_list
-            
-            results["indicators"].append({
-                "type": "pptx_extracted",
-                "description": f"Extracted native text from PPTX Presentation with {len(prs.slides)} slides.",
-                "severity": "low"
-            })
             return results
         except Exception as e:
             results["errors"].append({
-                "plugin": self.get_name(),
+                "plugin": "ocr_engine",
                 "severity": "error",
                 "message": f"Failed to parse PPTX presentation: {str(e)}"
             })
@@ -739,76 +599,24 @@ class OcrEngine(BaseAnalyzer):
         import pandas as pd
         try:
             xl = pd.ExcelFile(file_path)
-            pages_list = []
-            cumulative_height = 0.0
-            global_words = []
             global_raw_text_parts = []
             
-            sheet_width = 800.0
-            sheet_height = 600.0
-            
-            for idx, sheet_name in enumerate(xl.sheet_names):
-                page_number = idx + 1
+            for sheet_name in xl.sheet_names:
                 df = xl.parse(sheet_name)
                 df_str = df.to_string(index=False)
-                
-                page_words = []
-                lines = df_str.split("\n")
-                
-                y_offset = 20.0
-                for line in lines:
-                    line_words = line.strip().split()
-                    if not line_words:
-                        y_offset += 25.0
-                        continue
-                    x_offset = 20.0
-                    for lw in line_words:
-                        w_len = len(lw) * 8.0
-                        page_words.append({
-                            "text": lw,
-                            "bbox": [round(x_offset, 1), round(y_offset, 1), round(w_len, 1), 20.0],
-                            "confidence": 1.0
-                        })
-                        x_offset += w_len + 12.0
-                    y_offset += 30.0
+                if df_str.strip():
+                    global_raw_text_parts.append(df_str)
                     
-                page_raw_text = df_str
-                shifted_words = []
-                for w in page_words:
-                    sw = dict(w)
-                    sw["bbox"] = [w["bbox"][0], w["bbox"][1] + cumulative_height, w["bbox"][2], w["bbox"][3]]
-                    shifted_words.append(sw)
-                    
-                pages_list.append({
-                    "page_number": page_number,
-                    "page_name": sheet_name,
-                    "raw_text": page_raw_text,
-                    "words": page_words,
-                    "width": sheet_width,
-                    "height": sheet_height
-                })
-                global_words.extend(shifted_words)
-                if page_raw_text:
-                    global_raw_text_parts.append(page_raw_text)
-                cumulative_height += sheet_height
-                
-            results["facts"]["raw_text"] = "\n\n".join(global_raw_text_parts)
-            results["facts"]["words"] = global_words
-            results["facts"]["pages"] = pages_list
-            
-            results["indicators"].append({
-                "type": "xlsx_extracted",
-                "description": f"Extracted sheets data from Excel file with {len(xl.sheet_names)} sheets.",
-                "severity": "low"
-            })
             try:
                 xl.close()
             except Exception:
                 pass
+                
+            results["facts"]["raw_text"] = "\n\n".join(global_raw_text_parts)
             return results
         except Exception as e:
             results["errors"].append({
-                "plugin": self.get_name(),
+                "plugin": "ocr_engine",
                 "severity": "error",
                 "message": f"Failed to parse Excel file: {str(e)}"
             })
@@ -818,20 +626,11 @@ class OcrEngine(BaseAnalyzer):
         try:
             with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
                 content = f.read().strip()
-                
-            words = self._mock_words_from_text(content)
             results["facts"]["raw_text"] = content
-            results["facts"]["words"] = words
-            
-            results["indicators"].append({
-                "type": "text_extracted",
-                "description": f"Loaded plain text file: {os.path.basename(file_path)}",
-                "severity": "low"
-            })
             return results
         except Exception as e:
             results["errors"].append({
-                "plugin": self.get_name(),
+                "plugin": "ocr_engine",
                 "severity": "error",
                 "message": f"Failed to read text file: {str(e)}"
             })
