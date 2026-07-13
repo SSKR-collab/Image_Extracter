@@ -127,19 +127,40 @@ def print_human_readable(data: dict):
                 print(f"  Typography: Uppercase lines: {', '.join(typo['uppercase_lines'][:3])}")
 
         # Paragraph Layout & Reconstructed Reading Order Flow
-        paras = facts.get("paragraphs", [])
-        if paras:
-            print("\n[+] Reconstructed Page Layout & Reading Order Flow:")
-            current_col = -1
-            for idx, p in enumerate(paras):
-                col = p.get("column", 1)
-                if col != current_col:
-                    print(f"\n  --- COLUMN {col} ---")
-                    current_col = col
-                print(f"  [Paragraph {idx+1}]")
-                for line in p.get("lines", []):
-                    print(f"    {line}")
-                print()
+        pages = facts.get("pages", [])
+        if pages:
+            for page in pages:
+                page_num = page["page_number"]
+                page_name = page.get("page_name")
+                header_str = f"Page {page_num}"
+                if page_name:
+                    header_str += f" ({page_name})"
+                print(f"\n==================== {header_str} ====================")
+                paras = page.get("paragraphs", [])
+                current_col = -1
+                for idx, p in enumerate(paras):
+                    col = p.get("column", 1)
+                    if col != current_col:
+                        print(f"\n  --- COLUMN {col} ---")
+                        current_col = col
+                    print(f"  [Paragraph {idx+1}]")
+                    for line in p.get("lines", []):
+                        print(f"    {line}")
+                    print()
+        else:
+            paras = facts.get("paragraphs", [])
+            if paras:
+                print("\n[+] Reconstructed Page Layout & Reading Order Flow:")
+                current_col = -1
+                for idx, p in enumerate(paras):
+                    col = p.get("column", 1)
+                    if col != current_col:
+                        print(f"\n  --- COLUMN {col} ---")
+                        current_col = col
+                    print(f"  [Paragraph {idx+1}]")
+                    for line in p.get("lines", []):
+                        print(f"    {line}")
+                    print()
 
     # Metrics
     metrics = data.get("metrics", {})

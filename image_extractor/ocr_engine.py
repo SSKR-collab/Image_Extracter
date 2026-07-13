@@ -44,6 +44,19 @@ class OcrEngine(BaseAnalyzer):
             "errors": []
         }
 
+        # Format-based extraction routing
+        ext = os.path.splitext(file_path)[1].lower()
+        if ext == ".pdf":
+            return self._analyze_pdf(file_path, results)
+        elif ext == ".docx":
+            return self._analyze_docx(file_path, results)
+        elif ext == ".pptx":
+            return self._analyze_pptx(file_path, results)
+        elif ext in (".xlsx", ".xls"):
+            return self._analyze_xlsx(file_path, results)
+        elif ext in (".txt", ".md", ".json", ".csv", ".xml", ".html", ".yaml", ".yml"):
+            return self._analyze_text_file(file_path, results)
+
         # Check sidecar fallback first
         base_path, _ = os.path.splitext(file_path)
         sidecar_ocr = base_path + ".ocr"
@@ -436,3 +449,390 @@ class OcrEngine(BaseAnalyzer):
                 x_offset += w_len + 15
             y_offset += 35
         return words
+
+    def _rebuild_text_from_words(self, words: list) -> str:
+        if not words:
+            return ""
+        lines = []
+        current_line = []
+        last_y = -1
+        
+        for w in words:
+            y = w["bbox"][1]
+            h = w["bbox"][3]
+            if last_y == -1:
+                current_line.append(w["text"])
+                last_y = y
+            elif abs(y - last_y) < h * 0.5:
+                current_line.append(w["text"])
+            else:
+                lines.append(" ".join(current_line))
+                current_line = [w["text"]]
+                last_y = y
+        if current_line:
+            lines.append(" ".join(current_line))
+        return "\n".join(lines)
+
+    def _analyze_pdf(self, file_path: str, results: dict) -> dict:
+        import pypdf
+        try:
+            reader = pypdf.PdfReader(file_path)
+            pages_list = []
+            
+            cumulative_height = 0.0
+            global_words = []
+            global_raw_text_parts = []
+            
+            for idx, page in enumerate(reader.pages):
+                page_number = idx + 1
+                media_box = page.mediabox
+                page_height = float(media_box.height) if media_box else 792.0
+                page_width = float(media_box.width) if media_box else 612.0
+                
+                page_words = []
+                
+                def visitor_text(text, cm, tm, fontDict, fontSize):
+                    if not text or not text.strip():
+                        return
+                    x = tm[4]
+                    y = tm[5]
+                    y_top = page_height - y - fontSize
+                    width = len(text) * fontSize * 0.5
+                    height = fontSize
+                    
+                    clean_text = text.strip()
+                    if clean_text:
+                        sub_words = clean_text.split()
+                        if len(sub_words) > 1:
+                            char_width = width / len(clean_text)
+                            current_x = x
+                            for sw in sub_words:
+                                sw_len = len(sw)
+                                sw_width = sw_len * char_width
+                                page_words.append({
+                                    "text": sw,
+                                    "bbox": [round(current_x, 1), round(y_top, 1), round(sw_width, 1), round(height, 1)],
+                                    "confidence": 1.0
+                                })
+                                current_x += (sw_len + 1) * char_width
+                        else:
+                            page_words.append({
+                                "text": clean_text,
+                                "bbox": [round(x, 1), round(y_top, 1), round(width, 1), round(height, 1)],
+                                "confidence": 1.0
+                            })
+                
+                page.extract_text(visitor_text=visitor_text)
+                
+                # Scanned PDF fallback: if pypdf extracts very little text, try embedded images or pdf2image
+                if len(page_words) < 5:
+                    page_words = []
+                    # Try embedded page images first
+                    if page.images:
+                        for img_idx, img_obj in enumerate(page.images):
+                            try:
+                                from PIL import Image
+                                import io
+                                pil_img = Image.open(io.BytesIO(img_obj.data))
+                                
+                                if HAS_TESSERACT:
+                                    if HAS_OPENCV:
+                                        ocr_words = self._run_tesseract_with_enhancements(pil_img, pytesseract.pytesseract.tesseract_cmd)
+                                    else:
+                                        data_str = pytesseract.image_to_data(pil_img, output_type=pytesseract.Output.DICT)
+                                        ocr_words = self._parse_tesseract_dict(data_str)
+                                elif HAS_EASYOCR:
+                                    # Fallback simple easyocr
+                                    ocr_words = []
+                                else:
+                                    ocr_words = []
+                                page_words.extend(ocr_words)
+                            except Exception as ocr_err:
+                                results["errors"].append({
+                                    "plugin": self.get_name(),
+                                    "severity": "warning",
+                                    "message": f"Failed image OCR extraction on page {page_number}: {str(ocr_err)}"
+                                })
+                                
+                if len(page_words) < 5:
+                    # Try pdf2image rendering
+                    try:
+                        from pdf2image import convert_from_path
+                        images = convert_from_path(file_path, first_page=page_number, last_page=page_number)
+                        if images:
+                            pil_img = images[0]
+                            if HAS_TESSERACT:
+                                if HAS_OPENCV:
+                                    ocr_words = self._run_tesseract_with_enhancements(pil_img, pytesseract.pytesseract.tesseract_cmd)
+                                else:
+                                    data_str = pytesseract.image_to_data(pil_img, output_type=pytesseract.Output.DICT)
+                                    ocr_words = self._parse_tesseract_dict(data_str)
+                            else:
+                                ocr_words = []
+                            page_words.extend(ocr_words)
+                    except Exception:
+                        pass
+                
+                page_words.sort(key=lambda w: (w["bbox"][1], w["bbox"][0]))
+                page_raw_text = self._rebuild_text_from_words(page_words)
+                
+                shifted_words = []
+                for w in page_words:
+                    sw = dict(w)
+                    sw["bbox"] = [w["bbox"][0], w["bbox"][1] + cumulative_height, w["bbox"][2], w["bbox"][3]]
+                    shifted_words.append(sw)
+                    
+                pages_list.append({
+                    "page_number": page_number,
+                    "raw_text": page_raw_text,
+                    "words": page_words,
+                    "width": page_width,
+                    "height": page_height
+                })
+                
+                global_words.extend(shifted_words)
+                if page_raw_text:
+                    global_raw_text_parts.append(page_raw_text)
+                    
+                cumulative_height += page_height
+                
+            results["facts"]["raw_text"] = "\n\n".join(global_raw_text_parts)
+            results["facts"]["words"] = global_words
+            results["facts"]["pages"] = pages_list
+            
+            results["indicators"].append({
+                "type": "pdf_extracted",
+                "description": f"Extracted native text / images from PDF file with {len(reader.pages)} pages.",
+                "severity": "low"
+            })
+            return results
+        except Exception as e:
+            results["errors"].append({
+                "plugin": self.get_name(),
+                "severity": "error",
+                "message": f"Failed to parse PDF file: {str(e)}"
+            })
+            return results
+
+    def _analyze_docx(self, file_path: str, results: dict) -> dict:
+        import docx
+        try:
+            doc = docx.Document(file_path)
+            raw_text_parts = []
+            for p in doc.paragraphs:
+                text = p.text.strip()
+                if text:
+                    raw_text_parts.append(text)
+            for table in doc.tables:
+                table_lines = []
+                for row in table.rows:
+                    row_cells = [cell.text.strip() for cell in row.cells]
+                    table_lines.append("\t".join(row_cells))
+                if table_lines:
+                    raw_text_parts.append("\n".join(table_lines))
+                    
+            raw_text = "\n\n".join(raw_text_parts)
+            words = self._mock_words_from_text(raw_text)
+            
+            results["facts"]["raw_text"] = raw_text
+            results["facts"]["words"] = words
+            
+            results["indicators"].append({
+                "type": "docx_extracted",
+                "description": "Extracted paragraphs and tables from DOCX file.",
+                "severity": "low"
+            })
+            return results
+        except Exception as e:
+            results["errors"].append({
+                "plugin": self.get_name(),
+                "severity": "error",
+                "message": f"Failed to parse DOCX document: {str(e)}"
+            })
+            return results
+
+    def _analyze_pptx(self, file_path: str, results: dict) -> dict:
+        import pptx
+        try:
+            prs = pptx.Presentation(file_path)
+            pages_list = []
+            cumulative_height = 0.0
+            global_words = []
+            global_raw_text_parts = []
+            
+            slide_width = prs.slide_width.inches * 96 if hasattr(prs, "slide_width") else 960.0
+            slide_height = prs.slide_height.inches * 96 if hasattr(prs, "slide_height") else 720.0
+            
+            for idx, slide in enumerate(prs.slides):
+                page_number = idx + 1
+                page_words = []
+                
+                for shape in slide.shapes:
+                    if shape.has_text_frame:
+                        x = shape.left.inches * 96 if shape.left else 20.0
+                        y = shape.top.inches * 96 if shape.top else 20.0
+                        w_box = shape.width.inches * 96 if shape.width else 200.0
+                        
+                        y_offset = y
+                        for paragraph in shape.text_frame.paragraphs:
+                            text = paragraph.text.strip()
+                            if not text:
+                                continue
+                            font_size = paragraph.font.size.pt if paragraph.font.size else 14.0
+                            px_height = font_size * 1.33
+                            
+                            sub_words = text.split()
+                            if sub_words:
+                                char_width = w_box / max(len(text), 1)
+                                current_x = x
+                                for sw in sub_words:
+                                    sw_len = len(sw)
+                                    sw_width = sw_len * char_width
+                                    page_words.append({
+                                        "text": sw,
+                                        "bbox": [round(current_x, 1), round(y_offset, 1), round(sw_width, 1), round(px_height, 1)],
+                                        "confidence": 1.0
+                                    })
+                                    current_x += (sw_len + 1) * char_width
+                            y_offset += px_height + 5
+                            
+                page_words.sort(key=lambda w: (w["bbox"][1], w["bbox"][0]))
+                page_raw_text = self._rebuild_text_from_words(page_words)
+                
+                shifted_words = []
+                for w in page_words:
+                    sw = dict(w)
+                    sw["bbox"] = [w["bbox"][0], w["bbox"][1] + cumulative_height, w["bbox"][2], w["bbox"][3]]
+                    shifted_words.append(sw)
+                    
+                pages_list.append({
+                    "page_number": page_number,
+                    "raw_text": page_raw_text,
+                    "words": page_words,
+                    "width": slide_width,
+                    "height": slide_height
+                })
+                global_words.extend(shifted_words)
+                if page_raw_text:
+                    global_raw_text_parts.append(page_raw_text)
+                cumulative_height += slide_height
+                
+            results["facts"]["raw_text"] = "\n\n".join(global_raw_text_parts)
+            results["facts"]["words"] = global_words
+            results["facts"]["pages"] = pages_list
+            
+            results["indicators"].append({
+                "type": "pptx_extracted",
+                "description": f"Extracted native text from PPTX Presentation with {len(prs.slides)} slides.",
+                "severity": "low"
+            })
+            return results
+        except Exception as e:
+            results["errors"].append({
+                "plugin": self.get_name(),
+                "severity": "error",
+                "message": f"Failed to parse PPTX presentation: {str(e)}"
+            })
+            return results
+
+    def _analyze_xlsx(self, file_path: str, results: dict) -> dict:
+        import pandas as pd
+        try:
+            xl = pd.ExcelFile(file_path)
+            pages_list = []
+            cumulative_height = 0.0
+            global_words = []
+            global_raw_text_parts = []
+            
+            sheet_width = 800.0
+            sheet_height = 600.0
+            
+            for idx, sheet_name in enumerate(xl.sheet_names):
+                page_number = idx + 1
+                df = xl.parse(sheet_name)
+                df_str = df.to_string(index=False)
+                
+                page_words = []
+                lines = df_str.split("\n")
+                
+                y_offset = 20.0
+                for line in lines:
+                    line_words = line.strip().split()
+                    if not line_words:
+                        y_offset += 25.0
+                        continue
+                    x_offset = 20.0
+                    for lw in line_words:
+                        w_len = len(lw) * 8.0
+                        page_words.append({
+                            "text": lw,
+                            "bbox": [round(x_offset, 1), round(y_offset, 1), round(w_len, 1), 20.0],
+                            "confidence": 1.0
+                        })
+                        x_offset += w_len + 12.0
+                    y_offset += 30.0
+                    
+                page_raw_text = df_str
+                shifted_words = []
+                for w in page_words:
+                    sw = dict(w)
+                    sw["bbox"] = [w["bbox"][0], w["bbox"][1] + cumulative_height, w["bbox"][2], w["bbox"][3]]
+                    shifted_words.append(sw)
+                    
+                pages_list.append({
+                    "page_number": page_number,
+                    "page_name": sheet_name,
+                    "raw_text": page_raw_text,
+                    "words": page_words,
+                    "width": sheet_width,
+                    "height": sheet_height
+                })
+                global_words.extend(shifted_words)
+                if page_raw_text:
+                    global_raw_text_parts.append(page_raw_text)
+                cumulative_height += sheet_height
+                
+            results["facts"]["raw_text"] = "\n\n".join(global_raw_text_parts)
+            results["facts"]["words"] = global_words
+            results["facts"]["pages"] = pages_list
+            
+            results["indicators"].append({
+                "type": "xlsx_extracted",
+                "description": f"Extracted sheets data from Excel file with {len(xl.sheet_names)} sheets.",
+                "severity": "low"
+            })
+            try:
+                xl.close()
+            except Exception:
+                pass
+            return results
+        except Exception as e:
+            results["errors"].append({
+                "plugin": self.get_name(),
+                "severity": "error",
+                "message": f"Failed to parse Excel file: {str(e)}"
+            })
+            return results
+
+    def _analyze_text_file(self, file_path: str, results: dict) -> dict:
+        try:
+            with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                content = f.read().strip()
+                
+            words = self._mock_words_from_text(content)
+            results["facts"]["raw_text"] = content
+            results["facts"]["words"] = words
+            
+            results["indicators"].append({
+                "type": "text_extracted",
+                "description": f"Loaded plain text file: {os.path.basename(file_path)}",
+                "severity": "low"
+            })
+            return results
+        except Exception as e:
+            results["errors"].append({
+                "plugin": self.get_name(),
+                "severity": "error",
+                "message": f"Failed to read text file: {str(e)}"
+            })
+            return results

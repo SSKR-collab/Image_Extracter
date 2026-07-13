@@ -68,16 +68,19 @@ class ImageInfoExtractor:
                 "errors": []
             }
 
-            # 2. Load the image using Pillow
+            # 2. Load the image using Pillow (only for image files)
             img = None
-            try:
-                img = Image.open(self.file_path)
-            except Exception as e:
-                results["errors"].append({
-                    "plugin": "core_loader",
-                    "severity": "warning",
-                    "message": f"Failed to load image via Pillow: {str(e)}."
-                })
+            ext = os.path.splitext(self.file_path)[1].lower()
+            is_image = ext in (".png", ".jpg", ".jpeg", ".webp", ".tiff", ".bmp", ".gif")
+            if is_image:
+                try:
+                    img = Image.open(self.file_path)
+                except Exception as e:
+                    results["errors"].append({
+                        "plugin": "core_loader",
+                        "severity": "warning",
+                        "message": f"Failed to load image via Pillow: {str(e)}."
+                    })
 
             # 3. Execute Plugins in order
             context = {}

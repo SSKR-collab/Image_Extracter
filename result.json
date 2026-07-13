@@ -1,7 +1,7 @@
 {
     "schema_version": "1.0.0",
     "metadata": {
-        "timestamp": "2026-07-10T17:39:38.762329+00:00",
+        "timestamp": "2026-07-13T19:45:20.948721+00:00",
         "analyzer_capabilities": {
             "active_plugins": [
                 "ocr_engine",
@@ -643,11 +643,11 @@
         }
     },
     "metrics": {
-        "total_execution_ms": 1582.5,
+        "total_execution_ms": 2768.6,
         "bytes_processed": 79738,
         "plugin_timings_ms": {
-            "ocr_engine": 1504.29,
-            "doc_parser": 5.36
+            "ocr_engine": 2584.87,
+            "doc_parser": 2.63
         }
     },
     "errors": []

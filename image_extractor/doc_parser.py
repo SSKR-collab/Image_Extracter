@@ -103,6 +103,96 @@ class DocParser(BaseAnalyzer):
     ]
 
     def analyze(self, file_path: str, img, context: dict) -> dict:
+        ocr_out = context.get("ocr_engine", {})
+        ocr_facts = ocr_out.get("facts", {})
+        pages = ocr_facts.get("pages", [])
+        
+        results = {
+            "facts": {
+                "paragraphs": [],
+                "sentences": [],
+                "typography": {},
+                "page_structure": {},
+                "statistics": {
+                    "word_count": 0,
+                    "line_count": 0,
+                    "paragraph_count": 0,
+                    "sentence_count": 0
+                }
+            },
+            "indicators": [],
+            "assessments": {},
+            "errors": []
+        }
+        
+        if pages:
+            parsed_pages = []
+            global_paragraphs = []
+            global_sentences = []
+            global_word_count = 0
+            global_line_count = 0
+            global_paragraph_count = 0
+            global_sentence_count = 0
+            
+            for page in pages:
+                page_words = page["words"]
+                page_raw_text = page["raw_text"]
+                page_num = page["page_number"]
+                
+                page_context = {
+                    "ocr_engine": {
+                        "facts": {
+                            "words": page_words,
+                            "raw_text": page_raw_text
+                        }
+                    }
+                }
+                
+                page_results = self._analyze_single_page(file_path, page_context)
+                page_facts = page_results.get("facts", {})
+                page_paras = page_facts.get("paragraphs", [])
+                
+                page_stats = page_facts.get("statistics", {})
+                global_word_count += page_stats.get("word_count", 0)
+                global_line_count += page_stats.get("line_count", 0)
+                global_paragraph_count += page_stats.get("paragraph_count", 0)
+                global_sentence_count += page_stats.get("sentence_count", 0)
+                
+                parsed_pages.append({
+                    "page_number": page_num,
+                    "raw_text": page_raw_text,
+                    "words": page_words,
+                    "paragraphs": page_paras,
+                    "sentences": page_facts.get("sentences", []),
+                    "typography": page_facts.get("typography", {}),
+                    "page_structure": page_facts.get("page_structure", {}),
+                    "statistics": page_stats,
+                    "assessments": page_results.get("assessments", {})
+                })
+                
+                global_paragraphs.extend(page_paras)
+                global_sentences.extend(page_facts.get("sentences", []))
+                
+            results["facts"]["pages"] = parsed_pages
+            results["facts"]["paragraphs"] = global_paragraphs
+            results["facts"]["sentences"] = global_sentences
+            results["facts"]["statistics"] = {
+                "word_count": global_word_count,
+                "line_count": global_line_count,
+                "paragraph_count": global_paragraph_count,
+                "sentence_count": global_sentence_count
+            }
+            results["assessments"]["document_classification"] = {
+                "document_type": "Multi-Page Document File",
+                "document_confidence": 0.95,
+                "content_type": "Structured Text Layout",
+                "content_confidence": 0.90
+            }
+            return results
+        else:
+            return self._analyze_single_page(file_path, context)
+
+    def _analyze_single_page(self, file_path: str, context: dict) -> dict:
         results = {
             "facts": {
                 "paragraphs": [],
