@@ -107,26 +107,7 @@ class OcrEngine:
                         data_str = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT)
                         words_list = self._parse_tesseract_dict(data_str)
 
-                    # Sort words by line_num and then by x coordinate
-                    words_list.sort(key=lambda w: (w.get("line_num", 0), w["bbox"][0]))
-                    
-                    raw_lines = []
-                    current_line = []
-                    last_line_num = -1
-                    for w in words_list:
-                        text = w["text"]
-                        line_num = w.get("line_num", 0)
-                        if line_num != last_line_num:
-                            if current_line:
-                                raw_lines.append(" ".join(current_line))
-                            current_line = [text]
-                            last_line_num = line_num
-                        else:
-                            current_line.append(text)
-                    if current_line:
-                        raw_lines.append(" ".join(current_line))
-                    
-                    ocr_text = "\n".join(raw_lines)
+                    ocr_text = self._rebuild_text_from_words(words_list)
                     if ocr_text.strip():
                         results["facts"]["raw_text"] = ocr_text
                         return results
@@ -404,25 +385,154 @@ class OcrEngine:
     def _rebuild_text_from_words(self, words: list) -> str:
         if not words:
             return ""
+        valid_words = [w for w in words if w.get("bbox") and len(w["bbox"]) == 4]
+        if not valid_words:
+            return " ".join(w.get("text", "") for w in words)
+            
+        paragraphs = self._detect_columns_and_group_words(valid_words)
+        return "\n\n".join(p["text"] for p in paragraphs)
+
+    def _detect_columns_and_group_words(self, words: list) -> list:
+        """
+        Detects vertical column gutters using adaptive horizontal line segment gaps,
+        ensuring multi-column documents preserve reading order.
+        """
+        valid_words = [w for w in words if w.get("bbox") and len(w["bbox"]) == 4]
+        if not valid_words:
+            return []
+            
+        # Group words into lines
         lines = []
-        current_line = []
-        last_y = -1
+        for word in valid_words:
+            w_y_center = word["bbox"][1] + word["bbox"][3] / 2.0
+            placed = False
+            for line in lines:
+                line_avg_y = sum(w["bbox"][1] + w["bbox"][3]/2.0 for w in line) / len(line)
+                line_avg_h = sum(w["bbox"][3] for w in line) / len(line)
+                if abs(w_y_center - line_avg_y) < (line_avg_h * 0.5):
+                    line.append(word)
+                    placed = True
+                    break
+            if not placed:
+                lines.append([word])
+
+        for line in lines:
+            line.sort(key=lambda w: w["bbox"][0])
+        lines.sort(key=lambda line: sum(w["bbox"][1] for w in line) / len(line))
+
+        # Split each line into segments based on adaptive horizontal spacing
+        all_line_segments = []
+        for line in lines:
+            segments = []
+            current_segment = []
+            
+            # Calculate median spacing for adaptive split threshold
+            spacings = []
+            for i in range(len(line) - 1):
+                spacings.append(line[i+1]["bbox"][0] - (line[i]["bbox"][0] + line[i]["bbox"][2]))
+            spacings.sort()
+            med_space = spacings[len(spacings)//2] if spacings else 8
+            
+            # Gutter Threshold: median + 3
+            gutter_thresh = med_space + 3
+            
+            for word in line:
+                if not current_segment:
+                    current_segment.append(word)
+                else:
+                    prev_word = current_segment[-1]
+                    gap = word["bbox"][0] - (prev_word["bbox"][0] + prev_word["bbox"][2])
+                    if gap >= gutter_thresh:
+                        segments.append(current_segment)
+                        current_segment = [word]
+                    else:
+                        current_segment.append(word)
+            if current_segment:
+                segments.append(current_segment)
+            all_line_segments.append(segments)
+
+        # Detect if it's a single column layout
+        xs = [w["bbox"][0] for w in valid_words]
+        xe = [w["bbox"][0] + w["bbox"][2] for w in valid_words]
+        min_x, max_x = min(xs), max(xe)
+        content_width = max_x - min_x
         
-        for w in words:
-            y = w["bbox"][1]
-            h = w["bbox"][3]
-            if last_y == -1:
-                current_line.append(w["text"])
-                last_y = y
-            elif abs(y - last_y) < h * 0.5:
-                current_line.append(w["text"])
-            else:
-                lines.append(" ".join(current_line))
-                current_line = [w["text"]]
-                last_y = y
-        if current_line:
-            lines.append(" ".join(current_line))
-        return "\n".join(lines)
+        wide_lines_count = 0
+        total_lines = len(all_line_segments)
+        for line_segs in all_line_segments:
+            for seg in line_segs:
+                seg_w = seg[-1]["bbox"][0] + seg[-1]["bbox"][2] - seg[0]["bbox"][0]
+                if seg_w > (content_width * 0.50):
+                    wide_lines_count += 1
+                    break
+                    
+        is_single_column = (wide_lines_count / total_lines >= 0.40) if total_lines > 0 else True
+
+        columns_content = [[], [], []] # Col 1, Col 2, Col 3
+        
+        for segments in all_line_segments:
+            for seg in segments:
+                if is_single_column:
+                    columns_content[0].append(seg)
+                else:
+                    start_x = seg[0]["bbox"][0]
+                    pct = (start_x - min_x) / content_width if content_width > 0 else 0
+                    if pct < 0.40:
+                        columns_content[0].append(seg)
+                    elif pct < 0.75:
+                        columns_content[1].append(seg)
+                    else:
+                        columns_content[2].append(seg)
+
+        # Reconstruct paragraphs column-by-column
+        reconstructed_paragraphs = []
+        for col_idx, col_segs in enumerate(columns_content):
+            if not col_segs:
+                continue
+            
+            col_paras = []
+            current_para_lines = []
+            last_y_bottom = -1
+            last_height = 20
+            
+            for seg in col_segs:
+                seg_text = " ".join(w["text"] for w in seg)
+                seg_y_top = sum(w["bbox"][1] for w in seg) / len(seg)
+                seg_height = sum(w["bbox"][3] for w in seg) / len(seg)
+                seg_y_bottom = seg_y_top + seg_height
+                
+                if not current_para_lines:
+                    current_para_lines.append(seg_text)
+                else:
+                    vertical_gap = seg_y_top - last_y_bottom
+                    is_break = False
+                    if vertical_gap > (last_height * 1.8):
+                        is_break = True
+                        
+                    if is_break:
+                        col_paras.append({
+                            "lines": current_para_lines,
+                            "text": " ".join(current_para_lines),
+                            "column": col_idx + 1
+                        })
+                        current_para_lines = [seg_text]
+                    else:
+                        current_para_lines.append(seg_text)
+                        
+                last_y_bottom = seg_y_bottom
+                last_height = seg_height
+                
+            if current_para_lines:
+                col_paras.append({
+                    "lines": current_para_lines,
+                    "text": " ".join(current_para_lines),
+                    "column": col_idx + 1
+                })
+                
+            reconstructed_paragraphs.extend(col_paras)
+            
+        return reconstructed_paragraphs
+
 
     def _analyze_pdf(self, file_path: str, results: dict) -> dict:
         import pypdf
