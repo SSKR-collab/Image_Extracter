@@ -63,7 +63,7 @@ class OcrEngine:
                     img.save(img_byte_arr, format=img.format or 'PNG')
                     img_bytes = img_byte_arr.getvalue()
                     
-                    reader = easyocr.Reader(['en'], gpu=False)
+                    reader = easyocr.Reader(['en'], gpu=False, verbose=False)
                     ocr_results = reader.readtext(img_bytes)
                     
                     raw_lines = []
