@@ -2,6 +2,8 @@ import os
 import tempfile
 import unittest
 import shutil
+import warnings
+warnings.filterwarnings("ignore")
 from PIL import Image
 from image_extractor.extractor import ImageTextExtractor
 

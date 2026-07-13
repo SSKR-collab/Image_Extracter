@@ -1,5 +1,7 @@
 import sys
 import argparse
+import warnings
+warnings.filterwarnings("ignore")
 from image_extractor.extractor import ImageTextExtractor
 
 
