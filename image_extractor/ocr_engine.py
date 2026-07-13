@@ -53,7 +53,91 @@ class OcrEngine:
         elif ext in (".txt", ".md", ".json", ".csv", ".xml", ".html", ".yaml", ".yml"):
             return self._analyze_text_file(file_path, results)
 
-        # Check sidecar fallback first
+        # 1. Run actual OCR first (EasyOCR or Tesseract) if an image is provided
+        if img is not None:
+            # Try EasyOCR
+            if HAS_EASYOCR:
+                try:
+                    import io
+                    img_byte_arr = io.BytesIO()
+                    img.save(img_byte_arr, format=img.format or 'PNG')
+                    img_bytes = img_byte_arr.getvalue()
+                    
+                    reader = easyocr.Reader(['en'], gpu=False)
+                    ocr_results = reader.readtext(img_bytes)
+                    
+                    raw_lines = []
+                    for bbox, text, conf in ocr_results:
+                        text_str = text.strip()
+                        if text_str:
+                            raw_lines.append(text_str)
+                    
+                    ocr_text = "\n".join(raw_lines)
+                    if ocr_text.strip():
+                        results["facts"]["raw_text"] = ocr_text
+                        return results
+                except Exception as e:
+                    results["errors"].append({
+                        "plugin": "ocr_engine",
+                        "severity": "warning",
+                        "message": f"EasyOCR execution failed: {str(e)}"
+                    })
+
+            # Try Tesseract
+            if HAS_TESSERACT:
+                try:
+                    tess_path = self.config.get("tesseract_path")
+                    if tess_path:
+                        pytesseract.pytesseract.tesseract_cmd = tess_path
+                    elif os.name == "nt":
+                        default_paths = [
+                            r"C:\Program Files\Tesseract-OCR\tesseract.exe",
+                            r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe",
+                            os.path.expandvars(r"%LOCALAPPDATA%\Programs\Tesseract-OCR\tesseract.exe")
+                        ]
+                        for path in default_paths:
+                            if os.path.exists(path):
+                                pytesseract.pytesseract.tesseract_cmd = path
+                                break
+
+                    # Tesseract OCR execution
+                    if HAS_OPENCV:
+                        words_list = self._run_tesseract_with_enhancements(img, pytesseract.pytesseract.tesseract_cmd)
+                    else:
+                        data_str = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT)
+                        words_list = self._parse_tesseract_dict(data_str)
+
+                    # Sort words by line_num and then by x coordinate
+                    words_list.sort(key=lambda w: (w.get("line_num", 0), w["bbox"][0]))
+                    
+                    raw_lines = []
+                    current_line = []
+                    last_line_num = -1
+                    for w in words_list:
+                        text = w["text"]
+                        line_num = w.get("line_num", 0)
+                        if line_num != last_line_num:
+                            if current_line:
+                                raw_lines.append(" ".join(current_line))
+                            current_line = [text]
+                            last_line_num = line_num
+                        else:
+                            current_line.append(text)
+                    if current_line:
+                        raw_lines.append(" ".join(current_line))
+                    
+                    ocr_text = "\n".join(raw_lines)
+                    if ocr_text.strip():
+                        results["facts"]["raw_text"] = ocr_text
+                        return results
+                except Exception as e:
+                    results["errors"].append({
+                        "plugin": "ocr_engine",
+                        "severity": "warning",
+                        "message": f"Tesseract execution failed: {str(e)}"
+                    })
+
+        # 2. Check sidecar fallback only if actual OCR extracted no text (or is missing)
         base_path, _ = os.path.splitext(file_path)
         sidecar_ocr = base_path + ".ocr"
         sidecar_txt = base_path + ".txt"
@@ -80,23 +164,15 @@ class OcrEngine:
                     json_data = json.loads(content)
                     if isinstance(json_data, dict):
                         raw_text = ""
-                        words_list = []
-                        
-                        # Support multiple key variations
                         if "raw_text" in json_data:
                             raw_text = json_data["raw_text"]
                         elif "ocr_data" in json_data:
                             if isinstance(json_data["ocr_data"], dict):
                                 raw_text = json_data["ocr_data"].get("raw_text", "")
-                                words_list = json_data["ocr_data"].get("words", [])
                             else:
                                 raw_text = str(json_data["ocr_data"])
                         elif "facts" in json_data and "raw_text" in json_data["facts"]:
                             raw_text = json_data["facts"]["raw_text"]
-                            words_list = json_data["facts"].get("words", [])
-                            
-                        if "words" in json_data:
-                            words_list = json_data["words"]
                             
                         if raw_text:
                             results["facts"]["raw_text"] = raw_text
@@ -121,95 +197,7 @@ class OcrEngine:
                     "message": f"Failed to load OCR sidecar: {str(e)}"
                 })
 
-        # Try EasyOCR
-        if HAS_EASYOCR:
-            try:
-                # Convert PIL Image to byte buffer
-                img_byte_arr = io.BytesIO()
-                img.save(img_byte_arr, format=img.format or 'PNG')
-                img_bytes = img_byte_arr.getvalue()
-                
-                reader = easyocr.Reader(['en'], gpu=False)
-                ocr_results = reader.readtext(img_bytes)
-                
-                raw_lines = []
-                words_list = []
-                for bbox, text, conf in ocr_results:
-                    raw_lines.append(text)
-                    xs = [pt[0] for pt in bbox]
-                    ys = [pt[1] for pt in bbox]
-                    x_min, y_min = min(xs), min(ys)
-                    w, h = max(xs) - x_min, max(ys) - y_min
-                    
-                    words_list.append({
-                        "text": text,
-                        "bbox": [x_min, y_min, w, h],
-                        "confidence": round(float(conf), 3)
-                    })
-                
-                results["facts"]["raw_text"] = "\n".join(raw_lines)
-                return results
-            except Exception as e:
-                results["errors"].append({
-                    "plugin": "ocr_engine",
-                    "severity": "warning",
-                    "message": f"EasyOCR execution failed: {str(e)}"
-                })
-
-        # Try Tesseract
-        if HAS_TESSERACT:
-            try:
-                tess_path = self.config.get("tesseract_path")
-                if tess_path:
-                    pytesseract.pytesseract.tesseract_cmd = tess_path
-                elif os.name == "nt":
-                    default_paths = [
-                        r"C:\Program Files\Tesseract-OCR\tesseract.exe",
-                        r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe",
-                        os.path.expandvars(r"%LOCALAPPDATA%\Programs\Tesseract-OCR\tesseract.exe")
-                    ]
-                    for path in default_paths:
-                        if os.path.exists(path):
-                            pytesseract.pytesseract.tesseract_cmd = path
-                            break
-
-                # Tesseract OCR execution
-                # Check if we can run advanced local preprocessing
-                if HAS_OPENCV:
-                    words_list = self._run_tesseract_with_enhancements(img, pytesseract.pytesseract.tesseract_cmd)
-                else:
-                    data_str = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT)
-                    words_list = self._parse_tesseract_dict(data_str)
-
-                # Sort words by line_num and then by x coordinate
-                words_list.sort(key=lambda w: (w.get("line_num", 0), w["bbox"][0]))
-                
-                raw_lines = []
-                current_line = []
-                last_line_num = -1
-                for w in words_list:
-                    text = w["text"]
-                    line_num = w.get("line_num", 0)
-                    if line_num != last_line_num:
-                        if current_line:
-                            raw_lines.append(" ".join(current_line))
-                        current_line = [text]
-                        last_line_num = line_num
-                    else:
-                        current_line.append(text)
-                if current_line:
-                    raw_lines.append(" ".join(current_line))
-                
-                results["facts"]["raw_text"] = "\n".join(raw_lines)
-                return results
-            except Exception as e:
-                results["errors"].append({
-                    "plugin": "ocr_engine",
-                    "severity": "warning",
-                    "message": f"Tesseract execution failed: {str(e)}"
-                })
-
-        # If no OCR is available
+        # If no OCR is available and no sidecar was found
         results["errors"].append({
             "plugin": "ocr_engine",
             "severity": "warning",
