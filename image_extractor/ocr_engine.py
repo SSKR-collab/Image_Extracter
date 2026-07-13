@@ -349,8 +349,9 @@ class OcrEngine:
                 continue
             
             conf = float(data_str["conf"][i]) / 100.0 if "conf" in data_str else 0.8
-            if conf < 0:
-                conf = 0.8
+            # Discard layout blocks (conf < 0) and low-confidence noise (conf < 0.30)
+            if conf < 0 or conf < 0.30:
+                continue
                 
             x = data_str["left"][i]
             y = data_str["top"][i]
