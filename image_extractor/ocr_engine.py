@@ -200,6 +200,7 @@ class OcrEngine:
                 if current_line:
                     raw_lines.append(" ".join(current_line))
                 
+                results["facts"]["raw_text"] = "\n".join(raw_lines)
                 return results
             except Exception as e:
                 results["errors"].append({
